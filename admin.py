@@ -1,7 +1,7 @@
 """Premium Bot — Telegram bot + admin paneli (aiogram 3).
 
 Ishga tushirish:
-  pip install "aiogram>=3.7,<4"
+  pip install "aiogram>=3.7,<4"   # (aiohttp avtomatik o‘rnatiladi)
   BOT_TOKEN=... ADMIN_IDS=123456789 WEBAPP_URL=https://sizning-sayt.uz python bot.py
 
 ADMIN_IDS — vergul bilan ajratilgan admin Telegram ID lari.
@@ -11,6 +11,7 @@ record_ad_view() / record_channel_join() orqali yozadi.
 """
 import asyncio, html, logging, os, sqlite3
 
+from aiohttp import web
 from aiogram import Bot, Dispatcher, F, Router
 from aiogram.client.default import DefaultBotProperties
 from aiogram.enums import ParseMode
@@ -224,11 +225,24 @@ async def setch(m: Message, state: FSMContext, bot: Bot):
 
 
 # ------------------------------------- Ishga tushirish -------------------------------------
+async def start_health_server():
+    """Render kabi hostinglar PORT talab qiladi: oddiy "ok" javob beruvchi mini-server."""
+    port = int(os.getenv("PORT", "0"))
+    if not port:
+        return
+    app = web.Application()
+    app.router.add_get("/", lambda r: web.Response(text="ok"))
+    runner = web.AppRunner(app)
+    await runner.setup()
+    await web.TCPSite(runner, "0.0.0.0", port).start()
+
+
 async def main():
     logging.basicConfig(level=logging.INFO)
     if not BOT_TOKEN:
         raise SystemExit("BOT_TOKEN o‘rnatilmagan")
     init_db()
+    await start_health_server()
     bot = Bot(BOT_TOKEN, default=DefaultBotProperties(parse_mode=ParseMode.HTML, link_preview_is_disabled=True))
     dp = Dispatcher(storage=MemoryStorage())
     dp.include_routers(adm, pub)
