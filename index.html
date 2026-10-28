@@ -1,0 +1,280 @@
+
+<!DOCTYPE html>
+<html lang="uz">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover,user-scalable=no">
+<title>Premium Bot</title>
+<script src="https://telegram.org/js/telegram-web-app.js"></script>
+<script src="https://sad.adsgram.ai/js/sad.min.js"></script>
+<style>
+:root{--bg:#07152E;--card:#0D2142;--p:#2584FF;--l:#55B5FF;--y:#FFD447;--t:#F5F8FF;--s:#9FB3D4;--ok:#46E2B0;--err:#FF6B7A;--bd:rgba(85,181,255,.16)}
+*{box-sizing:border-box;margin:0;-webkit-tap-highlight-color:transparent}
+body{background:var(--bg);color:var(--t);font:15px/1.45 system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;min-height:100vh;overflow-x:hidden}
+body:before{content:"";position:fixed;inset:0;background:radial-gradient(circle at 20% 0,rgba(37,132,255,.32),transparent 55%),radial-gradient(circle at 90% 8%,rgba(255,212,71,.12),transparent 40%);pointer-events:none}
+#app{position:relative;max-width:520px;margin:0 auto;padding:10px 16px calc(92px + env(safe-area-inset-bottom))}
+.demo{font-size:11px;text-align:center;color:var(--y);background:rgba(255,212,71,.1);border:1px solid rgba(255,212,71,.25);border-radius:10px;padding:5px 8px;margin-bottom:12px}
+.top{display:flex;align-items:center;gap:10px;margin-bottom:14px}
+.logo{width:38px;height:38px;border-radius:12px;background:linear-gradient(135deg,var(--p),var(--y));display:grid;place-items:center;font-weight:800;color:#07152E}
+.top h1{font-size:16px;line-height:1.2}.top small{color:var(--s)}
+.sp{flex:1}
+.av{width:38px;height:38px;border-radius:50%;background:var(--card);border:2px solid var(--l);display:grid;place-items:center;font-weight:700;overflow:hidden}
+.av img{width:100%;height:100%;object-fit:cover}
+.card{background:linear-gradient(160deg,rgba(255,255,255,.05),rgba(255,255,255,0)),var(--card);border:1px solid var(--bd);border-radius:20px;padding:16px;margin-bottom:14px;box-shadow:0 8px 24px rgba(0,0,0,.25)}
+h2{font-size:15px;margin:18px 0 10px}
+.muted{color:var(--s);font-size:13px}
+.bal{background:linear-gradient(135deg,#1456c4,#2584FF 55%,#55B5FF);border:0;position:relative;overflow:hidden}
+.bal .n{font-size:38px;font-weight:800;letter-spacing:-.5px;display:flex;align-items:center;gap:8px}
+.coin{width:30px;height:30px;background:linear-gradient(135deg,#fff,#bfe6ff 45%,#55B5FF);clip-path:polygon(25% 0,75% 0,100% 35%,50% 100%,0 35%);display:inline-block}
+.row{display:flex;gap:8px;flex-wrap:wrap}
+.btn{border:0;border-radius:14px;padding:12px 14px;min-height:44px;font:600 14px inherit;font-family:inherit;color:var(--t);background:rgba(255,255,255,.14);cursor:pointer;transition:transform .12s,opacity .2s;flex:1}
+.btn:active{transform:scale(.96)}
+.btn.pri{background:linear-gradient(135deg,var(--y),#ffb800);color:#07152E}
+.btn.blue{background:var(--p)}
+.btn[disabled]{opacity:.45;pointer-events:none}
+.grid3{display:grid;grid-template-columns:repeat(3,1fr);gap:10px}
+.qa{text-align:center;padding:14px 6px;font-size:12px;cursor:pointer;margin:0;transition:transform .12s}
+.qa:active{transform:scale(.95)}.qa i{font-style:normal;font-size:24px;display:block;margin-bottom:4px}
+.ad{padding:0;overflow:hidden}
+.thumb{height:130px;background:linear-gradient(120deg,#13408f,#2584FF,#13408f);position:relative;overflow:hidden;display:grid;place-items:center;font-size:44px}
+.thumb:after{content:"";position:absolute;inset:0;background:linear-gradient(100deg,transparent 30%,rgba(255,255,255,.25) 50%,transparent 70%);transform:translateX(-100%);animation:sh 2.4s infinite}
+@keyframes sh{to{transform:translateX(100%)}}
+.tag{position:absolute;top:10px;left:10px;font-size:11px;background:rgba(7,21,46,.75);padding:3px 9px;border-radius:20px;z-index:1}
+.ad .in{padding:14px}
+.badge{display:inline-block;font-size:11px;font-weight:700;padding:3px 10px;border-radius:20px}
+.b-new{background:rgba(85,181,255,.18);color:var(--l)}.b-chk{background:rgba(255,212,71,.18);color:var(--y)}
+.b-ok{background:rgba(70,226,176,.18);color:var(--ok)}.b-no{background:rgba(255,107,122,.18);color:var(--err)}
+.item{display:flex;align-items:center;gap:12px}
+.ico{width:44px;height:44px;border-radius:14px;background:rgba(85,181,255,.15);display:grid;place-items:center;font-weight:800;color:var(--l);flex:none}
+.amt{font-weight:700}.pos{color:var(--ok)}.neg{color:var(--err)}
+.bar{height:6px;border-radius:6px;background:rgba(255,255,255,.1);overflow:hidden;margin-top:6px}
+.bar b{display:block;height:100%;background:linear-gradient(90deg,var(--p),var(--y));border-radius:6px;transition:width .6s}
+.stat{text-align:center;padding:12px 6px;margin:0}.stat b{display:block;font-size:20px}
+.lnk{background:rgba(0,0,0,.25);border:1px dashed var(--bd);border-radius:12px;padding:10px;word-break:break-all;font-size:13px;color:var(--l);margin:10px 0}
+.hr{border-top:1px solid var(--bd);margin:12px 0}
+nav{position:fixed;left:0;right:0;bottom:0;z-index:5;background:rgba(10,27,56,.92);backdrop-filter:blur(14px);border-top:1px solid var(--bd);padding:6px 8px calc(6px + env(safe-area-inset-bottom))}
+nav div{max-width:520px;margin:0 auto;display:flex}
+nav button{flex:1;background:none;border:0;color:var(--s);font:600 11px inherit;font-family:inherit;display:grid;justify-items:center;gap:3px;padding:6px;min-height:50px;cursor:pointer;transition:color .2s}
+nav button.on{color:var(--y)}nav button.on svg{transform:translateY(-2px) scale(1.1)}
+nav svg{width:24px;height:24px;fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round;stroke-linejoin:round;transition:transform .2s}
+.sub{position:fixed;inset:0;z-index:8;background:var(--bg);overflow:auto;padding:10px 16px 40px;animation:up .25s}
+.sub>div{max-width:520px;margin:0 auto}
+.back{background:none;border:0;color:var(--l);font:600 15px inherit;font-family:inherit;padding:10px 0;cursor:pointer}
+.ov{position:fixed;inset:0;z-index:20;background:rgba(3,10,24,.7);display:grid;align-items:end;animation:fd .2s}
+.ov .box{max-width:520px;width:100%;margin:0 auto;background:var(--card);border-radius:24px 24px 0 0;padding:22px 18px calc(22px + env(safe-area-inset-bottom));border:1px solid var(--bd);animation:up .25s}
+.ov h3{margin-bottom:6px}
+#toast{position:fixed;top:12px;left:50%;transform:translate(-50%,-120px);z-index:30;background:#12305f;border:1px solid var(--bd);border-left:4px solid var(--ok);padding:11px 16px;border-radius:14px;max-width:90%;font-size:14px;transition:transform .3s;box-shadow:0 8px 24px rgba(0,0,0,.4)}
+#toast.show{transform:translate(-50%,0)}#toast.err{border-left-color:var(--err)}
+.view{animation:up .3s}
+@keyframes up{from{opacity:0;transform:translateY(14px)}}@keyframes fd{from{opacity:0}}
+.sk{height:90px;border-radius:20px;background:linear-gradient(90deg,var(--card) 30%,#16305c 50%,var(--card) 70%);background-size:300% 100%;animation:sk 1.2s infinite;margin-bottom:14px}
+@keyframes sk{to{background-position:-100% 0}}
+.empty{text-align:center;padding:28px 10px;color:var(--s)}.empty i{font-style:normal;font-size:36px;display:block}
+.sw{width:46px;height:26px;border-radius:20px;background:#35507d;position:relative;border:0;flex:none;cursor:pointer;transition:background .2s}
+.sw:after{content:"";position:absolute;top:3px;left:3px;width:20px;height:20px;border-radius:50%;background:#fff;transition:transform .2s}
+.sw.on{background:var(--p)}.sw.on:after{transform:translateX(20px)}
+.wheel{position:relative;width:min(80vw,320px);margin:12px auto 18px;filter:drop-shadow(0 8px 24px rgba(37,132,255,.4))}
+.wr{transition:transform 4.2s cubic-bezier(.17,.67,.12,1)}.wr svg{display:block;width:100%}
+.ptr{position:absolute;top:-8px;left:50%;transform:translateX(-50%);z-index:2;border:13px solid transparent;border-top:26px solid var(--y);border-bottom:0;filter:drop-shadow(0 2px 3px rgba(0,0,0,.5))}
+.inp{width:100%;background:rgba(0,0,0,.25);border:1px solid var(--bd);border-radius:12px;color:var(--t);font:700 18px inherit;font-family:inherit;padding:12px;min-height:48px}
+.fs{position:fixed;inset:0;z-index:50;background:#030a18;display:flex;flex-direction:column;animation:fd .2s}
+.fs .tp{display:flex;align-items:center;gap:10px;padding:calc(12px + env(safe-area-inset-top)) 16px 12px}
+.fs .thumb{height:auto;flex:1}.fs .ft{padding:16px 16px calc(16px + env(safe-area-inset-bottom))}
+button:focus-visible{outline:2px solid var(--y);outline-offset:2px}
+@media(prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
+@media(min-width:700px){.card:hover{border-color:rgba(85,181,255,.4)}}
+
+body{background:#050f24}
+body:before{background:radial-gradient(circle at 15% 0,rgba(37,132,255,.45),transparent 50%),radial-gradient(circle at 100% 35%,rgba(85,181,255,.2),transparent 45%),radial-gradient(circle at 0 100%,rgba(255,212,71,.1),transparent 40%)}
+.pt{position:fixed;width:5px;height:5px;border-radius:50%;background:var(--y);opacity:.35;animation:fl 8s infinite ease-in-out;pointer-events:none}
+@keyframes fl{50%{transform:translateY(-28px);opacity:.1}}
+.card{background:linear-gradient(160deg,rgba(37,132,255,.2),rgba(8,24,52,.92) 70%);border:1px solid rgba(85,181,255,.38);box-shadow:0 0 22px rgba(37,132,255,.2),inset 0 1px 0 rgba(255,255,255,.08);border-radius:18px}
+.bal{background:linear-gradient(135deg,rgba(37,132,255,.6),rgba(10,32,74,.95) 80%);border-color:rgba(85,181,255,.75);box-shadow:0 0 30px rgba(37,132,255,.45)}
+.btn{border:1px solid rgba(85,181,255,.3);border-radius:12px}
+.btn.pri{background:linear-gradient(180deg,#ffe073,#ffc21a);color:#1a1200;border:0;box-shadow:0 4px 14px rgba(255,194,26,.35)}
+.btn.blue{background:linear-gradient(180deg,#3b95ff,#1a62d6);border:0}
+.top h1{font-size:18px;font-weight:800}.crown{width:42px;height:36px;filter:drop-shadow(0 2px 8px rgba(255,180,0,.5))}
+.dm{font-size:10px;font-weight:800;color:var(--y);border:1px solid rgba(255,212,71,.4);border-radius:8px;padding:2px 6px}
+.bell{width:38px;height:38px;border-radius:12px;border:1px solid var(--bd);background:rgba(37,132,255,.15);font-size:17px;cursor:pointer;color:var(--t);flex:none}
+.gem{width:1em;height:1em;vertical-align:-.15em;display:inline-block}.n .gem{width:.62em;height:.62em}
+.gb .gem{width:54px;height:54px;filter:drop-shadow(0 0 12px rgba(85,181,255,.7))}.gd{color:var(--y);font-weight:800;white-space:nowrap}
+.lg2{width:52px;height:52px;font-size:20px;flex:none;box-shadow:0 0 14px rgba(85,181,255,.5)}
+.gr{display:flex;gap:12px;align-items:center}
+.qa{padding:12px 6px;display:grid;gap:5px;justify-items:center;font-size:12px;line-height:1.25}
+.ib{width:44px;height:44px;border-radius:13px;background:linear-gradient(145deg,#3b95ff,#1456c4);display:grid;place-items:center;font-size:22px;box-shadow:0 4px 12px rgba(37,132,255,.5);flex:none}
+.gart{width:84px;height:84px;border-radius:14px;background:radial-gradient(circle at 30% 25%,#ff8a3d,#7a2bd1 55%,#1a1050);display:grid;place-items:center;font-size:40px;flex:none}
+.chip{font-size:12px;background:rgba(255,255,255,.1);border:1px solid var(--bd);border-radius:10px;padding:10px 12px;white-space:nowrap}
+.crow{display:flex;align-items:center;gap:10px;padding:12px;margin-bottom:10px}.crow b{display:block;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.lg{width:46px;height:46px;border-radius:50%;display:grid;place-items:center;font-weight:800;font-size:16px;flex:none;box-shadow:0 0 12px rgba(85,181,255,.35)}
+.pill{flex:none;min-height:38px;padding:8px 12px;font-size:13px}
+.info{background:rgba(37,132,255,.18);font-size:13px}
+.gift{width:54px;height:54px;font-size:30px;flex:none;display:grid;place-items:center;border-radius:16px;background:rgba(255,212,71,.14);border:1px solid rgba(255,212,71,.35)}
+.lnk{cursor:pointer;text-align:center;font-weight:600}
+.av.sm{width:34px;height:34px;font-size:14px;border:0;color:#fff;flex:none}
+.li{padding:13px 0;border-top:1px solid var(--bd);cursor:pointer}.ib2{width:30px;text-align:center}
+.play{width:64px;height:64px;border-radius:50%;background:rgba(7,21,46,.6);border:2px solid #fff;display:grid;place-items:center;font-size:26px;z-index:1}
+.tm{position:absolute;left:10px;bottom:8px;font-size:12px;background:rgba(0,0,0,.55);padding:2px 8px;border-radius:8px;z-index:1}
+nav{background:rgba(5,15,36,.95);border-top:1px solid rgba(85,181,255,.35);box-shadow:0 -8px 24px rgba(0,0,0,.45)}
+nav button{border-radius:14px}nav button.on{background:linear-gradient(180deg,rgba(37,132,255,.38),rgba(37,132,255,.1));box-shadow:0 0 16px rgba(37,132,255,.55),inset 0 0 0 1px rgba(85,181,255,.4)}
+@media(prefers-reduced-motion:reduce){.pt{display:none}}
+</style>
+</head>
+<body>
+<div id="app"><div id="view"></div></div>
+<nav><div id="nav"></div></nav>
+<div id="toast"></div>
+<div id="layer"></div>
+<script>
+const tg=window.Telegram&&window.Telegram.WebApp;
+if(tg){tg.ready();tg.expand();try{tg.setHeaderColor("#07152E");tg.setBackgroundColor("#07152E")}catch(e){}}
+// DEMO: haqiqiy rejimda foydalanuvchi ma'lumoti backend /api/auth/telegram (initData tekshiruvi) orqali olinadi
+const U=(tg&&tg.initDataUnsafe&&tg.initDataUnsafe.user)||{id:0,first_name:"Mehmon",username:"demo_user"};
+const DEMO=true;
+// Quyidagi sozlamalar haqiqiy rejimda serverdan (admin panel) keladi
+const CFG={bot:"PremiumBot_username",support:"support_username",ver:"1.0.0",
+ rate:78000,min:30,prem:16500000,needCh:5,needRef:5,adsgram:""}; // adsgram: Adsgram BlockId ni shu yerga yozing (bo‘sh bo‘lsa — demo reklama)
+const LN="https://t.me/telegram";
+const S={tab:"home",free:1,rot:0,spin:0,bal:2500000,earned:2600000,spent:100000,ads:12,tasks:5,notif:true,
+ tx:[{d:"Bugun 10:24",ty:"Kanal topshirig‘i",a:100,st:"ok",ds:"Kanal obunasi (DEMO)"},{d:"Kecha 21:10",ty:"Referal mukofoti",a:100,st:"ok",ds:"Do‘st taklifi (DEMO)"},{d:"Kecha 18:02",ty:"Reklama mukofoti",a:100,st:"ok",ds:"Reklama ko‘rildi (DEMO)"}],
+ ch:[{id:1,n:"IT World",ic:"IT",bg:"#3b95ff,#0b4fd1",u:"125 000",r:100,st:"new",v:0,l:LN},{id:2,n:"UzNews",ic:"✈",bg:"#55B5FF,#2584FF",u:"980 000",r:100,st:"new",v:0,l:LN},{id:3,n:"Game Zone",ic:"🎮",bg:"#8b5cf6,#4c2bd1",u:"420 000",r:100,st:"new",v:0,l:LN},{id:4,n:"Dasturlash",ic:"</>",bg:"#1b3a73,#0d2142",u:"310 000",r:100,st:"ok",v:1,l:LN},{id:5,n:"Sport Live",ic:"⚽",bg:"#22c55e,#0e8f3f",u:"540 000",r:100,st:"new",v:0,l:LN}],
+ refs:[{n:"Sardor",st:"ok",r:100},{n:"Dilnoza",st:"chk",r:0},{n:"Jasur",st:"ok",r:100},{n:"Madina",st:"ok",r:100},{n:"Aziz",st:"ok",r:100},{n:"Laylo",st:"ok",r:100}],
+ rq:[]};
+const f=n=>Number(n).toLocaleString("ru-RU").replace(/\u00a0/g," ");
+const $=s=>document.querySelector(s);
+const ST={new:["Yangi","b-new"],chk:["Tekshirilmoqda","b-chk"],ok:["Bajarildi","b-ok"],no:["Mavjud emas","b-no"],wait:["Kutilmoqda","b-chk"],rev:["Ko‘rib chiqilmoqda","b-chk"],app:["Tasdiqlandi","b-new"],done:["Bajarildi","b-ok"],rej:["Rad etildi","b-no"]};
+const badge=k=>`<span class="badge ${ST[k][1]}">${ST[k][0]}</span>`;
+const link=()=>`https://t.me/${CFG.bot}?start=ref_${U.id||"demo"}`;
+const ICON={home:'<path d="M3 11l9-8 9 8v9a1 1 0 01-1 1h-5v-6H9v6H4a1 1 0 01-1-1z"/>',ch:'<path d="M4 5h16M4 12h16M4 19h10"/>',ref:'<circle cx="9" cy="8" r="3.5"/><path d="M2.5 20c.6-3.6 3.2-5.5 6.5-5.5s5.9 1.9 6.5 5.5M17 4.5a3.5 3.5 0 010 7M18.5 14.6c1.6.6 2.7 2.4 3 5"/>',pr:'<circle cx="12" cy="8" r="4"/><path d="M4 21c.8-4.4 4-6.5 8-6.5s7.2 2.1 8 6.5"/>'};
+const TABS=[["home","Bosh sahifa"],["ch","Kanallar"],["ref","Referal"],["pr","Profil"]];
+function nav(){$("#nav").innerHTML=TABS.map(([k,n])=>`<button class="${S.tab===k?"on":""}" onclick="go('${k}')" aria-label="${n}"><svg viewBox="0 0 24 24">${ICON[k]}</svg>${n}</button>`).join("")}
+function go(t){S.tab=t;close_();render();window.scrollTo(0,0)}
+function toast(m,err){const t=$("#toast");t.textContent=m;t.className="show"+(err?" err":"");clearTimeout(toast.h);toast.h=setTimeout(()=>t.className="",2800)}
+function close_(){$("#layer").innerHTML=""}
+function modal(h){$("#layer").innerHTML=`<div class="ov" onclick="if(event.target===this)close_()"><div class="box">${h}</div></div>`}
+function confirmM(t,x,ok,lbl){window._ok=ok;modal(`<h3>${t}</h3><p class="muted" style="margin-bottom:16px">${x}</p><div class="row"><button class="btn" onclick="close_()">Bekor qilish</button><button class="btn pri" onclick="close_();_ok()">${lbl||"Tasdiqlash"}</button></div>`)}
+function sub(title,h){$("#layer").innerHTML=`<div class="sub"><div><button class="back" onclick="close_();render()">‹ Orqaga</button><h1 style="font-size:20px;margin:4px 0 14px">${title}</h1>${h}</div></div>`}
+function addTx(ty,a,ds,st){S.tx.unshift({d:"Hozir",ty,a,st:st||"ok",ds});if(a>0)S.earned+=a;else S.spent-=a}
+function setBal(v){const el=$("#bal"),from=S.bal;S.bal=v;if(!el)return;const t0=performance.now();(function s(t){const p=Math.min((t-t0)/700,1);el.textContent=f(Math.round(from+(v-from)*p));if(p<1)requestAnimationFrame(s)})(t0)}
+const txItem=x=>`<div class="item" style="padding:10px 0"><div class="ico">${x.a>0?"＋":"−"}</div><div style="flex:1;min-width:0"><b>${x.ty}</b><div class="muted">${x.ds} · ${x.d}</div></div><div class="amt ${x.a>0?"pos":"neg"}">${x.a>0?"+":""}${f(x.a)}</div></div>`;
+function empty(i,t){return`<div class="empty"><i>${i}</i>${t}</div>`}
+
+const CROWN='<svg class="crown" viewBox="0 0 48 40"><defs><linearGradient id="cg" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#ffe680"/><stop offset="1" stop-color="#ff9f0a"/></linearGradient></defs><path d="M4 12l10 9 10-15 10 15 10-9-4 24H8z" fill="url(#cg)"/><circle cx="4" cy="12" r="3" fill="#ffe680"/><circle cx="24" cy="6" r="3" fill="#ffe680"/><circle cx="44" cy="12" r="3" fill="#ffe680"/></svg>';
+const GEM='<svg class="gem" viewBox="0 0 24 24"><defs><linearGradient id="gg" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#fff"/><stop offset=".55" stop-color="#8fd3ff"/><stop offset="1" stop-color="#2584FF"/></linearGradient></defs><path d="M6 3h12l4 6-10 12L2 9z" fill="url(#gg)"/><path d="M2 9h20M9 3l-2 6 5 12M15 3l2 6-5 12" fill="none" stroke="#07152E" stroke-opacity=".3"/></svg>';
+const hdr=()=>`<div class="top">${CROWN}<div><h1>Premium Bot</h1><small>bot</small></div><span class="sp"></span>${DEMO?'<span class="dm">DEMO</span>':""}<button class="bell" aria-label="Bildirishnomalar" onclick="toast('Yangi bildirishnoma yo‘q')">🔔</button></div>`;
+const avt=()=>U.photo_url?`<img src="${U.photo_url}" alt="">`:(U.first_name||"M")[0];
+function home(){
+ const nm=U.first_name||"Mehmon";
+ const todo=[["Kanallarga obuna",chOk(),CFG.needCh],["Do‘st taklif qilish",refOk(),CFG.needRef]];
+ const qa=[["▶️","Reklama ko‘rish","adpage()"],["✈️","Kanallarga obuna","go('ch')"],["👥","Do‘st taklif qilish","go('ref')"]];
+ return`<div class="card gr"><div class="av lg2">${avt()}</div><div><b>Assalomu alaykum, ${nm} 👋</b><div class="muted">Orzularingga bir qadam yaqin!</div></div></div>
+ <div class="card bal"><div class="item"><span class="gb">${GEM}</span><div><div class="muted" style="color:#cfe4ff">Sizning balansingiz</div><div class="n"><span id="bal">${f(S.bal)}</span>${GEM}</div></div></div>
+ <div class="row" style="margin-top:14px"><button class="btn pri" style="flex:1.5" onclick="redeem()">Mukofotlarni almashtirish ›</button><button class="btn" onclick="hist()">🧾 Tranzaksiyalar tarixi</button></div></div>
+ <div class="grid3">${qa.map(([i,t,fn])=>`<div class="card qa" onclick="${fn}"><span class="ib">${i}</span><b>${t}</b><span class="gd">+100 ${GEM}</span></div>`).join("")}</div>
+ <div class="card item" style="cursor:pointer" onclick="wheel()"><div class="ib">🎡</div><div style="flex:1"><b>Omad barabani</b><div class="muted">${S.free>0?"Bugun 1 ta bepul urinish bor":"Reklama ko‘rib aylantiring"}</div></div><span class="badge b-chk">${S.free>0?"Bepul":"Reklama"}</span></div>
+ <h2>Tavsiya etilgan reklama</h2>
+ <div class="card"><div class="item"><div class="gart">🎮</div><div style="flex:1;min-width:0"><span class="muted" style="font-size:10px;color:var(--y)">Homiy · DEMO reklama</span><b style="display:block">Legendary Game</b><div class="muted">Eng yaxshi o‘yinlar bir joyda!</div></div><span class="gd">+100 ${GEM}</span></div>
+ <div class="row" style="margin-top:12px;align-items:center"><span class="chip">⏱ ${CFG.adsgram?"qisqa video":AD.sec+" soniya"}</span><button class="btn pri" style="flex:1" onclick="watch()">Reklamani ko‘rish ▶</button></div></div>
+ <h2>Bugungi topshiriqlar</h2><div class="card">${todo.map(([n,a,b],i)=>`<div style="${i?"margin-top:14px":""}"><div class="item"><span style="flex:1">${n}</span><span class="muted">${Math.min(a,b)}/${b}</span></div><div class="bar"><b style="width:${Math.min(a/b*100,100)}%"></b></div></div>`).join("")}<div class="muted" style="margin-top:14px">Reklama: ${S.ads} ta ko‘rildi · cheklov yo‘q</div></div>
+ <h2>So‘nggi faoliyat</h2><div class="card">${S.tx.length?S.tx.slice(0,3).map(txItem).join(""):empty("🕑","Hali faoliyat yo‘q")}</div>
+ <div class="card muted" style="font-size:13px">Reklama ko‘ring, kanallarga obuna bo‘ling, do‘st taklif qiling — olmos yig‘ing va Stars yoki Premium so‘roviga almashtiring. Mukofot so‘rov tasdiqlangach, ko‘pincha qo‘lda beriladi.</div>`}
+function adpage(){sub("Reklama ko‘rish",`<div class="card ad"><div class="thumb" style="background:radial-gradient(circle at 25% 30%,#ff8a3d,#7a2bd1 55%,#1a1050)"><span class="tag">Homiy · DEMO</span><span class="play">▶</span>${CFG.adsgram?"":`<span class="tm">0:${AD.sec}</span>`}</div><div class="in item"><div class="ib" style="font-weight:800">P</div><div style="flex:1"><b>PlayZone</b><div class="muted">O‘yin va ilovalar</div></div><div class="gd" style="font-size:20px">+${AD.rw} ${GEM}</div></div></div>
+ <div class="card"><b>Reklama shartlari:</b><div class="item" style="margin-top:10px">⏱ ${CFG.adsgram?"Videoni oxirigacha ko‘rish":AD.sec+" soniya davomida ko‘rish"}</div><div class="item" style="margin-top:8px">👆 Reklama oxirida tugmani bosish</div></div>
+ <button class="btn pri" style="width:100%;font-size:16px;min-height:52px" onclick="watch()">▶ Reklamani ko‘rish</button>
+ <div class="card info" style="margin-top:14px">⏻ Mukofot faqat reklama to‘liq ko‘rsatilgandan keyin beriladi.</div>`)}
+
+function chan(){
+ const row=c=>{const b=c.st==="ok"?badge("ok"):c.st==="chk"?'<span class="badge b-chk">Tekshirilmoqda…</span>':c.v?`<button class="btn blue pill" onclick="verify(${c.id})">Tekshirish</button>`:`<button class="btn pri pill" onclick="visit(${c.id})">Obuna bo‘lish</button>`;
+  return`<div class="card crow"><div class="lg" style="background:linear-gradient(135deg,${c.bg})">${c.ic}</div><div style="flex:1;min-width:0"><b>${c.n}</b><div class="muted" style="font-size:12px">${c.u} obunachi</div></div><span class="gd">+${c.r} ${GEM}</span>${b}</div>`};
+ return`<div class="card item"><div style="flex:1"><h1 style="font-size:19px">Homiy kanallar</h1><div class="muted">Kanalga obuna bo‘ling va mukofot oling!</div></div><span class="chip">${S.ch.length} ta faol kanal</span></div>`+(S.ch.length?S.ch.map(row).join(""):empty("📭","Hozircha kanal topshiriqlari yo‘q"))+`<div class="card info">ℹ️ Obuna bo‘lgandan so‘ng, “Tekshirish” tugmasini bosing. Demo rejimda tekshiruv simulyatsiya qilinadi.</div>`}
+function visit(id){const c=S.ch.find(x=>x.id===id);c.v=1;render();tg&&tg.openTelegramLink?tg.openTelegramLink(c.l):window.open(c.l,"_blank")}
+function verify(id){const c=S.ch.find(x=>x.id===id);if(!c.v){toast("Avval kanalga o‘ting va obuna bo‘ling",1);return}
+ c.st="chk";render();setTimeout(()=>{c.st="ok";S.tasks++;addTx("Kanal topshirig‘i",c.r,c.n+" (DEMO)");render();setBal(S.bal+c.r);toast("✓ Obuna tasdiqlandi: +"+c.r+" olmos (DEMO)")},1300)}
+
+function refp(){
+ const ok=S.refs.filter(r=>r.st==="ok"),cl=["#2584FF","#8b5cf6","#22c55e","#f59e0b","#ec4899","#14b8a6"];
+ const st=[["Taklif qilinganlar",S.refs.length],["Faol referallar",ok.length],["Jami mukofot",f(ok.reduce((a,r)=>a+r.r,0))+" "+GEM]];
+ return`<div class="card item"><div class="gift">🎁</div><div><h1 style="font-size:18px">Do‘stlarni taklif qiling</h1><div class="muted">Do‘stlaringizni botga taklif qiling va har bir faol foydalanuvchi uchun mukofot oling!</div></div></div>
+ <div class="card"><div class="muted" style="text-align:center;font-size:12px">Sizning referal havolangiz</div><div class="lnk" onclick="copy()">🔗 ${link().replace("https://","")}</div><div class="row"><button class="btn pri" onclick="copy()">⧉ Havolani nusxalash</button><button class="btn blue" onclick="share()">✈ Telegramda ulashish</button></div></div>
+ <div class="grid3">${st.map(([a,b])=>`<div class="card stat"><span class="muted" style="font-size:11px">${a}</span><b class="gd">${b}</b></div>`).join("")}</div>
+ <h2>Referal tarixi</h2><div class="card">${S.refs.length?S.refs.map((r,i)=>`<div class="item" style="padding:8px 0"><div class="av sm" style="background:${cl[i%6]}">${r.n[0]}</div><b style="flex:1">${r.n}</b>${badge(r.st)}<span class="gd" style="min-width:64px;text-align:right">${r.r?"+"+r.r+" "+GEM:""}</span></div>`).join(""):empty("👥","Hali do‘st taklif qilmadingiz")}</div>
+ <p class="muted" style="font-size:12px">O‘zingizni taklif qilish va takroriy ro‘yxatdan o‘tish mukofotlanmaydi.</p>`}
+function copy(){const l=link();(navigator.clipboard?navigator.clipboard.writeText(l):Promise.reject()).then(()=>toast("Havola nusxalandi")).catch(()=>{const a=document.createElement("textarea");a.value=l;document.body.appendChild(a);a.select();try{document.execCommand("copy");toast("Havola nusxalandi")}catch(e){toast("Nusxalab bo‘lmadi",1)}a.remove()})}
+function share(){const u="https://t.me/share/url?url="+encodeURIComponent(link())+"&text="+encodeURIComponent("Premium Bot orqali olmos ishlang!");tg&&tg.openTelegramLink?tg.openTelegramLink(u):window.open(u,"_blank")}
+
+function prof(){
+ const nm=U.first_name||"Mehmon",ss=[["Jami topgan",f(S.earned)+" "+GEM],["Jami sarflagan",f(S.spent)+" "+GEM]],s3=[["▶️","Reklama",S.ads],["✈️","Kanallar",S.tasks],["👥","Referallar",S.refs.length]];
+ const li=(i,t,fn)=>`<div class="item li" onclick="${fn}"><span class="ib2">${i}</span><span style="flex:1">${t}</span><span class="muted">›</span></div>`;
+ return`<div class="card item"><div class="av lg2">${avt()}</div><div style="flex:1;min-width:0"><h1 style="font-size:19px">${nm}</h1><div class="muted">${U.username?"@"+U.username:"username yo‘q"}${U.id?" · ID "+U.id:""}</div></div><button class="bell" aria-label="Tahrirlash" onclick="toast('Profilni Telegramda tahrirlang')">✏️</button></div>
+ <div class="card bal"><div class="item"><span class="gb">${GEM}</span><div style="flex:1"><div class="muted" style="color:#cfe4ff">Balans</div><div class="n" style="font-size:28px"><span>${f(S.bal)}</span>${GEM}</div></div><button class="btn pri" style="flex:none;max-width:44%;font-size:13px" onclick="redeem()">Mukofotlarni almashtirish</button></div></div>
+ <div class="grid3" style="grid-template-columns:1fr 1fr">${ss.map(([a,b])=>`<div class="card stat"><span class="muted" style="font-size:12px">${a}</span><b class="gd">${b}</b></div>`).join("")}</div>
+ <div class="grid3">${s3.map(([i,a,b])=>`<div class="card stat"><span class="muted" style="font-size:12px">${i} ${a}</span><b>${b}</b></div>`).join("")}</div>
+ <div class="card" style="padding:4px 14px"><div class="item li" style="border-top:0"><span class="ib2">🔔</span><span style="flex:1">Bildirishnomalar</span><button class="sw ${S.notif?"on":""}" aria-label="Bildirishnomalar" onclick="S.notif=!S.notif;render()"></button></div>
+ ${li("❓","Yordam va FAQ","info('Yordam','Reklama ko‘ring, kanallarga obuna bo‘ling, do‘st taklif qiling — olmos to‘planadi. So‘rovlar admin tomonidan ko‘rib chiqiladi, mukofot qo‘lda berilishi mumkin.')")}
+ ${li("🎧","Qo‘llab-quvvatlash","tg&&tg.openTelegramLink?tg.openTelegramLink('https://t.me/'+CFG.support):toast('@'+CFG.support)")}
+ ${li("🔒","Maxfiylik siyosati","info('Maxfiylik siyosati','Matn admin tomonidan qo‘shiladi.')")}
+ ${li("📄","Foydalanish shartlari","info('Foydalanish shartlari','Matn admin tomonidan qo‘shiladi.')")}
+ <div class="item li muted"><span class="ib2">ℹ️</span><span style="flex:1">Ilova versiyasi</span>v${CFG.ver}</div></div>`}
+function info(t,x){modal(`<h3>${t}</h3><p class="muted" style="margin-bottom:16px">${x}</p><button class="btn blue" style="width:100%" onclick="close_()">Yopish</button>`)}
+
+function hist(){sub("Tranzaksiyalar tarixi",`<div class="card">${S.tx.length?S.tx.map(txItem).join(""):empty("🧾","Tranzaksiyalar yo‘q")}</div>`)}
+function redeem(){
+ const rq=S.rq.length?S.rq.map(r=>`<div class="item" style="padding:8px 0"><div style="flex:1"><b>${r.a}</b><div class="muted">So‘rov #${r.id}</div></div>${badge(r.st)}</div>`).join(""):empty("📨","Hali so‘rov yubormagansiz");
+ const pc=CFG.prem,can=S.bal>=pc,rO=refOk(),cO=chOk(),un=unlocked(),req=[["Do‘st taklif qilish",rO,CFG.needRef],["Kanalga obuna bo‘lish",cO,CFG.needCh]].map(([n,a,b])=>`<div class="item" style="padding:3px 0"><span class="muted" style="flex:1">${n}: ${Math.min(a,b)}/${b}</span><b class="${a>=b?"pos":"neg"}">${a>=b?"✓":"✗"}</b></div>`).join("");
+ sub("Mukofotlarni almashtirish",`<div class="card muted" style="font-size:13px">Kurs va minimal miqdor admin panelda belgilanadi. So‘rov yuborilgani mukofot berilganini anglatmaydi — berish qo‘lda bo‘lishi mumkin.</div>
+ <div class="card"><div class="item"><div class="ico">⭐</div><div style="flex:1"><b>Telegram Stars</b><div class="muted">1 Stars = ${f(CFG.rate)} olmos · minimum ${CFG.min} Stars</div></div></div>
+ <div style="margin-top:10px">${req}</div>
+ <label class="muted" for="sn" style="display:block;margin:14px 0 6px">Nechta Stars kerak?</label>
+ <input class="inp" id="sn" type="number" inputmode="numeric" min="${CFG.min}" step="1" value="${CFG.min}" oninput="sCalc()" ${un?"":"disabled"}>
+ <div class="item" style="margin-top:12px"><span class="muted" style="flex:1">Narxi</span><b id="sc" style="color:var(--y)"></b></div>
+ <p id="se" class="muted" style="font-size:12px;min-height:18px;margin:6px 0"></p>
+ <button class="btn pri" id="sb" style="width:100%" onclick="askS()">So‘rov yuborish</button></div>
+ <div class="card"><div class="item"><div class="ico">👑</div><div style="flex:1"><b>Telegram Premium</b><div class="muted">1 oylik</div></div><div class="amt" style="color:var(--y)">${f(pc)}</div></div><div class="bar"><b style="width:${Math.min(S.bal/pc*100,100)}%"></b></div>
+ <button class="btn ${can?"pri":""}" style="width:100%;margin-top:12px" ${can?"":"disabled"} onclick="doR('Premium 1 oy',CFG.prem,'Telegram Premium')">${can?"So‘rov yuborish":"Olmos yetarli emas"}</button></div>
+ <h2>Mening so‘rovlarim</h2><div class="card">${rq}</div>`);sCalc()}
+const chOk=()=>S.ch.filter(c=>c.st==="ok").length,refOk=()=>S.refs.filter(r=>r.st==="ok").length,unlocked=()=>refOk()>=CFG.needRef&&chOk()>=CFG.needCh;
+function sCalc(){const el=$("#sn");if(!el)return;const n=Math.floor(Number(el.value)),c=n*CFG.rate,bad=!(n>=CFG.min);
+ $("#sc").textContent=bad?"—":f(c)+" olmos";let m="";
+ if(!unlocked())m="Stars olish uchun "+CFG.needRef+" ta do‘st taklif qiling va "+CFG.needCh+" ta kanalga obuna bo‘ling";else if(bad)m="Minimal miqdor: "+CFG.min+" Stars";else if(c>S.bal)m="Olmos yetarli emas. Yana "+f(c-S.bal)+" olmos kerak";
+ const e=$("#se");e.textContent=m;e.style.color=m?"var(--err)":"";$("#sb").disabled=!!m}
+function askS(){const n=Math.floor(Number($("#sn").value)),c=n*CFG.rate;if(!unlocked()||!(n>=CFG.min)||c>S.bal)return;doR(n+" Stars",c,"Telegram Stars")}
+function doR(a,c,t){confirmM("So‘rovni tasdiqlang",`${a} (${t}) uchun ${f(c)} olmos rezerv qilinadi. Rad etilsa, olmos qaytariladi.`,()=>{
+ const q={id:1000+S.rq.length+1,a,st:"wait"};S.rq.unshift(q);addTx("Almashtirish rezervi",-c,"So‘rov #"+q.id+" (DEMO)","wait");setBal(S.bal-c);toast("So‘rov yuborildi. Holat: Kutilmoqda");redeem()},"Yuborish")}
+// Reklama: haqiqiy rejimda ko‘rish tugaganini faqat provayder/backend tasdiqlaydi
+const AD={sec:15,rw:100};
+function adsRun(cb){if(S.adBusy)return;S.adBusy=1;
+ window.Adsgram.init({blockId:CFG.adsgram}).show().then(()=>{S.adBusy=0;S.ads++;
+  // Olmos mijozda QO‘SHILMAYDI: mukofotni backend Adsgram Reward URL orqali tasdiqlab beradi
+  if(cb){cb();return}toast("✓ Reklama ko‘rildi. Olmos server tasdiqlagach qo‘shiladi");render()
+ }).catch(()=>{S.adBusy=0;toast("Hozir reklama yo‘q yoki xatolik. Keyinroq urinib ko‘ring",1)})}
+function watch(cb){if(CFG.adsgram&&window.Adsgram)return adsRun(cb);let n=AD.sec,ok=0;try{tg&&tg.isVersionAtLeast&&tg.isVersionAtLeast("8.0")&&tg.requestFullscreen()}catch(e){}
+ $("#layer").innerHTML=`<div class="fs"><div class="tp"><span class="tag" style="position:static">Homiy · DEMO reklama</span><span class="sp"></span><b id="adt">${n}s</b><button class="btn" id="adx" style="flex:none;min-height:36px;padding:6px 12px" aria-label="Yopish">✕</button></div><div class="thumb" style="font-size:90px">🎬</div><div class="ft"><div class="bar"><b id="adb" style="width:0"></b></div><p class="muted" id="adm" style="margin:10px 0 12px;text-align:center">Mukofot uchun reklamani oxirigacha ko‘ring</p><button class="btn pri" id="adg" style="width:100%" disabled>Kuting: ${n}s</button></div></div>`;
+ const end=()=>{clearInterval(h);try{tg&&tg.isFullscreen&&tg.exitFullscreen()}catch(e){}};
+ const h=setInterval(()=>{if(document.hidden)return;n--;const b=$("#adg");if(!b){clearInterval(h);return}
+  $("#adb").style.width=(AD.sec-n)/AD.sec*100+"%";$("#adt").textContent=Math.max(n,0)+"s";
+  if(n>0){b.textContent="Kuting: "+n+"s";return}
+  clearInterval(h);ok=1;$("#adx").style.display="none";$("#adm").textContent="Reklama tugadi";b.disabled=false;b.textContent=cb?"Aylantirishga o‘tish":"Mukofotni olish (+"+AD.rw+" olmos, DEMO)";
+  b.onclick=()=>{end();close_();S.ads++;if(cb){cb();return}addTx("Reklama mukofoti",AD.rw,"Demo reklama");render();setBal(S.bal+AD.rw);toast("✓ +"+AD.rw+" olmos (DEMO)")}},1000);
+ $("#adx").onclick=()=>{end();close_();toast("Reklama to‘liq ko‘rilmadi, mukofot berilmadi",1)}}
+
+// Baraban: yutuqlar va ehtimolliklar haqiqiy rejimda serverdan keladi, natija ham serverda aniqlanadi
+const WH=[10,50,80,100,150,200,300,0],WW=[300,220,150,100,50,15,5,160]; // WW: mingdan ulush (200 = 1.5%, 300 = 0.5%, hech narsa = 16%)
+const WC=["#2584FF","#FFD447","#1a5fd1","#ffb800","#55B5FF","#ffd447","#7a5cff","#2b3b5c"],WT=["#fff","#07152E","#fff","#07152E","#07152E","#07152E","#fff","#9FB3D4"];
+function wsvg(){const n=WH.length,st=360/n,P=a=>[(92*Math.sin(a*Math.PI/180)).toFixed(2),(-92*Math.cos(a*Math.PI/180)).toFixed(2)];
+ return`<svg viewBox="-100 -100 200 200">${WH.map((v,i)=>{const a=P(i*st-st/2),b=P(i*st+st/2);return`<path d="M0 0L${a[0]} ${a[1]}A92 92 0 0 1 ${b[0]} ${b[1]}Z" fill="${WC[i]}" stroke="#07152E" stroke-width="1.5"/><text transform="rotate(${i*st}) translate(0,-64)" text-anchor="middle" dominant-baseline="middle" font-size="${v?15:8}" font-weight="800" fill="${WT[i]}">${v||"Hech narsa"}</text>`}).join("")}<circle r="14" fill="#07152E" stroke="#FFD447" stroke-width="3"/></svg>`}
+function wheel(){sub("Omad barabani",`<div class="card" style="text-align:center"><div class="wheel"><i class="ptr"></i><div class="wr" id="wr" style="transform:rotate(${S.rot}deg)">${wsvg()}</div></div><div id="wres" class="muted" style="min-height:22px;margin-bottom:10px">${S.free>0?"Bugun 1 ta bepul aylantirish bor":"Bepul urinish tugadi. Yana aylantirish uchun reklama ko‘ring"}</div><button class="btn pri" id="wbtn" style="width:100%" onclick="wgo()">${S.free>0?"Bepul aylantirish":"Reklama ko‘rib aylantirish"}</button></div><div class="card muted" style="font-size:13px">Yutuqlar: 10, 50, 80, 100, 150, 200, 300 olmos yoki hech narsa. 200 va 300 juda kam tushadi. Har bir qo‘shimcha aylantirish uchun reklama to‘liq ko‘rilishi kerak.</div>`)}
+function wgo(){if(S.spin)return;if(S.free>0){S.free--;spin()}else watch(()=>{wheel();setTimeout(spin,350)})}
+function spin(){S.spin=1;const b=$("#wbtn");if(b)b.disabled=true;
+ let r=Math.random()*WW.reduce((a,c)=>a+c,0),i=0;while(r>=WW[i]){r-=WW[i];i++}
+ const st=360/WH.length,off=(Math.random()-.5)*st*.6,cur=((S.rot%360)+360)%360;
+ S.rot+=1800+((360-i*st+off-cur)%360+360)%360;
+ const w=$("#wr");if(w)w.style.transform="rotate("+S.rot+"deg)";
+ setTimeout(()=>{S.spin=0;const v=WH[i],m=v?"Yutuq: +"+v+" olmos":"Bu safar hech narsa tushmadi";
+  if(v){addTx("Baraban mukofoti",v,"Omad barabani (DEMO)");setBal(S.bal+v);toast("🎉 +"+v+" olmos (DEMO)")}else toast(m);
+  const e=$("#wres");if(e)e.textContent=m;const bt=$("#wbtn");if(bt){bt.disabled=false;bt.textContent="Reklama ko‘rib aylantirish"}},4400)}
+function render(){$("#view").innerHTML=hdr()+`<div class="view">${{home,ch:chan,ref:refp,pr:prof}[S.tab]()}</div>`;nav()}
+$("#view").innerHTML='<div class="sk"></div><div class="sk" style="height:140px"></div><div class="sk"></div>';nav();
+for(let i=0;i<8;i++){const d=document.createElement("i");d.className="pt";d.style.cssText="left:"+(i*13+5)+"%;top:"+(10+i*11%80)+"%;animation-delay:-"+i+"s";document.body.appendChild(d)}
+setTimeout(render,500);
+</script>
+</body>
+</html>
