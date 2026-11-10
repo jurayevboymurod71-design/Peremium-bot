@@ -1,0 +1,331 @@
+<!DOCTYPE html>
+<html lang="uz">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover,user-scalable=no">
+<meta name="theme-color" content="#05070B">
+<title>SPAMLESS ADS</title>
+<script src="https://telegram.org/js/telegram-web-app.js"></script>
+<script src="../../shared/config.js"></script>
+<style>
+:root{--bg:#05070B;--p:#168BFF;--p2:#0A4FB8;--l:#6CB9FF;--g:#8A94A6;--ok:#34D399;--wt:#FBBF24;--er:#FF5C7A;--bd:rgba(22,139,255,.28)}
+*{box-sizing:border-box;margin:0;-webkit-tap-highlight-color:transparent}
+body{background:var(--bg);color:#fff;font:15px/1.45 system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;overflow-x:hidden}
+body:before,body:after{content:"";position:fixed;width:340px;height:340px;border-radius:50%;filter:blur(90px);pointer-events:none}
+body:before{background:#168BFF;top:-130px;right:-110px;opacity:.35}body:after{background:#0A4FB8;bottom:-150px;left:-130px;opacity:.3}
+#app{position:relative;z-index:1;max-width:560px;margin:0 auto;padding:10px 16px calc(98px + env(safe-area-inset-bottom))}
+.glass{background:linear-gradient(160deg,rgba(255,255,255,.075),rgba(255,255,255,.02));backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px);border:1px solid var(--bd);border-radius:20px;padding:16px;margin-bottom:14px;box-shadow:0 8px 28px rgba(0,0,0,.35),inset 0 1px 0 rgba(255,255,255,.07)}
+.top{display:flex;align-items:center;gap:10px;margin-bottom:14px}
+.logo{font-weight:900;font-size:20px;letter-spacing:1px;background:linear-gradient(90deg,#fff,var(--l) 50%,var(--p));-webkit-background-clip:text;background-clip:text;color:transparent;filter:drop-shadow(0 0 10px rgba(22,139,255,.7))}
+.tag{font-size:10px;font-weight:800;color:#05070B;background:var(--p);border-radius:6px;padding:1px 6px;margin-left:6px;-webkit-text-fill-color:#05070B}
+.sp{flex:1}.g{color:var(--g);font-size:13px}
+.chip{font-size:11px;background:rgba(0,0,0,.45);border:1px solid var(--bd);border-radius:10px;padding:3px 9px;white-space:nowrap}.dm{color:var(--wt);border-color:rgba(251,191,36,.4)}
+.av{width:42px;height:42px;border-radius:50%;border:2px solid var(--p);background:#0b1426;display:grid;place-items:center;font-weight:800;overflow:hidden;flex:none;box-shadow:0 0 14px rgba(22,139,255,.55)}.av img{width:100%;height:100%;object-fit:cover}
+.h1{font-size:22px;margin-bottom:12px}h2{font-size:15px;margin:18px 0 10px}
+.greet{display:flex;align-items:center;gap:12px;justify-content:space-between}
+.hero{background:linear-gradient(135deg,rgba(10,79,184,.7),rgba(22,139,255,.35));border-color:rgba(108,185,255,.5);box-shadow:0 0 34px rgba(22,139,255,.35)}
+.g2c{display:flex;align-items:center;gap:8px;color:#cfe4ff;font-size:13px}.big{font-size:36px;font-weight:900;letter-spacing:-1px;margin:4px 0 12px}.big small{font-size:15px;font-weight:700}
+.grid2{display:grid;grid-template-columns:1fr 1fr;gap:12px}.stat{margin:0 0 12px;animation:pop .5s both}.stat b{font-size:22px;display:inline-block;margin-right:4px}.stat span{font-size:12px;color:var(--g)}
+@keyframes pop{from{opacity:0;transform:translateY(14px) scale(.96)}}
+.btn{border:0;border-radius:14px;padding:12px 16px;min-height:46px;font:700 14px inherit;font-family:inherit;color:#fff;background:linear-gradient(135deg,var(--p),#3aa0ff);cursor:pointer;box-shadow:0 4px 18px rgba(22,139,255,.45);transition:transform .12s,box-shadow .2s,opacity .2s;flex:1}
+.btn:active{transform:scale(.95);box-shadow:0 0 28px rgba(22,139,255,.8)}.btn.ghost{background:rgba(255,255,255,.07);box-shadow:none;border:1px solid var(--bd)}.btn.pri{background:linear-gradient(135deg,#2da0ff,#168BFF 55%,#0A6FE0)}
+.btn.w{width:100%;flex:none}.btn.lg{min-height:54px;font-size:16px;margin-bottom:6px}.btn[disabled]{opacity:.4;pointer-events:none}.btn.er{background:rgba(255,92,122,.15);color:var(--er);border:1px solid rgba(255,92,122,.4);box-shadow:none}
+.row{display:flex;gap:10px;margin-top:12px}.item{display:flex;align-items:center;gap:12px}
+.note{background:rgba(22,139,255,.1);border:1px solid var(--bd);border-radius:14px;padding:11px 13px;font-size:13px;color:#cfe4ff;margin:10px 0}.note.wn{background:rgba(251,191,36,.08);border-color:rgba(251,191,36,.35);color:#fde9a8}.note.rj{background:rgba(255,92,122,.08);border-color:rgba(255,92,122,.4);color:#ffc2cd}
+.chips{display:flex;gap:8px;overflow-x:auto;margin-bottom:12px;padding-bottom:2px;scrollbar-width:none}.chips::-webkit-scrollbar{display:none}
+.chips button{flex:none;background:rgba(255,255,255,.06);border:1px solid var(--bd);color:var(--g);font:600 13px inherit;font-family:inherit;border-radius:20px;padding:8px 14px;cursor:pointer;transition:all .2s}.chips .on{background:var(--p);color:#fff;box-shadow:0 0 16px rgba(22,139,255,.6)}
+.cc{cursor:pointer;transition:transform .15s,border-color .2s}.cc:active{transform:scale(.98);border-color:var(--l)}
+.ic{width:44px;height:44px;border-radius:14px;background:rgba(22,139,255,.15);border:1px solid var(--bd);display:grid;place-items:center;font-size:21px;flex:none}
+.ell{display:block;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.bar{height:6px;border-radius:6px;background:rgba(255,255,255,.1);overflow:hidden;margin:12px 0 8px}.bar b{display:block;height:100%;background:linear-gradient(90deg,var(--p),var(--l));border-radius:6px;box-shadow:0 0 10px var(--p);animation:gw .8s both}@keyframes gw{from{width:0!important}}
+.g2{display:flex;justify-content:space-between;gap:8px;font-size:12px;color:var(--g)}.g2 b{color:#fff}
+.bd{font-size:11px;font-weight:700;padding:3px 10px;border-radius:20px;white-space:nowrap}.bd.ok{background:rgba(52,211,153,.15);color:var(--ok)}.bd.wt{background:rgba(251,191,36,.15);color:var(--wt)}.bd.gr{background:rgba(138,148,166,.18);color:#c3cad6}.bd.bl{background:rgba(22,139,255,.2);color:var(--l)}.bd.er{background:rgba(255,92,122,.15);color:var(--er)}
+.chart{width:100%;height:auto;display:block}.bar-r{transform-origin:bottom;transform-box:fill-box;animation:grow .7s both}@keyframes grow{from{transform:scaleY(0)}}
+.steps{display:flex;gap:5px}.steps i{flex:1;height:5px;border-radius:5px;background:rgba(255,255,255,.1);transition:background .3s}.steps .d{background:var(--p)}.steps .c{background:var(--l);box-shadow:0 0 10px var(--p)}
+.tg{display:grid;grid-template-columns:1fr 1fr;gap:10px}.tc{background:rgba(255,255,255,.05);border:1px solid var(--bd);border-radius:16px;padding:14px 8px;color:#fff;font:600 13px inherit;font-family:inherit;cursor:pointer;display:grid;gap:6px;justify-items:center;transition:all .2s}.tc span{font-size:26px}.tc.on{background:rgba(22,139,255,.25);border-color:var(--l);box-shadow:0 0 20px rgba(22,139,255,.5)}
+.lb{display:block;font-size:13px;color:var(--g);margin:2px 0 6px}.inp{width:100%;background:rgba(0,0,0,.4);border:1px solid var(--bd);border-radius:12px;color:#fff;font:600 16px inherit;font-family:inherit;padding:12px;min-height:48px;margin-bottom:6px;outline:0;transition:border-color .2s,box-shadow .2s}.inp:focus{border-color:var(--l);box-shadow:0 0 14px rgba(22,139,255,.45)}.ta{min-height:110px;resize:vertical}
+.err{color:var(--er);font-size:13px;margin:2px 0 8px}.err a{color:var(--l);text-decoration:underline;cursor:pointer}.hint{margin-bottom:8px;font-size:12px}
+.sum .item{justify-content:space-between;padding:7px 0;border-bottom:1px solid rgba(255,255,255,.06);align-items:flex-start}.sum b{text-align:right;word-break:break-word;max-width:62%;font-size:14px}.sum .g{flex:none}
+.chk{display:flex;gap:10px;align-items:flex-start;font-size:13px;margin:12px 0 6px}.chk input{width:20px;height:20px;accent-color:var(--p);flex:none}
+.tr{display:flex;align-items:center;gap:12px;padding:10px 0;border-bottom:1px solid rgba(255,255,255,.06)}.tr:last-child{border:0}.tr b.p{color:var(--ok)}.tr b.m{color:var(--er)}
+.kv{display:flex;justify-content:space-between;gap:12px;padding:9px 0;border-bottom:1px solid rgba(255,255,255,.06);font-size:14px}.kv:last-child{border:0}.kv b{text-align:right;word-break:break-word}
+.ml{display:flex;align-items:center;gap:12px;padding:14px 0;border-top:1px solid rgba(255,255,255,.07);cursor:pointer}.ml:first-child{border:0}
+.sw{width:46px;height:26px;border-radius:20px;background:#2a3550;position:relative;border:0;flex:none;cursor:pointer;transition:background .2s}.sw:after{content:"";position:absolute;top:3px;left:3px;width:20px;height:20px;border-radius:50%;background:#fff;transition:transform .2s}.sw.on{background:var(--p);box-shadow:0 0 12px var(--p)}.sw.on:after{transform:translateX(20px)}
+nav{position:fixed;left:0;right:0;bottom:0;z-index:5;background:rgba(5,7,11,.88);backdrop-filter:blur(16px);-webkit-backdrop-filter:blur(16px);border-top:1px solid var(--bd);padding:6px 6px calc(6px + env(safe-area-inset-bottom))}nav div{max-width:560px;margin:0 auto;display:flex}
+nav button{flex:1;background:none;border:0;color:var(--g);font:600 10px inherit;font-family:inherit;display:grid;justify-items:center;gap:3px;padding:6px 2px;min-height:52px;border-radius:14px;cursor:pointer;transition:all .2s}nav .on{color:var(--l);background:rgba(22,139,255,.18);box-shadow:0 0 16px rgba(22,139,255,.5)}
+nav svg{width:22px;height:22px;fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}nav .mid svg{width:26px;height:26px;background:linear-gradient(135deg,var(--p),#3aa0ff);color:#fff;border-radius:10px;padding:3px;box-shadow:0 0 16px rgba(22,139,255,.8)}
+.sub{position:fixed;inset:0;z-index:8;background:var(--bg);overflow:auto;padding:10px 16px 40px;animation:up .28s}.sub>div{max-width:560px;margin:0 auto}.back{background:none;border:0;color:var(--l);font:700 15px inherit;font-family:inherit;padding:10px 0;cursor:pointer}
+.ov{position:fixed;inset:0;z-index:20;background:rgba(0,0,0,.72);display:grid;align-items:end;animation:fd .2s}.ov .bx{max-width:560px;width:100%;margin:0 auto;background:#0a1020;border-radius:24px 24px 0 0;padding:22px 18px calc(22px + env(safe-area-inset-bottom));border:1px solid var(--bd);animation:up .28s;max-height:88vh;overflow:auto}.ov h3{margin-bottom:8px}
+#toast{position:fixed;top:12px;left:50%;transform:translate(-50%,-140px);z-index:60;background:#0d1a33;border:1px solid var(--bd);border-left:4px solid var(--ok);padding:11px 16px;border-radius:14px;max-width:90%;font-size:14px;transition:transform .3s;box-shadow:0 8px 24px rgba(0,0,0,.5)}#toast.show{transform:translate(-50%,0)}#toast.er{border-left-color:var(--er)}
+.view{animation:up .32s}@keyframes up{from{opacity:0;transform:translateY(14px)}}@keyframes fd{from{opacity:0}}
+.sk{height:92px;border-radius:20px;margin-bottom:14px;background:linear-gradient(90deg,#0b1426 30%,#16284a 50%,#0b1426 70%);background-size:300% 100%;animation:sk 1.2s infinite}@keyframes sk{to{background-position:-100% 0}}
+.empty{text-align:center;padding:30px 10px;color:var(--g)}.empty i{font-style:normal;font-size:34px;display:block}
+button:focus-visible,a:focus-visible,input:focus-visible{outline:2px solid var(--l);outline-offset:2px}
+@media(prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
+</style>
+</head>
+<body>
+<div id="app"><div id="view"></div></div>
+<nav><div id="nav"></div></nav>
+<div id="toast"></div>
+<div id="ly"></div>
+<script>
+"use strict";
+/* SPAMLESS ADS — reklamachi Mini App frontendi.
+   Bo‘limlar: 1 Sozlamalar · 2 Demo ma’lumot · 3 Yordamchilar · 4 Server · 5 Sahifalar ·
+              6 Reklama yaratish · 7 Hamyon, profil, oynalar · 8 Navigatsiya
+   Backendda hozir faqat /health, /auth/telegram, /me mavjud. Reklamachi endpointlari YO‘Q,
+   shuning uchun kampaniya, hamyon va to‘lov qismlari DEMO (xotirada, saqlanmaydi). */
+
+/* ===== 1. SOZLAMALAR ===== */
+const tg = window.Telegram && Telegram.WebApp;
+if (tg) { tg.ready(); tg.expand(); try { tg.setHeaderColor("#05070B"); tg.setBackgroundColor("#05070B"); } catch (e) {} }
+const CFG = { ver: "1.0.0-demo", minBudget: 10000, minTarget: 10, support: "spamless_support" }; // minimal chegaralar DEMO; haqiqiysini backend belgilaydi
+const TYPES = {
+  sub: { n: "Kanalga obuna", ic: "📢", unit: "obuna", ph: "https://t.me/kanal_nomi yoki @kanal_nomi",
+    chk: "Obuna Telegram Bot API orqali tekshiriladi. Buning uchun SPAMLESS boti kanalingizda administrator bo‘lishi kerak." },
+  bot: { n: "Botni ishga tushirish", ic: "🤖", unit: "start", ph: "https://t.me/bot_nomi_bot",
+    chk: "Foydalanuvchi birinchi marta /start bosganini backend tekshiradi." },
+  app: { n: "Ilovani o‘rnatish", ic: "📱", unit: "o‘rnatish", ph: "https://play.google.com/store/apps/details?id=...",
+    chk: "O‘rnatish faqat ishonchli install-attribution orqali tasdiqlanadi. Havolani bosish o‘rnatish emas." },
+  video: { n: "Video ko‘rish", ic: "🎬", unit: "ko‘rish", ph: "https://sayt.uz/video.mp4",
+    chk: "Natija video to‘liq ko‘rilganini backend tasdiqlagandagina hisoblanadi." },
+  link: { n: "Havolaga o‘tish", ic: "🔗", unit: "bosish", ph: "https://sizning-sayt.uz", noVerify: true,
+    chk: "Havolaga bosish tasdiqlangan natija emas. Faqat bosilishlar statistikasi ko‘rsatiladi." },
+};
+const ST = { act: ["Faol", "ok"], rev: ["Tekshiruvda", "wt"], pau: ["To‘xtatilgan", "gr"], end: ["Yakunlangan", "bl"], rej: ["Rad etilgan", "er"] };
+const LN = { all: "Hammasi", uz: "O‘zbekcha", ru: "Ruscha", en: "Inglizcha" };
+
+/* ===== 2. DEMO MA’LUMOT (backend ulanmagan) ===== */
+const D0 = new Date(), dt = o => { const d = new Date(D0); d.setDate(d.getDate() + o); return d; };
+const fd = d => d.toLocaleDateString("ru-RU");
+const Z = [0, 0, 0, 0, 0, 0, 0];
+const S = {
+  tab: "home", flt: "all", q: "", chart: "d", wt: "pay", bal: 1250000, notif: true, weekly: false, company: "",
+  camps: [
+    { id: 1, name: "Texno kanal — yangi obunachilar", type: "sub", st: "act", budget: 500000, spent: 312000, target: 1000, s: -9, e: 5, lang: "uz", url: "https://t.me/texno_kanal", desc: "Texnologiya va gadjetlar yangiliklari kanali.", d: [60, 72, 85, 90, 110, 95, 112], dv: [900, 1100, 1250, 1400, 1650, 1500, 2000], dc: [120, 150, 180, 190, 230, 210, 240] },
+    { id: 2, name: "Quiz Bot ishga tushirish", type: "bot", st: "act", budget: 300000, spent: 198400, target: 1500, s: -7, e: 7, lang: "all", url: "https://t.me/quiz_uz_bot", desc: "Savol-javob o‘yini boti.", d: [40, 55, 70, 66, 90, 80, 95], dv: [700, 900, 1000, 1100, 1300, 1250, 1500], dc: [90, 110, 130, 120, 160, 150, 170] },
+    { id: 3, name: "FitTrack ilovasi", type: "app", st: "rev", budget: 800000, spent: 0, target: 500, s: 1, e: 15, lang: "all", url: "https://play.google.com/store/apps/details?id=demo.fittrack", desc: "Mashq va ovqatlanish ilovasi.", d: Z, dv: Z, dc: Z },
+    { id: 4, name: "Mahsulot taqdimoti (video)", type: "video", st: "pau", budget: 400000, spent: 66000, target: 2000, s: -5, e: 10, lang: "ru", url: "https://sayt.uz/promo.mp4", desc: "Yangi mahsulot taqdimoti videosi.", d: [0, 0, 150, 170, 120, 0, 0], dv: [0, 0, 600, 700, 500, 0, 0], dc: Z },
+    { id: 5, name: "Onlayn kurs — landing", type: "link", st: "end", budget: 200000, spent: 168000, target: 5000, s: -20, e: -3, lang: "uz", url: "https://kurs.sayt.uz", desc: "Onlayn kurs sahifasi.", d: Z, dv: [3000, 3800, 4200, 4500, 3900, 3100, 3000], dc: [450, 600, 700, 800, 650, 500, 500] },
+    { id: 6, name: "Kripto signal kanali", type: "sub", st: "rej", budget: 300000, spent: 0, target: 800, s: -2, e: 12, lang: "all", url: "https://t.me/kripto_signal", desc: "Kripto signallar kanali.", reason: "Kanal mazmuni platforma qoidalariga mos kelmadi (DEMO sabab).", d: Z, dv: Z, dc: Z },
+  ],
+  tx: [
+    { d: dt(-12), k: "topup", a: 1000000, n: "Demo to‘ldirish" }, { d: dt(-9), k: "reserve", a: -500000, n: "Budjet rezervi: Texno kanal" },
+    { d: dt(-8), k: "topup", a: 500000, n: "Demo to‘ldirish" }, { d: dt(-7), k: "reserve", a: -300000, n: "Budjet rezervi: Quiz Bot" },
+    { d: dt(-5), k: "topup", a: 550000, n: "Demo to‘ldirish" },
+  ],
+};
+const W = { step: 1, type: "", name: "", url: "", desc: "", lang: "all", target: "", budget: "", agree: false, err: {} };
+
+/* ===== 3. YORDAMCHILAR ===== */
+const $ = s => document.querySelector(s);
+const f = n => Number(n).toLocaleString("ru-RU").replace(/[\u00a0\u202f]/g, " ");
+const sum = a => a.reduce((x, y) => x + y, 0), wait = ms => new Promise(r => setTimeout(r, ms));
+const num = v => Number(String(v).replace(/ /g, ""));
+const esc = s => String(s).replace(/[&<>"']/g, c => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[c]));
+const badge = k => `<span class="bd ${ST[k][1]}">${ST[k][0]}</span>`;
+const hap = t => { try { const h = tg && tg.HapticFeedback; if (!h) return; t === "error" ? h.notificationOccurred("error") : t === "ok" ? h.notificationOccurred("success") : h.impactOccurred("light"); } catch (e) {} };
+function toast(m, e) { const x = $("#toast"); x.textContent = m; x.className = "show" + (e ? " er" : ""); clearTimeout(toast.h); toast.h = setTimeout(() => x.className = "", 3200); }
+const ly = h => $("#ly").innerHTML = h, closeLy = () => ly("");
+function sub(title, h) { ly(`<div class="sub"><div><button class="back" onclick="closeLy();render()">‹ Orqaga</button><h1 class="h1">${title}</h1>${h}</div></div>`); }
+function modal(h) { ly(`<div class="ov" onclick="if(event.target===this)closeLy()"><div class="bx">${h}</div></div>`); }
+function info(a, b) { modal(`<h3>${a}</h3><p class="g" style="margin:8px 0 16px">${b}</p><button class="btn w" onclick="closeLy()">Yopish</button>`); }
+function counters() {
+  const still = matchMedia("(prefers-reduced-motion:reduce)").matches;
+  document.querySelectorAll(".cn").forEach(el => {
+    const to = +el.dataset.v; if (still) { el.textContent = f(to); return; }
+    const t0 = performance.now();
+    (function s(n) { const p = Math.min((n - t0) / 900, 1); el.textContent = f(Math.round(to * (1 - Math.pow(1 - p, 3)))); if (p < 1) requestAnimationFrame(s); })(t0);
+  });
+}
+function chart(vals, labels) {
+  const mx = Math.max(...vals, 1), Wd = 300, H = 110, bw = 26, gap = (Wd - vals.length * bw) / (vals.length + 1);
+  return `<svg class="chart" viewBox="0 0 ${Wd} ${H + 24}" role="img" aria-label="Grafik"><defs><linearGradient id="cg" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#6CB9FF"/><stop offset="1" stop-color="#168BFF" stop-opacity=".45"/></linearGradient></defs>${vals.map((v, i) => {
+    const h = Math.max(v / mx * H, 2), x = gap + i * (bw + gap);
+    return `<g><rect class="bar-r" style="animation-delay:${i * 60}ms" x="${x}" y="${H - h}" width="${bw}" height="${h}" rx="6" fill="url(#cg)"/><text x="${x + bw / 2}" y="${H - h - 5}" text-anchor="middle" fill="#fff" font-size="9">${f(v)}</text><text x="${x + bw / 2}" y="${H + 15}" text-anchor="middle" fill="#8A94A6" font-size="10">${labels[i]}</text></g>`;
+  }).join("")}</svg>`;
+}
+const DAYS = () => [-6, -5, -4, -3, -2, -1, 0].map(o => ["Ya", "Du", "Se", "Ch", "Pa", "Ju", "Sh"][dt(o).getDay()]);
+
+/* ===== 4. SERVER ULANISHI =====
+   Faqat Telegram kirishi (auth) serverga ulangan. initData frontendda autentifikatsiya hisoblanmaydi:
+   u xom holda backendga yuboriladi va imzo faqat serverda tekshiriladi. */
+const SRV = { ok: false, msg: "Server tekshirilmagan", user: null };
+async function bootServer() {
+  if (!window.SpamlessApi) { SRV.msg = "Server moduli yuklanmadi (prototip rejimi)"; return; }
+  try { await SpamlessApi.health(); } catch (e) { SRV.msg = e.message; return; }
+  if (!(tg && tg.initData)) { SRV.msg = "Server ishlayapti, lekin Telegram ichida emas"; return; }
+  try { const r = await SpamlessApi.auth(tg.initData); SRV.ok = true; SRV.user = r.user; SRV.msg = "Telegram kirishi serverda tasdiqlandi"; }
+  catch (e) { SRV.msg = e.message; }
+}
+function who() {
+  if (SRV.ok && SRV.user) return { n: SRV.user.first_name || "Reklamachi", u: SRV.user.username, id: SRV.user.telegram_id, v: 1 };
+  const u = tg && tg.initDataUnsafe && tg.initDataUnsafe.user; // tasdiqlanmagan — faqat ko‘rsatish uchun
+  if (u) return { n: u.first_name || "Reklamachi", u: u.username, id: u.id, v: 0, ph: u.photo_url };
+  return { n: "Reklamachi (demo)", u: "", id: "—", v: 0 };
+}
+const avt = w => w.ph ? `<img src="${esc(w.ph)}" alt="">` : esc((w.n || "R")[0]);
+const modeChip = () => SRV.ok ? '<span class="chip" style="color:var(--ok)">SERVER: AUTH ✓</span>' : '<span class="chip dm">PROTOTIP</span>';
+const hdr = () => `<div class="top"><div class="logo">SPAMLESS<span class="tag">ADS</span></div><span class="sp"></span>${modeChip()}<div class="av">${avt(who())}</div></div>`;
+
+/* ===== 5. SAHIFALAR ===== */
+const pct = c => Math.min(100, Math.round(c.spent / c.budget * 100));
+const resLabel = c => TYPES[c.type].noVerify ? `<b>${f(sum(c.dc))}</b> bosish · tasdiqlanmagan` : `<b>${f(sum(c.d))}</b> / ${f(c.target)} tasdiqlangan`;
+const ccard = c => `<div class="glass cc" onclick="detail(${c.id})"><div class="item"><div class="ic">${TYPES[c.type].ic}</div><div style="flex:1;min-width:0"><b class="ell">${esc(c.name)}</b><div class="g">${TYPES[c.type].n}</div></div>${badge(c.st)}</div>
+ <div class="bar"><b style="width:${pct(c)}%"></b></div><div class="g2"><span>Sarflandi <b>${f(c.spent)}</b> / ${f(c.budget)} so‘m</span><span>${resLabel(c)}</span></div>
+ <div class="g" style="font-size:12px;margin-top:6px">${c.fresh ? "Sana tasdiqlangach belgilanadi" : fd(dt(c.s)) + " → " + fd(dt(c.e))}</div></div>`;
+
+function home() {
+  const w = who(), sp = sum(S.camps.map(c => c.spent)), ac = S.camps.filter(c => c.st === "act").length;
+  const vw = sum(S.camps.map(c => sum(c.dv))), ok = sum(S.camps.map(c => sum(c.d)));
+  const wk = [0, 1, 2, 3, 4, 5, 6].map(i => sum(S.camps.map(c => c[S.chart][i])));
+  const stats = [["Sarflangan mablag‘", sp, "so‘m"], ["Faol reklamalar", ac, "ta"], ["Jami ko‘rishlar", vw, ""], ["Tasdiqlangan natijalar", ok, "ta"]];
+  return `<div class="glass greet"><div><div class="g">Xush kelibsiz!</div><h1 class="h1" style="margin:0">${esc(w.n)}</h1></div><div class="av" style="width:52px;height:52px;font-size:20px">${avt(w)}</div></div>
+ <div class="glass hero"><div class="g2c">Umumiy balans <span class="chip dm">DEMO</span></div><div class="big"><span class="cn" data-v="${S.bal}">0</span> <small>so‘m</small></div></div>
+ <div class="grid2">${stats.map(([a, v, u], i) => `<div class="glass stat" style="animation-delay:${i * 90}ms"><div class="g">${a}</div><b class="cn" data-v="${v}">0</b><span>${u}</span></div>`).join("")}</div>
+ <div class="note">Tasdiqlangan natijalarga havola bosilishlari kirmaydi: havolaga bosish, haqiqiy obuna yoki video ko‘rish bir xil natija emas.</div>
+ <button class="btn pri w lg" onclick="go('create')">＋ Reklama yaratish</button>
+ <h2>Haftalik statistika</h2><div class="glass"><div class="chips">${[["d", "Tasdiqlangan natijalar"], ["dv", "Ko‘rishlar"]].map(([k, n]) => `<button class="${S.chart === k ? "on" : ""}" onclick="S.chart='${k}';render()">${n}</button>`).join("")}</div>${chart(wk, DAYS())}</div>
+ <h2>Oxirgi kampaniyalar</h2>${S.camps.slice(0, 3).map(ccard).join("")}
+ <div class="note wn">PROTOTIP: kampaniyalar, balans va statistika demo ma’lumot. Backendda reklamachi endpointlari hali mavjud emas.</div>`;
+}
+
+const clist = () => {
+  const L = S.camps.filter(c => (S.flt === "all" || c.st === S.flt) && c.name.toLowerCase().includes(S.q.trim().toLowerCase()));
+  return L.length ? L.map(ccard).join("") : `<div class="empty"><i>📭</i>Mos reklama topilmadi</div>`;
+};
+function camps() {
+  const fl = [["all", "Hammasi"], ...Object.entries(ST).map(([k, v]) => [k, v[0]])];
+  return `<h1 class="h1">Reklamalar</h1><input class="inp" placeholder="Nom bo‘yicha qidirish" value="${esc(S.q)}" aria-label="Qidirish" oninput="S.q=this.value;$('#cl').innerHTML=clist()">
+ <div class="chips">${fl.map(([k, n]) => `<button class="${S.flt === k ? "on" : ""}" onclick="S.flt='${k}';render()">${n}</button>`).join("")}</div><div id="cl">${clist()}</div>`;
+}
+function detail(id) {
+  const c = S.camps.find(x => x.id === id), T = TYPES[c.type], ok = sum(c.d), ck = sum(c.dc), vw = sum(c.dv);
+  const main = T.noVerify ? c.dc : c.d, act = c.st === "act" ? ["pau", "To‘xtatish (DEMO)"] : c.st === "pau" ? ["act", "Davom ettirish (DEMO)"] : null;
+  sub(esc(c.name), `<div class="glass"><div class="item"><div class="ic">${T.ic}</div><div style="flex:1"><b>${T.n}</b><div class="g">${c.fresh ? "Sana tasdiqlangach belgilanadi" : fd(dt(c.s)) + " → " + fd(dt(c.e))}</div></div>${badge(c.st)}</div>
+  <div class="bar"><b style="width:${pct(c)}%"></b></div><div class="g2"><span>Sarflandi <b>${f(c.spent)}</b> so‘m</span><span>Budjet <b>${f(c.budget)}</b> so‘m</span></div></div>
+  ${c.reason ? `<div class="note rj"><b>Rad etilgan:</b> ${esc(c.reason)}</div>` : ""}${c.st === "rev" ? `<div class="note wn">Reklama tekshiruvda. Tasdiqlangandan keyingina ishga tushadi.</div>` : ""}
+  <div class="grid2">${[["Ko‘rishlar", f(vw)], ["Bosilishlar (tasdiqlanmagan)", f(ck)], ["Tasdiqlangan natijalar", T.noVerify ? "—" : f(ok) + " / " + f(c.target)], ["Tasdiqlangan natija narxi", !T.noVerify && ok ? f(Math.round(c.spent / ok)) + " so‘m" : "—"]].map(([a, v]) => `<div class="glass stat" style="animation:none"><div class="g" style="font-size:12px">${a}</div><b style="font-size:17px">${v}</b></div>`).join("")}</div>
+  <div class="note">${T.chk}</div>
+  <h2>${T.noVerify ? "Kunlik bosilishlar (tasdiqlanmagan)" : "Kunlik tasdiqlangan natijalar"}</h2><div class="glass">${chart(main, DAYS())}</div>
+  <h2>Kunlik ko‘rishlar</h2><div class="glass">${chart(c.dv, DAYS())}</div>
+  <div class="glass"><div class="kv"><span class="g">Havola</span><b>${esc(c.url)}</b></div><div class="kv"><span class="g">Tavsif</span><b>${esc(c.desc)}</b></div><div class="kv"><span class="g">Auditoriya</span><b>${LN[c.lang] || "Hammasi"}</b></div></div>
+  ${act ? `<button class="btn ${act[0] === "pau" ? "er" : "pri"} w" onclick="setSt(${c.id},'${act[0]}')">${act[1]}</button>` : ""}`);
+}
+function setSt(id, st) { S.camps.find(x => x.id === id).st = st; detail(id); toast("DEMO: holat faqat shu sahifada o‘zgardi, serverga yuborilmadi"); }
+
+/* ===== 6. REKLAMA YARATISH (7 bosqich) ===== */
+const RX = { sub: /^(https:\/\/t\.me\/|@)[A-Za-z][A-Za-z0-9_]{4,31}$/, bot: /^(https:\/\/t\.me\/|@)[A-Za-z][A-Za-z0-9_]{1,28}[Bb][Oo][Tt]$/, https: /^https:\/\/[^\s\/]+\.[^\s\/]+(\/\S*)?$/ };
+function vUrl(t, v) {
+  v = v.trim(); if (!v) return "Havolani kiriting";
+  if (t === "sub") return RX.sub.test(v) ? "" : "Ochiq kanal havolasi: https://t.me/nom yoki @nom";
+  if (t === "bot") return RX.bot.test(v) ? "" : "Bot havolasi: https://t.me/nom_bot (username bot bilan tugaydi)";
+  return RX.https.test(v) ? "" : "https:// bilan boshlanuvchi to‘g‘ri havola kiriting";
+}
+const fld = (label, inner, key, hint) => `<label class="lb">${label}</label>${inner}${W.err[key] ? `<div class="err">${W.err[key]}</div>` : hint ? `<div class="g hint">${hint}</div>` : ""}`;
+const STEP = {
+  1: () => `<div class="tg">${Object.entries(TYPES).map(([k, t]) => `<button class="tc ${W.type === k ? "on" : ""}" onclick="W.type='${k}';W.err={};render()"><span>${t.ic}</span>${t.n}</button>`).join("")}</div>${W.type ? `<div class="note">${TYPES[W.type].chk}</div>` : ""}${W.err.type ? `<div class="err">${W.err.type}</div>` : ""}`,
+  2: () => fld("Reklama nomi", `<input class="inp" maxlength="60" value="${esc(W.name)}" oninput="W.name=this.value">`, "name", "3–60 belgi"),
+  3: () => fld("Reklama havolasi", `<input class="inp" inputmode="url" autocapitalize="off" value="${esc(W.url)}" placeholder="${TYPES[W.type].ph}" oninput="W.url=this.value">`, "url", TYPES[W.type].n + " uchun havola") + `<div class="note">${TYPES[W.type].chk}</div>`,
+  4: () => fld("Reklama tavsifi", `<textarea class="inp ta" maxlength="300" oninput="W.desc=this.value;$('#dc').textContent=this.value.length">${esc(W.desc)}</textarea>`, "desc", `10–300 belgi · <span id="dc">${W.desc.length}</span>/300`),
+  5: () => fld("Auditoriya tili", `<select class="inp" onchange="W.lang=this.value">${Object.entries(LN).map(([k, n]) => `<option value="${k}" ${W.lang === k ? "selected" : ""}>${n}</option>`).join("")}</select>`, "lang", "Auditoriya sozlamasi backend ulangach hisobga olinadi (demo)")
+    + fld(`Kerakli natijalar soni (${TYPES[W.type].unit})`, `<input class="inp" inputmode="numeric" value="${esc(W.target)}" oninput="W.target=this.value">`, "target", "Kamida " + CFG.minTarget + (TYPES[W.type].noVerify ? ". Bu bosishlar soni, tasdiqlangan natija emas." : "")),
+  6: () => { const t = num(W.target), b = num(W.budget); return fld("Budjet (so‘m)", `<input class="inp" inputmode="numeric" value="${esc(W.budget)}" oninput="W.budget=this.value;pc()">`, "budget", "Demo minimal budjet: " + f(CFG.minBudget) + " so‘m")
+    + `<div class="kv"><span class="g">Har bir natijaga o‘rtacha</span><b id="ppr">${t && b ? f(Math.round(b / t)) + " so‘m" : "—"}</b></div><div class="kv"><span class="g">Demo balansingiz</span><b>${f(S.bal)} so‘m</b></div>`; },
+  7: () => { const T = TYPES[W.type]; return `<div class="sum">${[["Turi", T.n], ["Nomi", esc(W.name)], ["Havola", esc(W.url)], ["Tavsif", esc(W.desc)], ["Auditoriya", LN[W.lang]], ["Natijalar", f(num(W.target)) + " " + T.unit], ["Budjet", f(num(W.budget)) + " so‘m"]].map(([a, b]) => `<div class="item"><span class="g">${a}</span><b>${b}</b></div>`).join("")}</div>
+   <div class="note">Reklama yuborilgach avval <b>tekshiruvdan</b> o‘tadi va tasdiqlansagina ishga tushadi. ${T.chk}</div>
+   <label class="chk"><input type="checkbox" ${W.agree ? "checked" : ""} onchange="W.agree=this.checked"> Natijalar faqat tasdiqlangan bo‘lsa hisoblanishini tushundim</label>
+   ${W.err.agree ? `<div class="err">${W.err.agree}</div>` : ""}${W.err.bal ? `<div class="err">${W.err.bal} <a onclick="topup()">Hamyonni to‘ldirish</a></div>` : ""}`; },
+};
+function create() {
+  const T = ["Turni tanlang", "Nomi", "Havola", "Tavsif", "Auditoriya va natijalar", "Budjet", "Tekshirish va yuborish"];
+  return `<h1 class="h1">Reklama yaratish</h1><div class="steps">${T.map((t, i) => `<i class="${i + 1 < W.step ? "d" : i + 1 === W.step ? "c" : ""}"></i>`).join("")}</div>
+ <div class="g" style="margin:8px 0 12px">${W.step}/7 · ${T[W.step - 1]}</div><div class="glass">${STEP[W.step]()}</div>
+ <div class="row"><button class="btn ghost" ${W.step === 1 ? "disabled" : ""} onclick="wBack()">‹ Orqaga</button><button class="btn pri" onclick="wNext()">${W.step === 7 ? "Yuborish (DEMO)" : "Keyingi ›"}</button></div>`;
+}
+function pc() { const t = num(W.target), b = num(W.budget), el = $("#ppr"); if (el) el.textContent = t && b ? f(Math.round(b / t)) + " so‘m" : "—"; }
+function wCheck() {
+  const e = {}, s = W.step;
+  if (s === 1 && !W.type) e.type = "Reklama turini tanlang";
+  if (s === 2 && (W.name.trim().length < 3 || W.name.trim().length > 60)) e.name = "Nom 3–60 belgi bo‘lishi kerak";
+  if (s === 3) { const m = vUrl(W.type, W.url); if (m) e.url = m; }
+  if (s === 4 && (W.desc.trim().length < 10 || W.desc.trim().length > 300)) e.desc = "Tavsif 10–300 belgi bo‘lishi kerak";
+  if (s === 5) { const t = num(W.target); if (!Number.isInteger(t) || t < CFG.minTarget || t > 1e6) e.target = "Natijalar soni " + CFG.minTarget + " dan 1 000 000 gacha butun son bo‘lishi kerak"; }
+  if (s === 6) { const b = num(W.budget); if (!Number.isInteger(b) || b < CFG.minBudget || b > 1e9) e.budget = "Budjet " + f(CFG.minBudget) + " so‘mdan kam bo‘lmasin (butun son)"; }
+  if (s === 7) { if (!W.agree) e.agree = "Davom etish uchun tasdiqlang"; else if (num(W.budget) > S.bal) e.bal = "Demo balans yetarli emas."; }
+  W.err = e; return !Object.keys(e).length;
+}
+function wNext() { if (!wCheck()) { render(); hap("error"); return; } if (W.step < 7) { W.step++; render(); window.scrollTo(0, 0); } else submit(); }
+function wBack() { if (W.step > 1) { W.step--; W.err = {}; render(); window.scrollTo(0, 0); } }
+function submit() {
+  const b = num(W.budget), name = W.name.trim();
+  S.camps.unshift({ id: Date.now(), name, type: W.type, st: "rev", budget: b, spent: 0, target: num(W.target), s: 1, e: 30, fresh: 1, lang: W.lang, url: W.url.trim(), desc: W.desc.trim(), d: [0, 0, 0, 0, 0, 0, 0], dv: [0, 0, 0, 0, 0, 0, 0], dc: [0, 0, 0, 0, 0, 0, 0] });
+  S.bal -= b; S.tx.unshift({ d: new Date(), k: "reserve", a: -b, n: "Budjet rezervi: " + name });
+  Object.assign(W, { step: 1, type: "", name: "", url: "", desc: "", lang: "all", target: "", budget: "", agree: false, err: {} });
+  S.tab = "camps"; S.flt = "all"; render(); hap("ok");
+  info("Kampaniya yuborildi (DEMO)", "Bu prototipda haqiqiy moderatsiya va to‘lov yo‘q. Backend ulangach kampaniya tekshiruvga tushadi va tasdiqlansagina ishga tushadi.");
+}
+
+/* ===== 7. HAMYON, PROFIL, OYNALAR ===== */
+const txRow = x => `<div class="tr"><div class="ic" style="width:38px;height:38px;font-size:17px">${x.a > 0 ? "↑" : "↓"}</div><div style="flex:1;min-width:0"><b class="ell" style="font-size:14px">${esc(x.n)}</b><div class="g" style="font-size:12px">${fd(x.d)}</div></div><div style="text-align:right"><b class="${x.a > 0 ? "p" : "m"}">${x.a > 0 ? "+" : ""}${f(x.a)}</b><div><span class="bd wt">DEMO</span></div></div></div>`;
+function wallet() {
+  const L = S.wt === "pay" ? S.tx.filter(x => x.k === "topup") : S.tx, top = sum(S.tx.filter(x => x.k === "topup").map(x => x.a)), sp = sum(S.camps.map(c => c.spent));
+  return `<h1 class="h1">Hamyon</h1><div class="glass hero"><div class="g2c">Joriy balans <span class="chip dm">DEMO</span></div><div class="big"><span class="cn" data-v="${S.bal}">0</span> <small>so‘m</small></div><button class="btn pri w" onclick="topup()">＋ Mablag‘ qo‘shish (DEMO)</button></div>
+ <div class="grid2"><div class="glass stat" style="animation:none"><div class="g">Jami to‘ldirilgan</div><b class="cn" data-v="${top}">0</b><span>so‘m</span></div><div class="glass stat" style="animation:none"><div class="g">Jami sarflangan</div><b class="cn" data-v="${sp}">0</b><span>so‘m</span></div></div>
+ <div class="note wn">To‘lov tizimi demo rejimida: haqiqiy to‘lov amalga oshmaydi va hech qanday pul yechilmaydi.</div>
+ <div class="chips">${[["pay", "To‘lovlar tarixi"], ["all", "Tranzaksiyalar"]].map(([k, n]) => `<button class="${S.wt === k ? "on" : ""}" onclick="S.wt='${k}';render()">${n}</button>`).join("")}</div>
+ <div class="glass">${L.length ? L.map(txRow).join("") : '<div class="empty"><i>🧾</i>Hali amallar yo‘q</div>'}</div>`;
+}
+function topup() {
+  modal(`<h3>Mablag‘ qo‘shish</h3><div class="note wn">DEMO: bu haqiqiy to‘lov emas. Hech qanday pul yechilmaydi.</div>
+  <div class="chips">${[50000, 100000, 250000, 500000].map(v => `<button onclick="$('#ta').value=${v}">${f(v)}</button>`).join("")}</div>
+  <input id="ta" class="inp" inputmode="numeric" placeholder="Summa (so‘m)" aria-label="Summa"><div class="err" id="te"></div>
+  <div class="row"><button class="btn ghost" onclick="closeLy()">Bekor qilish</button><button class="btn pri" id="tb" onclick="doTop()">Demo to‘ldirish</button></div>`);
+}
+async function doTop() {
+  const v = num($("#ta").value);
+  if (!Number.isInteger(v) || v < 1000 || v > 1e8) { $("#te").textContent = "1 000 dan 100 000 000 so‘mgacha butun son kiriting"; hap("error"); return; }
+  const b = $("#tb"); b.disabled = true; b.textContent = "Jarayonda…"; await wait(900);
+  S.bal += v; S.tx.unshift({ d: new Date(), k: "topup", a: v, n: "Demo to‘ldirish" }); closeLy(); render(); hap("ok");
+  toast("DEMO: balansga " + f(v) + " so‘m qo‘shildi (haqiqiy to‘lov emas)");
+}
+function prof() {
+  const w = who(), kv = [["Reklamachi nomi", esc(w.n)], ["Telegram username", w.u ? "@" + esc(w.u) : "—"], ["Telegram ID", esc(w.id) + (w.v ? "" : " (serverda tasdiqlanmagan)")], ["Telefon raqami", "Mavjud emas"],
+    ["Kompaniya nomi", S.company ? esc(S.company) : "Kiritilmagan"], ["Ro‘yxatdan o‘tgan sana", fd(dt(-30)) + " (DEMO)"], ["Hisob holati", SRV.ok ? "Telegram kirishi tasdiqlangan; reklamachi hisobi backendda hali yo‘q" : "Demo hisob"]];
+  const ml = (i, n, fn) => `<div class="ml" onclick="${fn}"><span style="width:26px;text-align:center">${i}</span><span style="flex:1">${n}</span><span class="g">›</span></div>`;
+  return `<div class="glass" style="text-align:center"><div class="av" style="width:84px;height:84px;margin:0 auto 10px;font-size:32px">${avt(w)}</div><h1 class="h1" style="margin:0">${esc(w.n)}</h1><div class="g">${w.u ? "@" + esc(w.u) : ""}</div></div>
+ <div class="glass">${kv.map(([a, b]) => `<div class="kv"><span class="g">${a}</span><b>${b}</b></div>`).join("")}</div>
+ <div class="note ${SRV.ok ? "" : "wn"}">${esc(SRV.msg)}. Ma’lumotlar faqat serverda tasdiqlangandan keyingina ishonchli.</div>
+ <div class="glass" style="padding:2px 16px">${ml("🏢", "Kompaniya nomini o‘zgartirish", "company()")}${ml("⚙️", "Sozlamalar", "settings()")}${ml("❓", "Yordam markazi", "help()")}${ml("🚪", "Chiqish", "logout()")}</div>
+ <div class="g" style="text-align:center">SPAMLESS ADS v${CFG.ver}</div>`;
+}
+function company() { modal(`<h3>Kompaniya nomi</h3><input id="cn" class="inp" maxlength="60" value="${esc(S.company)}" aria-label="Kompaniya nomi"><div class="err" id="ce"></div><div class="g">Demo: serverga saqlanmaydi.</div><div class="row"><button class="btn ghost" onclick="closeLy()">Bekor qilish</button><button class="btn pri" onclick="saveCo()">Saqlash</button></div>`); }
+function saveCo() { const v = $("#cn").value.trim(); if (v.length < 2 || v.length > 60) { $("#ce").textContent = "Nom 2–60 belgi bo‘lishi kerak"; return; } S.company = v; closeLy(); render(); toast("Saqlandi (DEMO, faqat shu sessiyada)"); }
+function settings() {
+  const row = (k, n) => `<div class="ml"><span style="flex:1">${n}</span><button class="sw ${S[k] ? "on" : ""}" aria-label="${n}" onclick="S.${k}=!S.${k};settings()"></button></div>`;
+  modal(`<h3>Sozlamalar</h3>${row("notif", "Bildirishnomalar")}${row("weekly", "Haftalik hisobot")}<p class="g" style="margin:10px 0 14px">Demo: sozlamalar saqlanmaydi va serverga yuborilmaydi.</p><button class="btn w" onclick="closeLy()">Yopish</button>`);
+}
+const help = () => info("Yordam markazi", "Kampaniya yaratish: 7 bosqichli forma → tekshiruv → tasdiqlansa ishga tushadi. Natijalar faqat tasdiqlangan bo‘lsa hisoblanadi. Savollar uchun @" + CFG.support + " ga yozing (demo manzil).");
+function logout() { modal(`<h3>Chiqish</h3><p class="g" style="margin:8px 0 16px">Sessiya yopiladi va ilova yopiladi.</p><div class="row"><button class="btn ghost" onclick="closeLy()">Bekor qilish</button><button class="btn er" onclick="doOut()">Chiqish</button></div>`); }
+function doOut() { try { window.SpamlessApi && SpamlessApi.logout(); } catch (e) {} SRV.ok = false; SRV.user = null; SRV.msg = "Sessiya yopildi"; closeLy(); render(); toast("Sessiya yopildi"); if (tg && tg.close) setTimeout(() => tg.close(), 700); }
+
+/* ===== 8. NAVIGATSIYA ===== */
+const IC = {
+  home: '<path d="M3 11l9-8 9 8v9a1 1 0 01-1 1h-5v-6H9v6H4a1 1 0 01-1-1z"/>',
+  camps: '<path d="M4 6h16M4 12h16M4 18h10"/>',
+  create: '<path d="M12 5v14M5 12h14"/>',
+  wallet: '<path d="M3 7a2 2 0 012-2h14v4M3 7v11a2 2 0 002 2h16V9H5a2 2 0 01-2-2z"/><circle cx="17" cy="14.5" r="1"/>',
+  prof: '<circle cx="12" cy="8" r="4"/><path d="M4 21c.8-4.4 4-6.5 8-6.5s7.2 2.1 8 6.5"/>',
+};
+const NAV = [["home", "Bosh sahifa"], ["camps", "Reklamalar"], ["create", "Yaratish"], ["wallet", "Hamyon"], ["prof", "Profil"]];
+const PG = { home, camps, create, wallet, prof };
+function nav() { $("#nav").innerHTML = NAV.map(([k, n]) => `<button class="${S.tab === k ? "on" : ""} ${k === "create" ? "mid" : ""}" onclick="go('${k}')" aria-label="${n}"><svg viewBox="0 0 24 24">${IC[k]}</svg>${n}</button>`).join(""); }
+function render() { $("#view").innerHTML = hdr() + `<div class="view">${PG[S.tab]()}</div>`; nav(); counters(); }
+function go(k) { S.tab = k; closeLy(); render(); window.scrollTo(0, 0); }
+document.addEventListener("click", e => { if (e.target.closest && e.target.closest("button")) hap(); });
+$("#view").innerHTML = '<div class="sk"></div><div class="sk" style="height:130px"></div><div class="sk"></div>'; nav();
+bootServer().finally(() => setTimeout(render, 350));
+</script>
+</body>
+</html>

@@ -1,0 +1,419 @@
+<!DOCTYPE html>
+<html lang="uz">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover,user-scalable=no">
+<meta name="theme-color" content="#05070B">
+<title>SPAMLESS ADMIN</title>
+<script src="https://telegram.org/js/telegram-web-app.js"></script>
+<script src="../../shared/config.js"></script>
+<style>
+:root{--bg:#05070B;--p:#168BFF;--p2:#0A4FB8;--l:#6CB9FF;--g:#8A94A6;--ok:#34D399;--wt:#FBBF24;--er:#FF5C7A;--bd:rgba(22,139,255,.28)}
+*{box-sizing:border-box;margin:0;-webkit-tap-highlight-color:transparent}
+body{background:var(--bg);color:#fff;font:15px/1.45 system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;overflow-x:hidden}
+body:before,body:after{content:"";position:fixed;width:340px;height:340px;border-radius:50%;filter:blur(90px);pointer-events:none}
+body:before{background:#168BFF;top:-130px;right:-110px;opacity:.35}body:after{background:#0A4FB8;bottom:-150px;left:-130px;opacity:.3}
+#app{position:relative;z-index:1;max-width:560px;margin:0 auto;padding:10px 16px calc(98px + env(safe-area-inset-bottom))}
+.glass{background:linear-gradient(160deg,rgba(255,255,255,.075),rgba(255,255,255,.02));backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px);border:1px solid var(--bd);border-radius:20px;padding:16px;margin-bottom:14px;box-shadow:0 8px 28px rgba(0,0,0,.35),inset 0 1px 0 rgba(255,255,255,.07)}
+.top{display:flex;align-items:center;gap:10px;margin-bottom:14px}
+.logo{font-weight:900;font-size:20px;letter-spacing:1px;background:linear-gradient(90deg,#fff,var(--l) 50%,var(--p));-webkit-background-clip:text;background-clip:text;color:transparent;filter:drop-shadow(0 0 10px rgba(22,139,255,.7))}
+.tag{font-size:10px;font-weight:800;color:#05070B;background:var(--p);border-radius:6px;padding:1px 6px;margin-left:6px;-webkit-text-fill-color:#05070B}
+.sp{flex:1}.g{color:var(--g);font-size:13px}
+.chip{font-size:11px;background:rgba(0,0,0,.45);border:1px solid var(--bd);border-radius:10px;padding:3px 9px;white-space:nowrap}.dm{color:var(--wt);border-color:rgba(251,191,36,.4)}
+.av{width:42px;height:42px;border-radius:50%;border:2px solid var(--p);background:#0b1426;display:grid;place-items:center;font-weight:800;overflow:hidden;flex:none;box-shadow:0 0 14px rgba(22,139,255,.55)}.av img{width:100%;height:100%;object-fit:cover}
+.h1{font-size:22px;margin-bottom:12px}h2{font-size:15px;margin:18px 0 10px}
+.greet{display:flex;align-items:center;gap:12px;justify-content:space-between}
+.hero{background:linear-gradient(135deg,rgba(10,79,184,.7),rgba(22,139,255,.35));border-color:rgba(108,185,255,.5);box-shadow:0 0 34px rgba(22,139,255,.35)}
+.g2c{display:flex;align-items:center;gap:8px;color:#cfe4ff;font-size:13px}.big{font-size:36px;font-weight:900;letter-spacing:-1px;margin:4px 0 12px}.big small{font-size:15px;font-weight:700}
+.grid2{display:grid;grid-template-columns:1fr 1fr;gap:12px}.stat{margin:0 0 12px;animation:pop .5s both}.stat b{font-size:22px;display:inline-block;margin-right:4px}.stat span{font-size:12px;color:var(--g)}
+@keyframes pop{from{opacity:0;transform:translateY(14px) scale(.96)}}
+.btn{border:0;border-radius:14px;padding:12px 16px;min-height:46px;font:700 14px inherit;font-family:inherit;color:#fff;background:linear-gradient(135deg,var(--p),#3aa0ff);cursor:pointer;box-shadow:0 4px 18px rgba(22,139,255,.45);transition:transform .12s,box-shadow .2s,opacity .2s;flex:1}
+.btn:active{transform:scale(.95);box-shadow:0 0 28px rgba(22,139,255,.8)}.btn.ghost{background:rgba(255,255,255,.07);box-shadow:none;border:1px solid var(--bd)}.btn.pri{background:linear-gradient(135deg,#2da0ff,#168BFF 55%,#0A6FE0)}
+.btn.w{width:100%;flex:none}.btn.lg{min-height:54px;font-size:16px;margin-bottom:6px}.btn[disabled]{opacity:.4;pointer-events:none}.btn.er{background:rgba(255,92,122,.15);color:var(--er);border:1px solid rgba(255,92,122,.4);box-shadow:none}
+.row{display:flex;gap:10px;margin-top:12px}.item{display:flex;align-items:center;gap:12px}
+.note{background:rgba(22,139,255,.1);border:1px solid var(--bd);border-radius:14px;padding:11px 13px;font-size:13px;color:#cfe4ff;margin:10px 0}.note.wn{background:rgba(251,191,36,.08);border-color:rgba(251,191,36,.35);color:#fde9a8}.note.rj{background:rgba(255,92,122,.08);border-color:rgba(255,92,122,.4);color:#ffc2cd}
+.chips{display:flex;gap:8px;overflow-x:auto;margin-bottom:12px;padding-bottom:2px;scrollbar-width:none}.chips::-webkit-scrollbar{display:none}
+.chips button{flex:none;background:rgba(255,255,255,.06);border:1px solid var(--bd);color:var(--g);font:600 13px inherit;font-family:inherit;border-radius:20px;padding:8px 14px;cursor:pointer;transition:all .2s}.chips .on{background:var(--p);color:#fff;box-shadow:0 0 16px rgba(22,139,255,.6)}
+.cc{cursor:pointer;transition:transform .15s,border-color .2s}.cc:active{transform:scale(.98);border-color:var(--l)}
+.ic{width:44px;height:44px;border-radius:14px;background:rgba(22,139,255,.15);border:1px solid var(--bd);display:grid;place-items:center;font-size:21px;flex:none}
+.ell{display:block;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.bar{height:6px;border-radius:6px;background:rgba(255,255,255,.1);overflow:hidden;margin:12px 0 8px}.bar b{display:block;height:100%;background:linear-gradient(90deg,var(--p),var(--l));border-radius:6px;box-shadow:0 0 10px var(--p);animation:gw .8s both}@keyframes gw{from{width:0!important}}
+.g2{display:flex;justify-content:space-between;gap:8px;font-size:12px;color:var(--g)}.g2 b{color:#fff}
+.bd{font-size:11px;font-weight:700;padding:3px 10px;border-radius:20px;white-space:nowrap}.bd.ok{background:rgba(52,211,153,.15);color:var(--ok)}.bd.wt{background:rgba(251,191,36,.15);color:var(--wt)}.bd.gr{background:rgba(138,148,166,.18);color:#c3cad6}.bd.bl{background:rgba(22,139,255,.2);color:var(--l)}.bd.er{background:rgba(255,92,122,.15);color:var(--er)}
+.chart{width:100%;height:auto;display:block}.bar-r{transform-origin:bottom;transform-box:fill-box;animation:grow .7s both}@keyframes grow{from{transform:scaleY(0)}}
+.steps{display:flex;gap:5px}.steps i{flex:1;height:5px;border-radius:5px;background:rgba(255,255,255,.1);transition:background .3s}.steps .d{background:var(--p)}.steps .c{background:var(--l);box-shadow:0 0 10px var(--p)}
+.tg{display:grid;grid-template-columns:1fr 1fr;gap:10px}.tc{background:rgba(255,255,255,.05);border:1px solid var(--bd);border-radius:16px;padding:14px 8px;color:#fff;font:600 13px inherit;font-family:inherit;cursor:pointer;display:grid;gap:6px;justify-items:center;transition:all .2s}.tc span{font-size:26px}.tc.on{background:rgba(22,139,255,.25);border-color:var(--l);box-shadow:0 0 20px rgba(22,139,255,.5)}
+.lb{display:block;font-size:13px;color:var(--g);margin:2px 0 6px}.inp{width:100%;background:rgba(0,0,0,.4);border:1px solid var(--bd);border-radius:12px;color:#fff;font:600 16px inherit;font-family:inherit;padding:12px;min-height:48px;margin-bottom:6px;outline:0;transition:border-color .2s,box-shadow .2s}.inp:focus{border-color:var(--l);box-shadow:0 0 14px rgba(22,139,255,.45)}.ta{min-height:110px;resize:vertical}
+.err{color:var(--er);font-size:13px;margin:2px 0 8px}.err a{color:var(--l);text-decoration:underline;cursor:pointer}.hint{margin-bottom:8px;font-size:12px}
+.sum .item{justify-content:space-between;padding:7px 0;border-bottom:1px solid rgba(255,255,255,.06);align-items:flex-start}.sum b{text-align:right;word-break:break-word;max-width:62%;font-size:14px}.sum .g{flex:none}
+.chk{display:flex;gap:10px;align-items:flex-start;font-size:13px;margin:12px 0 6px}.chk input{width:20px;height:20px;accent-color:var(--p);flex:none}
+.tr{display:flex;align-items:center;gap:12px;padding:10px 0;border-bottom:1px solid rgba(255,255,255,.06)}.tr:last-child{border:0}.tr b.p{color:var(--ok)}.tr b.m{color:var(--er)}
+.kv{display:flex;justify-content:space-between;gap:12px;padding:9px 0;border-bottom:1px solid rgba(255,255,255,.06);font-size:14px}.kv:last-child{border:0}.kv b{text-align:right;word-break:break-word}
+.ml{display:flex;align-items:center;gap:12px;padding:14px 0;border-top:1px solid rgba(255,255,255,.07);cursor:pointer}.ml:first-child{border:0}
+.sw{width:46px;height:26px;border-radius:20px;background:#2a3550;position:relative;border:0;flex:none;cursor:pointer;transition:background .2s}.sw:after{content:"";position:absolute;top:3px;left:3px;width:20px;height:20px;border-radius:50%;background:#fff;transition:transform .2s}.sw.on{background:var(--p);box-shadow:0 0 12px var(--p)}.sw.on:after{transform:translateX(20px)}
+nav{position:fixed;left:0;right:0;bottom:0;z-index:5;background:rgba(5,7,11,.88);backdrop-filter:blur(16px);-webkit-backdrop-filter:blur(16px);border-top:1px solid var(--bd);padding:6px 6px calc(6px + env(safe-area-inset-bottom))}nav div{max-width:560px;margin:0 auto;display:flex}
+nav button{flex:1;background:none;border:0;color:var(--g);font:600 10px inherit;font-family:inherit;display:grid;justify-items:center;gap:3px;padding:6px 2px;min-height:52px;border-radius:14px;cursor:pointer;transition:all .2s}nav .on{color:var(--l);background:rgba(22,139,255,.18);box-shadow:0 0 16px rgba(22,139,255,.5)}
+nav svg{width:22px;height:22px;fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}nav .mid svg{width:26px;height:26px;background:linear-gradient(135deg,var(--p),#3aa0ff);color:#fff;border-radius:10px;padding:3px;box-shadow:0 0 16px rgba(22,139,255,.8)}
+.sub{position:fixed;inset:0;z-index:8;background:var(--bg);overflow:auto;padding:10px 16px 40px;animation:up .28s}.sub>div{max-width:560px;margin:0 auto}.back{background:none;border:0;color:var(--l);font:700 15px inherit;font-family:inherit;padding:10px 0;cursor:pointer}
+.ov{position:fixed;inset:0;z-index:20;background:rgba(0,0,0,.72);display:grid;align-items:end;animation:fd .2s}.ov .bx{max-width:560px;width:100%;margin:0 auto;background:#0a1020;border-radius:24px 24px 0 0;padding:22px 18px calc(22px + env(safe-area-inset-bottom));border:1px solid var(--bd);animation:up .28s;max-height:88vh;overflow:auto}.ov h3{margin-bottom:8px}
+#toast{position:fixed;top:12px;left:50%;transform:translate(-50%,-140px);z-index:60;background:#0d1a33;border:1px solid var(--bd);border-left:4px solid var(--ok);padding:11px 16px;border-radius:14px;max-width:90%;font-size:14px;transition:transform .3s;box-shadow:0 8px 24px rgba(0,0,0,.5)}#toast.show{transform:translate(-50%,0)}#toast.er{border-left-color:var(--er)}
+.view{animation:up .32s}@keyframes up{from{opacity:0;transform:translateY(14px)}}@keyframes fd{from{opacity:0}}
+.sk{height:92px;border-radius:20px;margin-bottom:14px;background:linear-gradient(90deg,#0b1426 30%,#16284a 50%,#0b1426 70%);background-size:300% 100%;animation:sk 1.2s infinite}@keyframes sk{to{background-position:-100% 0}}
+.empty{text-align:center;padding:30px 10px;color:var(--g)}.empty i{font-style:normal;font-size:34px;display:block}
+button:focus-visible,a:focus-visible,input:focus-visible{outline:2px solid var(--l);outline-offset:2px}
+@media(prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
+/* ===== ADMIN qo‘shimchalari (asosiy uslub ADS bilan bir xil) ===== */
+.dmb{margin:0 0 12px;font-size:12px}
+.av.sm{width:38px;height:38px;font-size:15px;box-shadow:none;flex:none}
+.bd.pu{background:rgba(167,139,250,.18);color:#c4b5fd}
+.dot{display:inline-block;width:9px;height:9px;border-radius:50%;margin-right:8px;background:#566074}.dot.ok{background:var(--ok);box-shadow:0 0 8px var(--ok)}.dot.er{background:var(--er);box-shadow:0 0 8px var(--er)}
+.ln{stroke-dasharray:700;stroke-dashoffset:700;animation:dr 1.3s .2s forwards}@keyframes dr{to{stroke-dashoffset:0}}
+select.inp{appearance:none;-webkit-appearance:none}
+.sub .glass.item{margin-bottom:14px}
+@media(prefers-reduced-motion:reduce){.ln{stroke-dashoffset:0!important}}
+</style>
+</head>
+<body>
+<div id="app"><div id="view"></div></div>
+<nav><div id="nav"></div></nav>
+<div id="toast"></div>
+<div id="ly"></div>
+<div id="md"></div>
+<script>
+"use strict";
+/* SPAMLESS ADMIN — administrator Mini App frontendi (yagona fayl).
+   Bo‘limlar: 1 Sozlama · 2 Demo ma’lumot (ro‘yxatlardan hisoblanadi) · 3 Yordamchilar · 4 Server va kirish ·
+   5 Dashboard · 6 Foydalanuvchilar va murojaatlar · 7 Reklamalar va reklamachilar · 8 Moliya ·
+   9 Sozlamalar va audit · 10 Navigatsiya
+   Backendda hozir FAQAT: GET /api/health, POST /api/auth/telegram, GET /api/me, GET /api/admin/ping.
+   Admin ma’lumot va amal endpointlari YO‘Q: barcha ro‘yxat, amal va audit yozuvlari DEMO (xotirada, serverga ketmaydi).
+   Admin huquqini faqat backend tekshiradi; bu fayldagi kirish ekrani (gate) xavfsizlik chorasi emas. */
+
+/* ===== 1. SOZLAMALAR ===== */
+const tg = window.Telegram && Telegram.WebApp;
+if (tg) { tg.ready(); tg.expand(); try { tg.setHeaderColor("#05070B"); tg.setBackgroundColor("#05070B"); } catch (e) {} }
+const TYPES = {
+  sub: { n: "Kanalga obuna", ic: "📢", chk: "Obuna Bot API orqali tekshiriladi (bot kanalda admin bo‘lishi kerak)." },
+  bot: { n: "Botni ishga tushirish", ic: "🤖", chk: "Birinchi /start backendda tekshiriladi." },
+  app: { n: "Ilovani o‘rnatish", ic: "📱", chk: "Faqat ishonchli install-attribution orqali tasdiqlanadi." },
+  video: { n: "Video ko‘rish", ic: "🎬", chk: "Video to‘liq ko‘rilgani backendda tasdiqlanadi." },
+  link: { n: "Havolaga o‘tish", ic: "🔗", chk: "Bosish tasdiqlangan natija emas, faqat statistika." },
+};
+const CST = { rev: ["Tekshiruvda", "wt"], apr: ["Tasdiqlangan", "pu"], act: ["Faol", "ok"], pau: ["To‘xtatilgan", "gr"], end: ["Yakunlangan", "bl"], rej: ["Rad etilgan", "er"] };
+const UST = { act: ["Faol", "ok"], blk: ["Bloklangan", "er"] }, AST = { act: ["Faol", "ok"], chk: ["Tekshiruvda", "wt"] };
+const TST = { new: ["Yangi", "bl"], rev: ["Ko‘rib chiqilmoqda", "wt"], ans: ["Javob berilgan", "ok"], cls: ["Yopilgan", "gr"] };
+const TXST = { ok: ["Bajarilgan", "ok"], wt: ["Kutilmoqda", "wt"], er: ["Xato", "er"] };
+const TT = { topup: ["Reklamachi mablag‘ kiritdi", "so‘m"], reserve: ["Kampaniyaga budjet ajratildi", "so‘m"], spend: ["Reklamaga sarflandi", "so‘m"], award: ["Foydalanuvchiga ball berildi", "ball"], prem: ["Premium to‘lovi", "so‘m"], refund: ["To‘lov qaytarildi", "so‘m"], cost: ["Platforma xarajati", "so‘m"] };
+const CHK = ["Havola xavfsiz va ishlaydi (zararli/fishing emas)", "Mazmun platforma qoidalariga mos", "Telegram va reklama provayderi qoidalari buzilmagan", "Natija turi to‘g‘ri tanlangan va tekshirib bo‘ladi"];
+const AUDT = [["login", "Kirish tarixi"], ["admin", "Admin amallari"], ["block", "Bloklash"], ["ad", "Reklama qarorlari"], ["susp", "Shubhali faoliyat"], ["sys", "Tizim hodisalari"]];
+const SETS = {
+  gen: { t: "Umumiy sozlamalar", f: [["Platforma nomi", "text", "SPAMLESS"], ["Texnik ish rejimi", "tog", false], ["Qo‘llab-quvvatlash username", "text", "spamless_support"]] },
+  bon: { t: "Bonuslar va ballar qoidalari", f: [["Kunlik kirish (ball)", "num", 10], ["Kanalga obuna (ball)", "num", 100], ["Botni ishga tushirish (ball)", "num", 80], ["Ilova o‘rnatish (ball)", "num", 400], ["1000 ball Premium chegirmasi (so‘m)", "num", 500]] },
+  ref: { t: "Referal tizimi", f: [["Referal mukofoti (ball)", "num", 100], ["Talab qilinadigan faoliyat", "text", "Birinchi vazifani bajarish"], ["Bir foydalanuvchi faqat bir marta hisoblanadi", "tog", true]] },
+  typ: { t: "Reklama turlari", f: Object.values(TYPES).map(t => [t.n, "tog", true]) },
+  bud: { t: "Minimal reklama budjeti", f: [["Minimal budjet (so‘m)", "num", 10000], ["Minimal natijalar soni", "num", 10]] },
+  rul: { t: "Platforma qoidalari", f: [["Reklama qoidalari matni", "ta", "Zararli, aldamchi yoki qonunga zid reklamalar taqiqlanadi. (DEMO matn)"]] },
+  not: { t: "Bildirishnomalar", f: [["Yangi reklama tekshiruvga tushganda", "tog", true], ["Yangi murojaat kelganda", "tog", true], ["Shubhali faoliyat aniqlanganda", "tog", true]] },
+};
+
+/* ===== 2. DEMO MA’LUMOT (backend ulanmagan; hamma ko‘rsatkich shu ro‘yxatlardan hisoblanadi) ===== */
+const D0 = new Date(), dt = o => { const d = new Date(D0); d.setDate(d.getDate() + o); return d; };
+const fd = d => d.toLocaleDateString("ru-RU"), ft = d => d.toLocaleTimeString("ru-RU", { hour: "2-digit", minute: "2-digit" });
+const FN = ["Aziz", "Dilnoza", "Jasur", "Madina", "Sardor", "Laylo", "Bekzod", "Nigora", "Otabek", "Malika", "Rustam", "Zilola"];
+const SN = ["Karimov", "Yusupova", "Toshmatov", "Rahimova", "Aliyev", "Qodirova", "Nazarov", "Ismoilova"];
+const USERS = Array.from({ length: 48 }, (_, i) => ({ id: i + 1, n: FN[i % 12] + " " + SN[(i * 5 + 1) % 8], u: FN[i % 12].toLowerCase() + "_" + (100 + i * 7), tg: 5120000000 + i * 7919, reg: -((i * 13) % 29), pts: (i * 977) % 5000, ref: (i * 3) % 11, last: -((i * 5) % 20), pr: i % 9 === 0 ? 30 - i % 7 : 0, st: i % 11 === 5 ? "blk" : "act", why: "", until: "" }));
+USERS.filter(u => u.st === "blk").forEach(u => { u.why = "Spam shikoyatlari (DEMO)"; u.until = "7 kun"; });
+const ADVS = [["Texno Media", "Texno LLC"], ["Quiz Studio", "Quiz Games"], ["FitTrack", "FitTrack Inc"], ["VideoLab", "VideoLab MChJ"], ["Kurs Uz", "Kurs Online"], ["Kripto Guruh", "—"], ["Market Plus", "Market Plus"], ["Edu Center", "Edu Center"]]
+  .map((a, i) => ({ id: i + 1, n: a[0], co: a[1], tg: 6100000000 + i * 104729, st: i === 5 ? "chk" : "act", why: i === 5 ? "Shubhali kanal mazmuni (DEMO)" : "" }));
+const CT = [[1, "Texno kanal — obunachilar", "sub", "act", 500000, 312000, 1000, -9, 60], [2, "Quiz Bot ishga tushirish", "bot", "act", 300000, 198400, 1500, -7, 55], [3, "FitTrack ilovasi", "app", "rev", 800000, 0, 500, -1, 0],
+  [4, "Mahsulot taqdimoti (video)", "video", "pau", 400000, 66000, 2000, -5, 40], [5, "Onlayn kurs — landing", "link", "end", 200000, 168000, 5000, -20, 120], [6, "Kripto signal kanali", "sub", "rej", 300000, 0, 800, -2, 0],
+  [7, "Market chegirmalari", "link", "rev", 150000, 0, 3000, 0, 0], [8, "Ingliz tili kursi", "sub", "apr", 250000, 0, 600, -1, 0], [1, "Texno yangiliklar boti", "bot", "rev", 180000, 0, 900, 0, 0],
+  [8, "Til o‘rganish ilovasi", "app", "act", 600000, 120000, 400, -6, 30], [4, "Reklama roligi 30s", "video", "act", 350000, 90000, 1500, -4, 50], [7, "Bahorgi aksiya", "link", "end", 100000, 100000, 2500, -25, 90]];
+const CAMPS = CT.map((c, i) => ({ id: i + 1, adv: c[0], name: c[1], type: c[2], st: c[3], budget: c[4], spent: c[5], target: c[6], cr: c[7], url: "https://example.com/r" + (i + 1), desc: "Demo tavsif: " + c[1],
+  reason: c[3] === "rej" ? "Kanal mazmuni platforma qoidalariga mos kelmadi (DEMO)." : "", dv: Array.from({ length: 7 }, (_, k) => ["act", "pau", "end"].includes(c[3]) ? Math.round(c[8] * (8 + k * 2 + i % 3)) : 0) }));
+const okOf = c => c.type === "link" ? [0, 0, 0, 0, 0, 0, 0] : c.dv.map(v => Math.round(v * .07));
+const TXK = Object.keys(TT);
+const TXS = Array.from({ length: 32 }, (_, i) => { const k = TXK[(i * 3 + i % 4) % 7], user = k === "award" || k === "prem" || k === "refund";
+  return { id: "TX-" + (20400 + i * 17), k, who: k === "cost" ? "Platforma" : user ? USERS[(i * 5) % 48].n : ADVS[i % 8].n, a: { topup: 250000 + (i % 5) * 100000, reserve: 150000 + (i % 4) * 100000, spend: 20000 + (i % 6) * 15000, award: 50 + (i * 13) % 400, prem: 50000, refund: 50000, cost: 30000 + (i % 3) * 20000 }[k], o: -(i % 14), st: i % 13 === 7 ? "wt" : i % 17 === 5 ? "er" : "ok" }; })
+  .map(t => ({ ...t, d: dt(t.o) })).sort((a, b) => b.d - a.d || (a.id < b.id ? 1 : -1));
+const TK = [["u", 3, "Ball hisobga tushmadi", "Video ko‘rdim, lekin ball qo‘shilmadi.", -1, "new"], ["a", 2, "Kampaniya tekshiruvi kechikmoqda", "Kampaniyam 2 kundan beri tekshiruvda.", -2, "rev"], ["u", 8, "Premium to‘lovi", "To‘lov qildim, Premium yoqilmadi.", -3, "ans"],
+  ["u", 12, "Hisobim bloklandi", "Sababini bilmoqchiman.", -4, "new"], ["a", 5, "Budjetni qaytarish", "Rad etilgan kampaniya budjeti qaytarilsinmi?", -5, "cls"], ["u", 20, "Referal mukofoti", "Do‘stim kirdi, mukofot yo‘q.", -1, "new"]]
+  .map((t, i) => ({ id: "T-" + (1001 + i), ft: t[0], fid: t[1], sub: t[2], msg: t[3], d: dt(t[4]), st: t[5], rep: [] }));
+const AUDS = [["login", "Tizimga kirish (DEMO)", "—", "—", 2], ["login", "Tizimga kirish (DEMO)", "—", "—", 30], ["block", "Hisob vaqtincha cheklandi", "Foydalanuvchi #6", "Spam shikoyatlari", 50], ["ad", "Reklama rad etildi", "Kripto signal kanali", "Kanal mazmuni qoidalarga mos emas", 60],
+  ["ad", "Reklama tasdiqlandi", "Texno kanal — obunachilar", "Qoidalarga mos", 200], ["susp", "Reklamachi tekshiruvga yuborildi", "Kripto Guruh", "Shubhali kanal mazmuni", 70], ["sys", "Tizim hodisasi: server qayta ishga tushdi", "API", "—", 100], ["admin", "Sozlama o‘zgartirildi", "Minimal budjet", "Bozor tahlili", 150]]
+  .map(a => ({ t: new Date(Date.now() - a[4] * 3600e3), w: "demo_admin", cat: a[0], act: a[1], tgt: a[2], why: a[3] }));
+const S = { tab: "dash", ut: "u", at: "c", demo: false, ulim: 20, uq: "", ufl: "all", cq: "", cfl: "all", tf: "all", fq: "", ftp: "all", chart: "dv", atab: "login", chk: {}, dr: null, aud: AUDS,
+  set: Object.fromEntries(Object.entries(SETS).map(([k, v]) => [k, v.f.map(x => x[2])])) };
+
+/* ===== 3. YORDAMCHILAR ===== */
+const $ = s => document.querySelector(s), f = n => Number(n).toLocaleString("ru-RU").replace(/[\u00a0\u202f]/g, " "), sum = a => a.reduce((x, y) => x + y, 0);
+const esc = s => String(s).replace(/[&<>"']/g, c => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[c]));
+const bd = (m, k) => `<span class="bd ${m[k][1]}">${m[k][0]}</span>`, DEMOB = '<span class="bd wt">DEMO</span>';
+const hap = t => { try { const h = tg && tg.HapticFeedback; if (!h) return; t === "error" ? h.notificationOccurred("error") : t === "ok" ? h.notificationOccurred("success") : h.impactOccurred("light"); } catch (e) {} };
+function toast(m, e) { const x = $("#toast"); x.textContent = m; x.className = "show" + (e ? " er" : ""); clearTimeout(toast.h); toast.h = setTimeout(() => x.className = "", 3200); }
+const ly = h => $("#ly").innerHTML = h, closeLy = () => ly(""), md = h => $("#md").innerHTML = h, closeMd = () => md("");
+function sub(title, h) { ly(`<div class="sub"><div><button class="back" onclick="closeLy();render()">‹ Orqaga</button><h1 class="h1">${title}</h1>${h}</div></div>`); }
+function modal(h) { md(`<div class="ov" onclick="if(event.target===this)closeMd()"><div class="bx">${h}</div></div>`); }
+function info(a, b) { modal(`<h3>${a}</h3><p class="g" style="margin:8px 0 16px">${b}</p><button class="btn w" onclick="closeMd()">Yopish</button>`); }
+let CB = null;
+function confirmAct(o) {
+  CB = o;
+  modal(`<h3>${o.title}</h3><p class="g" style="margin:6px 0 12px">${o.text}</p>${o.extra || ""}${o.reason === false ? "" : '<label class="lb">Sabab (majburiy, kamida 5 belgi)</label><textarea id="rs" class="inp ta" style="min-height:80px" maxlength="300"></textarea>'}
+  <div class="err" id="ce"></div><div class="note wn">DEMO: amal serverga yuborilmaydi, audit yozuvi faqat shu sessiyada saqlanadi.</div>
+  <div class="row"><button class="btn ghost" onclick="closeMd()">Bekor qilish</button><button class="btn ${o.danger ? "er" : "pri"}" onclick="runConfirm()">${o.ok || "Tasdiqlash"}</button></div>`);
+}
+function runConfirm() {
+  const o = CB, r = o.reason === false ? "—" : ($("#rs").value || "").trim();
+  if (o.reason !== false && r.length < 5) { $("#ce").textContent = "Sabab kamida 5 belgi bo‘lishi kerak"; hap("error"); return; }
+  const x = o.read ? o.read() : null; closeMd(); o.run(r, x); hap("ok");
+}
+function audit(cat, act, tgt, why) { S.aud.unshift({ t: new Date(), w: who().u || who().n, cat, act, tgt, why }); }
+function counters() {
+  const still = matchMedia("(prefers-reduced-motion:reduce)").matches;
+  document.querySelectorAll(".cn").forEach(el => { const to = +el.dataset.v; if (still) { el.textContent = f(to); return; } const t0 = performance.now();
+    (function s(n) { const p = Math.min((n - t0) / 900, 1); el.textContent = f(Math.round(to * (1 - Math.pow(1 - p, 3)))); if (p < 1) requestAnimationFrame(s); })(t0); });
+}
+function chart(vals, labels) {
+  const mx = Math.max(...vals, 1), Wd = 300, H = 100, bw = Math.min(26, 200 / vals.length), gap = (Wd - vals.length * bw) / (vals.length + 1);
+  return `<svg class="chart" viewBox="0 0 ${Wd} ${H + 24}" role="img" aria-label="Grafik"><defs><linearGradient id="cg" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#6CB9FF"/><stop offset="1" stop-color="#168BFF" stop-opacity=".45"/></linearGradient></defs>${vals.map((v, i) => {
+    const h = Math.max(v / mx * H, 2), x = gap + i * (bw + gap);
+    return `<g><rect class="bar-r" style="animation-delay:${i * 50}ms" x="${x}" y="${H - h}" width="${bw}" height="${h}" rx="5" fill="url(#cg)"/><text x="${x + bw / 2}" y="${H - h - 4}" text-anchor="middle" fill="#fff" font-size="8">${f(v)}</text><text x="${x + bw / 2}" y="${H + 14}" text-anchor="middle" fill="#8A94A6" font-size="9">${labels[i]}</text></g>`;
+  }).join("")}</svg>`;
+}
+function line(vals, labels) {
+  const Wd = 300, H = 90, mx = Math.max(...vals, 1), st = Wd / (vals.length - 1), P = vals.map((v, i) => [i * st, H - v / mx * H + 6]);
+  const d = P.map((p, i) => (i ? "L" : "M") + p[0].toFixed(1) + " " + p[1].toFixed(1)).join(" ");
+  return `<svg class="chart" viewBox="0 0 ${Wd} ${H + 28}" role="img" aria-label="Chiziqli grafik"><defs><linearGradient id="lg" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#168BFF" stop-opacity=".4"/><stop offset="1" stop-color="#168BFF" stop-opacity="0"/></linearGradient></defs><path d="${d} L${Wd} ${H + 6} L0 ${H + 6} Z" fill="url(#lg)"/><path class="ln" d="${d}" fill="none" stroke="#6CB9FF" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>${P.map(p => `<circle cx="${p[0].toFixed(1)}" cy="${p[1].toFixed(1)}" r="2.5" fill="#fff"/>`).join("")}${labels.map((l, i) => i % 2 === 0 ? `<text x="${(i * st).toFixed(1)}" y="${H + 22}" text-anchor="middle" fill="#8A94A6" font-size="9">${l}</text>` : "").join("")}</svg>`;
+}
+const DAYS = () => [-6, -5, -4, -3, -2, -1, 0].map(o => ["Ya", "Du", "Se", "Ch", "Pa", "Ju", "Sh"][dt(o).getDay()]);
+const chips = (list, cur, fn) => `<div class="chips">${list.map(([k, n]) => `<button class="${cur === k ? "on" : ""}" onclick="${fn}('${k}')">${n}</button>`).join("")}</div>`;
+const kv = rows => `<div class="glass">${rows.map(([a, b]) => `<div class="kv"><span class="g">${a}</span><b>${b}</b></div>`).join("")}</div>`;
+const empty = (i, t) => `<div class="empty"><i>${i}</i>${t}</div>`;
+
+/* ===== 4. SERVER VA KIRISH =====
+   Admin huquqi FAQAT backendda tekshiriladi (initData imzosi + ADMIN_IDS). Ekrandagi gate faqat qulaylik. */
+const SRV = { st: "check", msg: "Tekshirilmoqda…", user: null, health: null };
+async function boot() {
+  if (!window.SpamlessApi) { SRV.st = "proto"; SRV.msg = "Server moduli yuklanmadi (prototip rejimi)"; return; }
+  try { SRV.health = await SpamlessApi.health(); } catch (e) { SRV.st = "proto"; SRV.msg = e.message; return; }
+  if (!(tg && tg.initData)) { SRV.st = "notg"; SRV.msg = "Admin panel faqat Telegram Mini App ichida ochiladi"; return; }
+  try { SRV.user = (await SpamlessApi.auth(tg.initData)).user; } catch (e) { SRV.st = "denied"; SRV.msg = e.message; return; }
+  try { await SpamlessApi.adminPing(); SRV.st = "ok"; SRV.msg = "Admin huquqi serverda tasdiqlandi"; }
+  catch (e) { SRV.st = "denied"; SRV.msg = e.status === 403 ? "Sizda admin huquqi yo‘q" : e.message; }
+}
+function who() {
+  if (SRV.user) return { n: SRV.user.first_name || "Admin", u: SRV.user.username, id: SRV.user.telegram_id, v: SRV.st === "ok" };
+  const u = tg && tg.initDataUnsafe && tg.initDataUnsafe.user; // tasdiqlanmagan
+  return u ? { n: u.first_name || "Admin", u: u.username, id: u.id, v: false } : { n: "demo_admin", u: "demo_admin", id: "—", v: false };
+}
+function gate() {
+  const can = SRV.st === "proto" || SRV.st === "notg", den = SRV.st === "denied";
+  $("nav").style.display = "none";
+  $("#view").innerHTML = `<div class="top"><div class="logo">SPAMLESS<span class="tag">ADMIN</span></div></div><div class="glass" style="text-align:center;padding:26px 18px"><div style="font-size:40px">${den ? "⛔" : "🔐"}</div><h1 class="h1" style="margin:8px 0">${den ? "Ruxsat yo‘q" : "Admin panel"}</h1><p class="g" style="margin-bottom:14px">${esc(SRV.msg)}</p>
+  ${can ? `<div class="note wn" style="text-align:left">Demo panelni ochsangiz faqat interfeys namoyishi ko‘rinadi: ma’lumotlar soxta, admin huquqi tekshirilmagan va hech qanday amal serverga yuborilmaydi.</div><button class="btn pri w" onclick="S.demo=true;render()">Demo panelni ochish</button>` : `<button class="btn ghost w" onclick="location.reload()">Qayta urinish</button>`}</div>`;
+}
+const hdr = () => `<div class="top"><div class="logo">SPAMLESS<span class="tag">ADMIN</span></div><span class="sp"></span>${SRV.st === "ok" ? '<span class="chip" style="color:var(--ok)">SERVER: ADMIN ✓</span>' : '<span class="chip dm">PROTOTIP</span>'}<div class="av">${esc(who().n[0])}</div></div>
+  <div class="note wn dmb">${SRV.st === "ok" ? "Admin huquqi tasdiqlangan, lekin admin ma’lumot endpointlari yo‘q: ma’lumotlar va amallar DEMO." : "PROTOTIP: admin huquqi tekshirilmagan. Ma’lumotlar va amallar DEMO."}</div>`;
+
+/* ===== 5. DASHBOARD ===== */
+const dayCount = o => USERS.filter(u => u.reg === o).length, rangeCount = (a, b) => USERS.filter(u => u.reg >= a && u.reg <= b).length;
+function chSet(k) { S.chart = k; render(); }
+function dash() {
+  const today = dayCount(0), actv = USERS.filter(u => u.st === "act" && u.last >= -7).length, pend = CAMPS.filter(c => c.st === "rev").length;
+  const grp = (t, items) => `<h2>${t}</h2><div class="grid2">${items.map(([a, v, u], i) => `<div class="glass stat" style="animation-delay:${i * 60}ms"><div class="g">${a}</div><b class="cn" data-v="${v}">0</b><span>${u}</span></div>`).join("")}</div>`;
+  const d14 = Array.from({ length: 14 }, (_, i) => dayCount(i - 13)), l14 = Array.from({ length: 14 }, (_, i) => dt(i - 13).getDate());
+  const wk = [[-27, -21], [-20, -14], [-13, -7], [-6, 0]].map(r => rangeCount(r[0], r[1]));
+  const act7 = [0, 1, 2, 3, 4, 5, 6].map(i => sum(CAMPS.map(c => S.chart === "dv" ? c.dv[i] : okOf(c)[i])));
+  const recU = [...USERS].sort((a, b) => b.reg - a.reg || b.id - a.id).slice(0, 5), recC = [...CAMPS].sort((a, b) => b.cr - a.cr || b.id - a.id).slice(0, 4);
+  const h = SRV.health, sy = [["API server", h ? "ok" : "nc", h ? "ishlayapti" : "ulanmagan"], ["Baza", h ? (h.db === "ok" ? "ok" : "er") : "nc", h ? h.db : "ulanmagan"], ["Telegram bot", "nc", "tekshirilmaydi (endpoint yo‘q)"], ["To‘lov provayderi", "nc", "ulanmagan"], ["Reklama provayderi", "nc", "ulanmagan"]];
+  return `<div class="glass greet"><div><div class="g">Boshqaruv paneli</div><h1 class="h1" style="margin:0">${esc(who().n)}</h1></div><span class="bd ok">Administrator</span></div>
+  ${grp("Foydalanuvchilar", [["Jami foydalanuvchilar", USERS.length, ""], ["Bugun ro‘yxatdan o‘tganlar", today, ""], ["Faol foydalanuvchilar", actv, "oxirgi 7 kun"]])}
+  ${grp("Reklama", [["Jami reklamachilar", ADVS.length, ""], ["Faol kampaniyalar", CAMPS.filter(c => c.st === "act").length, ""], ["Tekshiruv kutayotgan", pend, "reklama"], ["Jami reklama ko‘rishlari", sum(CAMPS.map(c => sum(c.dv))), ""], ["Tasdiqlangan vazifalar", sum(CAMPS.map(c => sum(okOf(c)))), "link bosishlari kirmaydi"]])}
+  ${grp("Majburiyatlar va budjetlar", [["Ichki ball majburiyatlari", sum(USERS.map(u => u.pts)), "ball (pul emas)"], ["Jami reklama budjetlari", sum(CAMPS.map(c => c.budget)), "so‘m"]])}
+  <div class="note">Ball majburiyatlari, reklama budjetlari, balans va daromad bir-biriga qo‘shilmaydi va sof foyda emas. Ballar pul emas.</div>
+  <h2>Kunlik yangi foydalanuvchilar (14 kun)</h2><div class="glass">${line(d14, l14)}</div>
+  <h2>Haftalik o‘sish (yangi foydalanuvchilar)</h2><div class="glass">${chart(wk, ["4 hafta oldin", "3 hafta", "2 hafta", "Shu hafta"])}</div>
+  <h2>Reklama faolligi</h2><div class="glass">${chips([["dv", "Ko‘rishlar"], ["d", "Tasdiqlangan natijalar"]], S.chart, "chSet")}${chart(act7, DAYS())}</div>
+  <h2>Oxirgi ro‘yxatdan o‘tganlar</h2>${recU.map(urow).join("")}
+  <h2>Oxirgi kampaniyalar</h2>${recC.map(ccard).join("")}
+  <h2>Tizim holati</h2><div class="glass">${sy.map(([a, k, v]) => `<div class="kv"><span><i class="dot ${k}"></i>${a}</span><b class="g">${esc(v)}</b></div>`).join("")}</div>`;
+}
+
+/* ===== 6. FOYDALANUVCHILAR VA MUROJAATLAR ===== */
+const urow = u => `<div class="glass cc item" onclick="userDetail(${u.id})" style="padding:12px"><div class="av sm">${esc(u.n[0])}</div><div style="flex:1;min-width:0"><b class="ell">${esc(u.n)}</b><div class="g ell" style="font-size:12px">@${esc(u.u)} · ID ${u.tg}</div></div><div style="text-align:right"><b>${f(u.pts)}</b> <span class="g" style="font-size:11px">ball</span><div>${bd(UST, u.st)}</div></div></div>`;
+function ulistHtml() {
+  const q = S.uq.trim().toLowerCase(), L = USERS.filter(u => (S.ufl === "all" || u.st === S.ufl) && (!q || u.n.toLowerCase().includes(q) || u.u.includes(q) || String(u.tg).includes(q)));
+  return L.length ? L.slice(0, S.ulim).map(urow).join("") + (L.length > S.ulim ? `<button class="btn ghost w" onclick="S.ulim+=20;render()">Yana ko‘rsatish (${L.length - S.ulim})</button>` : "") : empty("🔎", "Foydalanuvchi topilmadi");
+}
+const setU = (k, v) => { S[k] = v; S.ulim = 20; render(); };
+function users() {
+  const seg = chips([["u", "Foydalanuvchilar"], ["t", "Murojaatlar (" + TK.filter(t => t.st === "new").length + ")"]], S.ut, "setUT");
+  if (S.ut === "t") return `<h1 class="h1">Murojaatlar</h1>${seg}${chips([["all", "Hammasi"], ...Object.entries(TST).map(([k, v]) => [k, v[0]])], S.tf, "setTF")}<div id="tl">${tlistHtml()}</div>`;
+  return `<h1 class="h1">Foydalanuvchilar</h1>${seg}<input class="inp" placeholder="Ism, username yoki Telegram ID" aria-label="Qidirish" value="${esc(S.uq)}" oninput="S.uq=this.value;S.ulim=20;$('#ul').innerHTML=ulistHtml()">
+  ${chips([["all", "Hammasi"], ["act", "Faol"], ["blk", "Bloklangan"]], S.ufl, "setUF")}<div id="ul">${ulistHtml()}</div>`;
+}
+const setUT = k => { S.ut = k; render(); }, setUF = k => setU("ufl", k), setTF = k => { S.tf = k; render(); };
+function userDetail(id) {
+  const u = USERS.find(x => x.id === id), acts = [["Kunlik kirish", 10, 0], ["Video reklama ko‘rildi", 30, -1], ["Kanalga obuna tasdiqlandi", 100, -2], ["Referal mukofoti", 100, -4], ["Bilim testi", 0, -6]];
+  const au = S.aud.filter(a => a.tgt.includes("ID " + u.tg) || a.tgt.includes("#" + u.id));
+  sub(esc(u.n), `<div class="glass item"><div class="av" style="width:56px;height:56px;font-size:22px">${esc(u.n[0])}</div><div style="flex:1"><b>${esc(u.n)}</b><div class="g">@${esc(u.u)}</div></div>${bd(UST, u.st)}</div>
+  ${kv([["Telegram ID", u.tg], ["Ro‘yxatdan o‘tgan", fd(dt(u.reg))], ["Joriy ball (pul emas)", f(u.pts) + " ball"], ["Taklif qilganlari", u.ref + " ta"], ["Faollik", u.last >= -7 ? "Faol (" + fd(dt(u.last)) + ")" : "Nofaol (oxirgi: " + fd(dt(u.last)) + ")"], ["Premium", u.pr ? u.pr + " kun qoldi" : "Yo‘q"], ["Hisob holati", UST[u.st][0] + (u.st === "blk" ? " · " + esc(u.until) : "")]])}
+  ${u.st === "blk" ? `<div class="note rj"><b>Cheklov sababi:</b> ${esc(u.why)}</div>` : ""}
+  <h2>Faoliyat tarixi ${DEMOB}</h2><div class="glass">${acts.map(([n, p, o]) => `<div class="kv"><span>${n}<div class="g" style="font-size:12px">${fd(dt(o + u.last))}</div></span><b>${p ? "+" + p + " ball" : "—"}</b></div>`).join("")}</div>
+  ${au.length ? `<h2>Admin harakatlari</h2><div class="glass">${au.map(arow).join("")}</div>` : ""}
+  ${u.st === "act" ? `<button class="btn er w" onclick="blockU(${u.id})">Hisobni vaqtincha cheklash</button>` : `<button class="btn pri w" onclick="unblockU(${u.id})">Cheklovni bekor qilish</button>`}`);
+}
+function blockU(id) {
+  const u = USERS.find(x => x.id === id);
+  confirmAct({ title: "Hisobni cheklash", text: `<b>${esc(u.n)}</b> hisobi vaqtincha cheklanadi.`, danger: 1, ok: "Cheklash", extra: '<label class="lb">Muddat</label><select id="du" class="inp"><option>24 soat</option><option selected>7 kun</option><option>30 kun</option></select>', read: () => $("#du").value,
+    run: (r, x) => { u.st = "blk"; u.why = r; u.until = x; audit("block", "Hisob vaqtincha cheklandi", u.n + " (ID " + u.tg + ") · " + x, r); userDetail(id); toast("DEMO: cheklov faqat shu sessiyada"); } });
+}
+function unblockU(id) {
+  const u = USERS.find(x => x.id === id);
+  confirmAct({ title: "Cheklovni bekor qilish", text: `<b>${esc(u.n)}</b> hisobi qayta faollashtiriladi.`, ok: "Cheklovni olib tashlash", run: r => { u.st = "act"; u.why = ""; u.until = ""; audit("block", "Cheklov bekor qilindi", u.n + " (ID " + u.tg + ")", r); userDetail(id); toast("DEMO: cheklov bekor qilindi"); } });
+}
+const tfrom = t => t.ft === "u" ? USERS.find(x => x.id === t.fid) : ADVS.find(x => x.id === t.fid);
+function tlistHtml() {
+  const L = TK.filter(t => S.tf === "all" || t.st === S.tf);
+  return L.length ? L.map(t => `<div class="glass cc" onclick="ticketDetail('${t.id}')"><div class="item"><div style="flex:1;min-width:0"><b class="ell">${esc(t.sub)}</b><div class="g ell" style="font-size:12px">${t.id} · ${t.ft === "u" ? "Foydalanuvchi" : "Reklamachi"}: ${esc(tfrom(t).n)}</div></div>${bd(TST, t.st)}</div><div class="g" style="font-size:12px;margin-top:6px">${fd(t.d)}</div></div>`).join("") : empty("📭", "Murojaat yo‘q");
+}
+function ticketDetail(id) {
+  const t = TK.find(x => x.id === id), fr = tfrom(t);
+  sub(esc(t.sub), `<div class="glass"><div class="item"><div style="flex:1"><b>${esc(fr.n)}</b><div class="g">${t.ft === "u" ? "Foydalanuvchi" : "Reklamachi"} · ${t.id} · ${fd(t.d)}</div></div>${bd(TST, t.st)}</div><p style="margin-top:10px">${esc(t.msg)}</p></div>
+  ${t.rep.map(r => `<div class="glass" style="border-color:rgba(52,211,153,.4)"><div class="g" style="font-size:12px">Admin · ${fd(r.t)} ${ft(r.t)} ${DEMOB}</div><p>${esc(r.m)}</p></div>`).join("")}
+  ${t.st === "cls" ? "" : `${t.st === "new" ? `<button class="btn ghost w" style="margin-bottom:10px" onclick="tkTake('${t.id}')">Ko‘rib chiqishga olish</button>` : ""}
+  <label class="lb">Javob</label><textarea id="rp" class="inp ta" maxlength="500" placeholder="Javob matni (kamida 5 belgi)"></textarea><div class="err" id="re"></div>
+  <div class="note wn">DEMO: javob foydalanuvchiga Telegramda yuborilmaydi.</div>
+  <div class="row"><button class="btn pri" onclick="tkReply('${t.id}')">Javob yuborish (DEMO)</button><button class="btn er" onclick="tkClose('${t.id}')">Yopish</button></div>`}`);
+}
+function tkTake(id) { const t = TK.find(x => x.id === id); t.st = "rev"; audit("admin", "Murojaat ko‘rib chiqishga olindi", t.id, "Ish boshlandi"); ticketDetail(id); }
+function tkReply(id) {
+  const t = TK.find(x => x.id === id), m = ($("#rp").value || "").trim();
+  if (m.length < 5) { $("#re").textContent = "Javob kamida 5 belgi bo‘lishi kerak"; hap("error"); return; }
+  t.rep.push({ t: new Date(), m }); t.st = "ans"; audit("admin", "Murojaatga javob berildi", t.id, "Javob yozildi"); ticketDetail(id); toast("DEMO: javob saqlandi, Telegramda yuborilmadi");
+}
+function tkClose(id) { const t = TK.find(x => x.id === id); confirmAct({ title: "Murojaatni yopish", text: `${t.id} yopiladi.`, ok: "Yopish", run: r => { t.st = "cls"; audit("admin", "Murojaat yopildi", t.id, r); ticketDetail(id); toast("DEMO: murojaat yopildi"); } }); }
+
+/* ===== 7. REKLAMALAR VA REKLAMACHILAR ===== */
+const advName = id => ADVS.find(a => a.id === id).n, pct = c => Math.min(100, Math.round(c.spent / c.budget * 100));
+const resLabel = c => c.type === "link" ? `bosishlar tasdiqlanmagan` : `<b>${f(sum(okOf(c)))}</b> / ${f(c.target)} tasdiqlangan`;
+const ccard = c => `<div class="glass cc" onclick="campDetail(${c.id})"><div class="item"><div class="ic">${TYPES[c.type].ic}</div><div style="flex:1;min-width:0"><b class="ell">${esc(c.name)}</b><div class="g ell" style="font-size:12px">${esc(advName(c.adv))} · ${TYPES[c.type].n}</div></div>${bd(CST, c.st)}</div>
+  <div class="bar"><b style="width:${pct(c)}%"></b></div><div class="g2"><span>Budjet <b>${f(c.budget)}</b> so‘m</span><span>${resLabel(c)}</span></div><div class="g" style="font-size:12px;margin-top:6px">Yaratilgan: ${fd(dt(c.cr))}</div></div>`;
+function clistHtml() {
+  const q = S.cq.trim().toLowerCase(), L = CAMPS.filter(c => (S.cfl === "all" || c.st === S.cfl) && (!q || c.name.toLowerCase().includes(q) || advName(c.adv).toLowerCase().includes(q)));
+  return L.length ? L.map(ccard).join("") : empty("📭", "Kampaniya topilmadi");
+}
+const setAT = k => { S.at = k; render(); }, setCF = k => { S.cfl = k; render(); };
+function ads() {
+  const seg = chips([["c", "Kampaniyalar"], ["a", "Reklamachilar"]], S.at, "setAT");
+  if (S.at === "a") return `<h1 class="h1">Reklamachilar</h1>${seg}${ADVS.map(arowAdv).join("")}`;
+  const pend = CAMPS.filter(c => c.st === "rev").length;
+  return `<h1 class="h1">Reklamalar</h1>${seg}<input class="inp" placeholder="Kampaniya yoki reklamachi nomi" aria-label="Qidirish" value="${esc(S.cq)}" oninput="S.cq=this.value;$('#cl').innerHTML=clistHtml()">
+  ${chips([["all", "Hammasi"], ...Object.entries(CST).map(([k, v]) => [k, v[0] + (k === "rev" && pend ? " (" + pend + ")" : "")])], S.cfl, "setCF")}<div id="cl">${clistHtml()}</div>`;
+}
+function campDetail(id) {
+  const c = CAMPS.find(x => x.id === id), T = TYPES[c.type], ok = sum(okOf(c)), a = ADVS.find(x => x.id === c.adv), ck = S.chk[id] || (S.chk[id] = [false, false, false, false]);
+  const au = S.aud.filter(x => x.tgt === c.name);
+  const btn = c.st === "rev" ? `<button class="btn pri w" style="margin-bottom:10px" onclick="apprC(${id})">Tasdiqlash</button><button class="btn er w" onclick="rejC(${id})">Rad etish</button>`
+    : c.st === "act" || c.st === "apr" ? `<button class="btn er w" onclick="pauC(${id})">Vaqtincha to‘xtatish</button>` : c.st === "pau" ? `<button class="btn pri w" onclick="resC(${id})">Davom ettirish</button>` : "";
+  sub(esc(c.name), `<div class="glass"><div class="item"><div class="ic">${T.ic}</div><div style="flex:1"><b>${T.n}</b><div class="g">${esc(a.n)} · ${fd(dt(c.cr))}</div></div>${bd(CST, c.st)}</div><div class="bar"><b style="width:${pct(c)}%"></b></div><div class="g2"><span>Sarflandi <b>${f(c.spent)}</b> so‘m</span><span>Budjet <b>${f(c.budget)}</b> so‘m</span></div></div>
+  ${c.reason ? `<div class="note rj"><b>Rad etish sababi:</b> ${esc(c.reason)}</div>` : ""}
+  ${kv([["Reklamachi", esc(a.n)], ["Havola", esc(c.url)], ["Tavsif", esc(c.desc)], ["Kerakli natijalar", f(c.target)], ["Tasdiqlangan natijalar", c.type === "link" ? "— (bosish natija emas)" : f(ok)], ["Ko‘rishlar", f(sum(c.dv))]])}
+  <div class="note">${T.chk}</div>
+  ${c.st === "rev" ? `<h2>Xavfsizlik va qoidalarga moslik tekshiruvi</h2><div class="glass">${CHK.map((t, i) => `<label class="chk"><input type="checkbox" ${ck[i] ? "checked" : ""} onchange="S.chk[${id}][${i}]=this.checked"> ${t}</label>`).join("")}</div>` : ""}
+  ${c.st === "apr" ? '<div class="note">Tasdiqlangan reklama boshlanish sanasida faollashishi backend vazifasi. Demo: holat o‘zgarmaydi.</div>' : ""}
+  <h2>Kunlik ko‘rishlar</h2><div class="glass">${chart(c.dv, DAYS())}</div>
+  ${au.length ? `<h2>Qarorlar tarixi</h2><div class="glass">${au.map(arow).join("")}</div>` : ""}${btn}`);
+}
+function apprC(id) {
+  const c = CAMPS.find(x => x.id === id);
+  if (!S.chk[id].every(Boolean)) { toast("Avval barcha tekshiruv bandlarini belgilang", 1); hap("error"); return; }
+  confirmAct({ title: "Reklamani tasdiqlash", text: "Xavfsizlik va platforma qoidalariga moslik tekshirilgan.", ok: "Tasdiqlash", run: r => { c.st = "apr"; audit("ad", "Reklama tasdiqlandi", c.name, r); campDetail(id); toast("DEMO: reklama tasdiqlandi"); } });
+}
+function rejC(id) { const c = CAMPS.find(x => x.id === id); confirmAct({ title: "Reklamani rad etish", text: "Rad etish sababi reklamachiga ko‘rsatiladi.", danger: 1, ok: "Rad etish", run: r => { c.st = "rej"; c.reason = r; audit("ad", "Reklama rad etildi", c.name, r); campDetail(id); toast("DEMO: reklama rad etildi"); } }); }
+function pauC(id) { const c = CAMPS.find(x => x.id === id); confirmAct({ title: "Reklamani to‘xtatish", text: "Kampaniya vaqtincha to‘xtatiladi.", danger: 1, ok: "To‘xtatish", run: r => { c.st = "pau"; audit("ad", "Reklama to‘xtatildi", c.name, r); campDetail(id); toast("DEMO: reklama to‘xtatildi"); } }); }
+function resC(id) { const c = CAMPS.find(x => x.id === id); confirmAct({ title: "Davom ettirish", text: "Kampaniya qayta faollashtiriladi.", ok: "Davom ettirish", run: r => { c.st = "act"; audit("ad", "Reklama davom ettirildi", c.name, r); campDetail(id); toast("DEMO: reklama faollashtirildi"); } }); }
+const advStats = a => { const L = CAMPS.filter(c => c.adv === a.id); return { n: L.length, act: L.filter(c => c.st === "act").length, sp: sum(L.map(c => c.spent)), L }; };
+const arowAdv = a => { const s = advStats(a); return `<div class="glass cc" onclick="advDetail(${a.id})"><div class="item"><div class="av sm">${esc(a.n[0])}</div><div style="flex:1;min-width:0"><b class="ell">${esc(a.n)}</b><div class="g ell" style="font-size:12px">${esc(a.co)} · ID ${a.tg}</div></div>${bd(AST, a.st)}</div><div class="g2" style="margin-top:8px"><span>Kampaniyalar <b>${s.n}</b> (faol ${s.act})</span><span>Sarflagan <b>${f(s.sp)}</b> so‘m</span></div></div>`; };
+function advDetail(id) {
+  const a = ADVS.find(x => x.id === id), s = advStats(a), au = S.aud.filter(x => x.tgt === a.n);
+  sub(esc(a.n), `${kv([["Nomi", esc(a.n)], ["Telegram ID", a.tg], ["Kompaniya", esc(a.co)], ["Jami kampaniyalar", s.n], ["Faol kampaniyalar", s.act], ["Jami sarflagan", f(s.sp) + " so‘m"], ["Hisob holati", AST[a.st][0]]])}
+  ${a.st === "chk" ? `<div class="note wn"><b>Tekshiruv sababi:</b> ${esc(a.why)}</div>` : ""}
+  <h2>Kampaniyalari</h2>${s.L.length ? s.L.map(ccard).join("") : empty("📭", "Kampaniya yo‘q")}
+  ${au.length ? `<h2>Admin harakatlari</h2><div class="glass">${au.map(arow).join("")}</div>` : ""}
+  ${a.st === "act" ? `<button class="btn er w" onclick="flagA(${id})">Shubhali faoliyat tekshiruviga yuborish</button>` : `<button class="btn pri w" onclick="clearA(${id})">Tekshiruvni yakunlash</button>`}`);
+}
+function flagA(id) { const a = ADVS.find(x => x.id === id); confirmAct({ title: "Tekshiruvga yuborish", text: `<b>${esc(a.n)}</b> shubhali faoliyat tekshiruviga yuboriladi.`, danger: 1, ok: "Yuborish", run: r => { a.st = "chk"; a.why = r; audit("susp", "Reklamachi tekshiruvga yuborildi", a.n, r); advDetail(id); toast("DEMO: tekshiruvga yuborildi"); } }); }
+function clearA(id) { const a = ADVS.find(x => x.id === id); confirmAct({ title: "Tekshiruvni yakunlash", text: `<b>${esc(a.n)}</b> hisobi faol holatga qaytariladi.`, ok: "Yakunlash", run: r => { a.st = "act"; a.why = ""; audit("susp", "Tekshiruv yakunlandi", a.n, r); advDetail(id); toast("DEMO: tekshiruv yakunlandi"); } }); }
+
+/* ===== 8. MOLIYA ===== */
+const tsum = k => sum(TXS.filter(t => t.k === k && t.st === "ok").map(t => t.a));
+const txRow = t => `<div class="tr"><div style="flex:1;min-width:0"><b class="ell" style="font-size:14px">${TT[t.k][0]}</b><div class="g ell" style="font-size:12px">${t.id} · ${esc(t.who)} · ${fd(t.d)}</div></div><div style="text-align:right"><b>${f(t.a)} <span class="g" style="font-size:11px">${TT[t.k][1]}</span></b><div>${bd(TXST, t.st)} ${DEMOB}</div></div></div>`;
+function txHtml() {
+  const q = S.fq.trim().toLowerCase(), L = TXS.filter(t => (S.ftp === "all" || t.k === S.ftp) && (!q || t.id.toLowerCase().includes(q) || t.who.toLowerCase().includes(q)));
+  return L.length ? L.map(txRow).join("") : empty("🧾", "Tranzaksiya topilmadi");
+}
+const setFT = k => { S.ftp = k; render(); };
+function fin() {
+  const g = (t, items) => `<h2>${t}</h2><div class="grid2">${items.map(([a, v, u], i) => `<div class="glass stat" style="animation-delay:${i * 60}ms"><div class="g">${a}</div><b class="cn" data-v="${v}">0</b><span>${u}</span></div>`).join("")}</div>`;
+  const sp7 = [-6, -5, -4, -3, -2, -1, 0].map(o => sum(TXS.filter(t => t.k === "spend" && t.st === "ok" && t.o === o).map(t => t.a)));
+  return `<h1 class="h1">Moliya</h1><div class="note wn">DEMO: haqiqiy moliyaviy operatsiyalar bajarilmaydi. Bu bo‘limda pul yechish, qaytarish yoki ball berish tugmalari ataylab yo‘q.</div>
+  ${g("Pul (so‘m)", [["Reklamachilar kiritgan mablag‘lar", tsum("topup"), "so‘m"], ["Kampaniyalarga ajratilgan budjetlar", tsum("reserve"), "so‘m"], ["Amalda sarflangan mablag‘lar", tsum("spend"), "so‘m"], ["Premium to‘lovlari", tsum("prem"), "so‘m"], ["Qaytarilgan to‘lovlar", tsum("refund"), "so‘m"], ["Platforma xarajatlari", tsum("cost"), "so‘m"]])}
+  ${g("Ichki ballar (pul emas)", [["Foydalanuvchilarga berilgan ballar", tsum("award"), "ball"], ["Bajarilishi kerak bo‘lgan bonus majburiyatlari", sum(USERS.map(u => u.pts)), "ball"]])}
+  ${g("Xizmat majburiyatlari", [["Faol Premium obunalar", USERS.filter(u => u.pr > 0).length, "ta (xizmat ko‘rsatish majburiyati)"]])}
+  <div class="note">Bu guruhlar bir-biriga qo‘shilmaydi va sof foyda hisoblanmaydi. Ballar pulga tenglashtirilmagan.</div>
+  <h2>Kunlik sarflangan mablag‘ (so‘m)</h2><div class="glass">${chart(sp7, DAYS())}</div>
+  <h2>Tranzaksiyalar tarixi</h2><input class="inp" placeholder="Tranzaksiya ID yoki nom" aria-label="Qidirish" value="${esc(S.fq)}" oninput="S.fq=this.value;$('#tx').innerHTML=txHtml()">
+  ${chips([["all", "Hammasi"], ...TXK.map(k => [k, TT[k][0]])], S.ftp, "setFT")}<div class="glass" id="tx">${txHtml()}</div>`;
+}
+
+/* ===== 9. SOZLAMALAR VA AUDIT ===== */
+function sets() {
+  const ml = (i, n, fn) => `<div class="ml" onclick="${fn}"><span style="width:28px;text-align:center">${i}</span><span style="flex:1">${n}</span><span class="g">›</span></div>`;
+  return `<h1 class="h1">Sozlamalar</h1><div class="note wn">DEMO: backendda sozlamalar endpointlari yo‘q. O‘zgartirishlar serverga saqlanmaydi.</div>
+  <div class="glass" style="padding:2px 16px">${Object.entries(SETS).map(([k, v]) => ml("⚙️", v.t, `setPage('${k}')`)).join("")}${ml("👤", "Admin profili", "adminProfile()")}${ml("🛡", "Xavfsizlik va audit jurnali", "auditPg()")}</div><div class="g" style="text-align:center">SPAMLESS ADMIN v1.0.0-demo</div>`;
+}
+function setPage(k) {
+  const d = SETS[k]; S.dr = [...S.set[k]];
+  sub(d.t, `<div class="note wn">DEMO: bu sozlama serverda mavjud emas, saqlansa faqat shu sessiyada qoladi.</div><div class="glass">${d.f.map(([n, t], i) => t === "tog" ? `<div class="ml" style="cursor:default"><span style="flex:1">${n}</span><button class="sw ${S.dr[i] ? "on" : ""}" aria-label="${n}" onclick="S.dr[${i}]=!S.dr[${i}];this.classList.toggle('on')"></button></div>`
+    : `<label class="lb">${n}</label>${t === "ta" ? `<textarea class="inp ta" maxlength="2000" oninput="S.dr[${i}]=this.value">${esc(S.dr[i])}</textarea>` : `<input class="inp" ${t === "num" ? 'inputmode="numeric"' : 'maxlength="200"'} value="${esc(S.dr[i])}" oninput="S.dr[${i}]=this.value">`}`).join("")}</div>
+  <div class="err" id="se"></div><button class="btn pri w" onclick="saveSet('${k}')">Saqlash (DEMO)</button>`);
+}
+function saveSet(k) {
+  const d = SETS[k]; let bad = "";
+  d.f.forEach(([n, t], i) => { const v = S.dr[i]; if (t === "num" && !(String(v).trim() !== "" && Number.isInteger(Number(v)) && Number(v) >= 0)) bad = n + ": butun musbat son kiriting"; if ((t === "text" || t === "ta") && !String(v).trim()) bad = n + ": bo‘sh bo‘lmasin"; });
+  if (bad) { $("#se").textContent = bad; hap("error"); return; }
+  const ch = d.f.map((x, i) => String(S.dr[i]) !== String(S.set[k][i]) ? x[0] : null).filter(Boolean);
+  if (!ch.length) { toast("O‘zgarish yo‘q"); return; }
+  confirmAct({ title: "Sozlamani saqlash", text: "O‘zgargan maydonlar: " + esc(ch.join(", ")), ok: "Saqlash", run: r => { S.set[k] = d.f.map((x, i) => x[1] === "num" ? Number(S.dr[i]) : S.dr[i]); audit("admin", "Sozlama o‘zgartirildi (DEMO): " + d.t, ch.join(", "), r); closeLy(); render(); toast("DEMO: sozlama faqat shu sessiyada saqlandi"); } });
+}
+function adminProfile() { const w = who(); sub("Admin profili", `${kv([["Ism", esc(w.n)], ["Username", w.u ? "@" + esc(w.u) : "—"], ["Telegram ID", esc(w.id)], ["Rol", "Administrator"], ["Huquq holati", w.v ? "Serverda tasdiqlangan" : "Tasdiqlanmagan (prototip)"]])}<div class="note ${SRV.st === "ok" ? "" : "wn"}">${esc(SRV.msg)}. Admin huquqi faqat backend (ADMIN_IDS) tomonidan beriladi.</div>`); }
+const arow = a => `<div class="kv" style="display:block"><b>${esc(a.act)}</b> ${DEMOB}<div class="g" style="font-size:12px">${esc(a.tgt)} · ${esc(a.w)} · ${fd(a.t)} ${ft(a.t)}</div>${a.why && a.why !== "—" ? `<div style="font-size:13px">Sabab: ${esc(a.why)}</div>` : ""}</div>`;
+const audTab = k => { S.atab = k; auditPg(); };
+function auditPg() {
+  const L = S.aud.filter(a => S.atab === "admin" ? ["admin", "block", "ad", "susp"].includes(a.cat) : a.cat === S.atab);
+  sub("Xavfsizlik va audit jurnali", `<div class="note wn">DEMO: haqiqiy audit jurnali serverda (AuditLog jadvali) yozilishi kerak. Bu yerdagi yozuvlar faqat shu sessiyada.</div>${chips(AUDT, S.atab, "audTab")}<div class="glass">${L.length ? L.map(arow).join("") : empty("🗂", "Yozuv yo‘q")}</div>`);
+}
+
+/* ===== 10. NAVIGATSIYA ===== */
+const IC = {
+  dash: '<rect x="3" y="3" width="7" height="9" rx="1"/><rect x="14" y="3" width="7" height="5" rx="1"/><rect x="14" y="12" width="7" height="9" rx="1"/><rect x="3" y="16" width="7" height="5" rx="1"/>',
+  users: '<circle cx="9" cy="8" r="3.5"/><path d="M2.5 20c.6-3.6 3.2-5.5 6.5-5.5s5.9 1.9 6.5 5.5M17 4.5a3.5 3.5 0 010 7M18.5 14.6c1.6.6 2.7 2.4 3 5"/>',
+  ads: '<path d="M3 11v2a1 1 0 001 1h2l5 4V6L6 10H4a1 1 0 00-1 1zM15 9a4 4 0 010 6M18 6.5a8 8 0 010 11"/>',
+  fin: '<circle cx="12" cy="12" r="9"/><path d="M14.5 9.2c-.5-.8-1.4-1.2-2.5-1.2-1.5 0-2.5.8-2.5 2s1 1.7 2.5 2 2.5.8 2.5 2-1 2-2.5 2c-1.1 0-2-.4-2.5-1.2M12 6.5V8m0 8v1.5"/>',
+  sets: '<path d="M4 6h10M18 6h2M4 12h4M12 12h8M4 18h12"/><circle cx="16" cy="6" r="2"/><circle cx="10" cy="12" r="2"/><circle cx="18" cy="18" r="2"/>',
+};
+const NAV = [["dash", "Dashboard"], ["users", "Foydalanuvchilar"], ["ads", "Reklamalar"], ["fin", "Moliya"], ["sets", "Sozlamalar"]];
+const PG = { dash, users, ads, fin, sets };
+function nav() { $("#nav").innerHTML = NAV.map(([k, n]) => `<button class="${S.tab === k ? "on" : ""}" onclick="go('${k}')" aria-label="${n}"><svg viewBox="0 0 24 24">${IC[k]}</svg>${n}</button>`).join(""); }
+function render() {
+  if (!(SRV.st === "ok" || (S.demo && SRV.st !== "denied"))) { gate(); return; }
+  $("nav").style.display = ""; $("#view").innerHTML = hdr() + `<div class="view">${PG[S.tab]()}</div>`; nav(); counters();
+}
+function go(k) { S.tab = k; closeLy(); closeMd(); render(); window.scrollTo(0, 0); }
+document.addEventListener("click", e => { if (e.target.closest && e.target.closest("button")) hap(); });
+$("#view").innerHTML = '<div class="sk"></div><div class="sk" style="height:130px"></div><div class="sk"></div>'; $("nav").style.display = "none";
+boot().finally(() => setTimeout(render, 350));
+</script>
+</body>
+</html>
