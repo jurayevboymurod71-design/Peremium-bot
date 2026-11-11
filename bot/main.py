@@ -64,7 +64,9 @@ async def on_startup(bot: Bot):
         secret_token=WEBHOOK_SECRET
     )
 
-async def main():
+dp.startup.register(on_startup)
+
+def main():
     app = web.Application()
 
     SimpleRequestHandler(
@@ -82,6 +84,4 @@ async def main():
     )
 
 if __name__ == "__main__":
-    import asyncio
-    asyncio.run(main())
-    
+    main()
