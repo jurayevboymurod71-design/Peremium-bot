@@ -1,0 +1,211 @@
+<!DOCTYPE html>
+<html lang="uz">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover,user-scalable=no">
+<title>SPAMLESS</title>
+<script src="https://telegram.org/js/telegram-web-app.js"></script>
+<script src="../../shared/config.js"></script>
+<style>
+:root{--bg:#05070B;--cd:#0B0F17;--cd2:#111827;--p:#087BFF;--l:#5CC4FF;--g:#8A94A6;--ok:#34D399;--er:#FF5C7A;--gd:#FFD76A;--bd:rgba(92,196,255,.16)}
+*{box-sizing:border-box;margin:0;-webkit-tap-highlight-color:transparent}
+body{background:var(--bg);color:#fff;font:15px/1.45 system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;overflow-x:hidden}
+body:before{content:"";position:fixed;inset:0;background:radial-gradient(circle at 85% -5%,rgba(8,123,255,.35),transparent 50%),radial-gradient(circle at 0 100%,rgba(92,196,255,.12),transparent 45%);pointer-events:none}
+#app{position:relative;max-width:520px;margin:0 auto;padding:10px 16px calc(92px + env(safe-area-inset-bottom))}
+.top{display:flex;align-items:center;gap:10px;margin-bottom:14px}
+.logo{font-weight:900;font-size:21px;letter-spacing:1px;background:linear-gradient(90deg,#fff,var(--l) 45%,var(--p));-webkit-background-clip:text;background-clip:text;color:transparent;filter:drop-shadow(0 0 10px rgba(8,123,255,.7))}
+.sp{flex:1}.g{color:var(--g);font-size:13px}
+.ib{position:relative;width:40px;height:40px;border-radius:13px;border:1px solid var(--bd);background:var(--cd);color:#fff;font-size:18px;cursor:pointer;display:grid;place-items:center;flex:none}
+.ib i{position:absolute;top:-4px;right:-4px;min-width:17px;height:17px;border-radius:9px;background:var(--er);font:700 10px/17px system-ui;text-align:center}
+.av{width:40px;height:40px;border-radius:50%;border:2px solid var(--p);background:var(--cd2);display:grid;place-items:center;font-weight:800;overflow:hidden;flex:none;box-shadow:0 0 12px rgba(8,123,255,.5)}.av img{width:100%;height:100%;object-fit:cover}
+.card{background:linear-gradient(160deg,rgba(8,123,255,.1),transparent 60%),var(--cd);border:1px solid var(--bd);border-radius:20px;padding:16px;margin-bottom:14px}
+.hero{background:linear-gradient(135deg,#0a4fb8,#087BFF 60%,#5CC4FF);border:0;box-shadow:0 0 34px rgba(8,123,255,.45)}
+.btn{border:0;border-radius:14px;padding:12px 16px;min-height:44px;font:700 14px inherit;font-family:inherit;color:#fff;background:linear-gradient(135deg,var(--p),#3aa0ff);cursor:pointer;box-shadow:0 4px 16px rgba(8,123,255,.4);transition:transform .12s,opacity .2s}
+.btn:active{transform:scale(.96)}.btn.ghost{background:rgba(255,255,255,.08);box-shadow:none;border:1px solid var(--bd)}.btn.sel{background:var(--p);border-color:var(--l)}
+.btn.sm{padding:9px 14px;min-height:40px;font-size:13px}.btn[disabled]{opacity:.45;pointer-events:none}.w{width:100%}
+.row{display:flex;gap:8px;align-items:center}.row>*{flex:1}
+.g3{display:grid;grid-template-columns:repeat(3,1fr);gap:10px}.g4{display:grid;grid-template-columns:repeat(4,1fr);gap:8px}
+.st{text-align:center;padding:12px 6px}.st b{display:block;font-size:19px}
+.q{text-align:center;padding:12px 4px;font-size:12px;cursor:pointer;transition:transform .12s}.q:active{transform:scale(.95)}.q i{font-style:normal;font-size:22px;display:block;margin-bottom:4px}
+h2{font-size:15px;margin:18px 0 10px}
+.item{display:flex;align-items:center;gap:12px}.pt{color:var(--l);font-weight:800;white-space:nowrap}
+.chip{font-size:11px;background:rgba(0,0,0,.55);border:1px solid var(--bd);border-radius:10px;padding:3px 9px;flex:none}
+.bdg{font-size:11px;font-weight:700;padding:3px 10px;border-radius:20px;background:rgba(92,196,255,.15);color:var(--l);text-align:center}.bdg.ok{background:rgba(52,211,153,.15);color:var(--ok)}.bdg.wt{background:rgba(255,215,106,.15);color:var(--gd)}.bdg.er{background:rgba(255,92,122,.15);color:var(--er)}
+.seg{display:flex;gap:6px;background:var(--cd);border:1px solid var(--bd);border-radius:14px;padding:4px;margin-bottom:14px}.seg button{flex:1;background:none;border:0;color:var(--g);font:700 13px inherit;font-family:inherit;padding:9px 2px;border-radius:10px;cursor:pointer}.seg .on{background:var(--p);color:#fff;box-shadow:0 0 14px rgba(8,123,255,.6)}
+.thumb{height:120px;border-radius:14px;background:linear-gradient(120deg,#07224d,#087BFF,#07224d);position:relative;overflow:hidden;display:grid;place-items:center;font-size:38px;margin-bottom:12px}
+.thumb:after{content:"";position:absolute;inset:0;background:linear-gradient(100deg,transparent 30%,rgba(255,255,255,.22) 50%,transparent 70%);transform:translateX(-100%);animation:sh 2.4s infinite}@keyframes sh{to{transform:translateX(100%)}}
+.thumb .chip{position:absolute;top:8px;left:8px;z-index:1}
+.bar{height:6px;border-radius:6px;background:rgba(255,255,255,.1);overflow:hidden}.bar b{display:block;height:100%;width:0;background:linear-gradient(90deg,var(--p),var(--l));transition:width 1s linear}
+nav{position:fixed;left:0;right:0;bottom:0;z-index:5;background:rgba(5,7,11,.94);backdrop-filter:blur(14px);border-top:1px solid var(--bd);padding:6px 6px calc(6px + env(safe-area-inset-bottom))}nav div{max-width:520px;margin:0 auto;display:flex}
+nav button{flex:1;background:none;border:0;color:var(--g);font:600 10px inherit;font-family:inherit;display:grid;justify-items:center;gap:3px;padding:6px 2px;min-height:50px;border-radius:14px;cursor:pointer}nav .on{color:var(--l);background:rgba(8,123,255,.18);box-shadow:0 0 14px rgba(8,123,255,.5)}
+nav svg{width:22px;height:22px;fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
+.sub{position:fixed;inset:0;z-index:8;background:var(--bg);overflow:auto;padding:10px 16px 40px;animation:up .25s}.sub>div{max-width:520px;margin:0 auto}
+.back{background:none;border:0;color:var(--l);font:700 15px inherit;font-family:inherit;padding:10px 0;cursor:pointer}
+.ov{position:fixed;inset:0;z-index:20;background:rgba(0,0,0,.72);display:grid;align-items:end;animation:fd .2s}.ov .bx{max-width:520px;width:100%;margin:0 auto;background:var(--cd);border-radius:24px 24px 0 0;padding:22px 18px calc(22px + env(safe-area-inset-bottom));border:1px solid var(--bd);animation:up .25s;max-height:88vh;overflow:auto}
+.fs{position:fixed;inset:0;z-index:50;background:#000;display:flex;flex-direction:column;padding:calc(12px + env(safe-area-inset-top)) 16px calc(16px + env(safe-area-inset-bottom))}.fs .thumb{flex:1;height:auto}
+#toast{position:fixed;top:12px;left:50%;transform:translate(-50%,-130px);z-index:60;background:#0f1b33;border:1px solid var(--bd);border-left:4px solid var(--ok);padding:11px 16px;border-radius:14px;max-width:90%;font-size:14px;transition:transform .3s}#toast.show{transform:translate(-50%,0)}#toast.er{border-left-color:var(--er)}
+.inp{width:100%;background:#000;border:1px solid var(--bd);border-radius:12px;color:#fff;font:700 17px inherit;font-family:inherit;padding:11px;min-height:46px}
+input[type=range]{width:100%;accent-color:var(--p);margin:14px 0}
+.ml{display:flex;align-items:center;gap:12px;padding:13px 0;border-top:1px solid var(--bd);cursor:pointer}
+.view{animation:up .3s}@keyframes up{from{opacity:0;transform:translateY(14px)}}@keyframes fd{from{opacity:0}}
+.sk{height:90px;border-radius:20px;margin-bottom:14px;background:linear-gradient(90deg,var(--cd) 30%,#16233d 50%,var(--cd) 70%);background-size:300% 100%;animation:sk 1.2s infinite}@keyframes sk{to{background-position:-100% 0}}
+.empty{text-align:center;padding:24px 8px;color:var(--g)}
+button:focus-visible{outline:2px solid var(--l);outline-offset:2px}
+@media(prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
+</style>
+</head>
+<body>
+<div id="app"><div id="view"></div></div>
+<nav><div id="nav"></div></nav>
+<div id="toast"></div>
+<div id="ly"></div>
+<script>
+/* ===== 1. SOZLAMALAR VA HOLAT ===== */
+const tg=window.Telegram&&window.Telegram.WebApp;
+if(tg){tg.ready();tg.expand();try{tg.setHeaderColor("#05070B");tg.setBackgroundColor("#05070B")}catch(e){}}
+// DEMO: haqiqiy rejimda initData backendda tekshiriladi (foydalanuvchi ID ga frontend ishonmaydi)
+let U=(tg&&tg.initDataUnsafe&&tg.initDataUnsafe.user)||{id:0,first_name:"Mehmon",username:"demo_user"};
+const CFG={bot:"SpamlessBot",sup:"spamless_support",ver:"1.0.0",price:37000,som:.5,maxPts:74000,stars:100,starsSom:25000,refReward:100,vids:[10,15,20,30,45,60],
+ camp:[{id:"c1",t:"ch",ic:"📢",n:"Texno Yangiliklar",d:"Texnologiya va gadjetlar yangiliklari",r:100,l:"https://t.me/telegram",go:"Kanalga o‘tish",ck:"Obunani tekshirish"},
+ {id:"b1",t:"bot",ic:"🤖",n:"Quiz Bot",d:"Savol-javob o‘yini boti",r:80,l:"https://t.me/telegram",go:"Botga o‘tish",ck:"Tekshirish"},
+ {id:"a1",t:"app",ic:"📱",n:"FitTrack",d:"Mashq va ovqatlanish ilovasi",r:400,l:"https://example.com",go:"Yuklab olish",ck:"O‘rnatishni tekshirish"}]};
+const I={uz:{home:"Bosh sahifa",ads:"Reklama",bonus:"Bonuslar",prem:"Premium",prof:"Profil",bal:"Joriy ballaringiz",hist:"Ballar tarixini ko‘rish"},
+ ru:{home:"Главная",ads:"Реклама",bonus:"Бонусы",prem:"Премиум",prof:"Профиль",bal:"Ваши баллы",hist:"История баллов"},
+ en:{home:"Home",ads:"Ads",bonus:"Bonuses",prem:"Premium",prof:"Profile",bal:"Your points",hist:"View points history"}};
+const t=k=>(I[S.lang]&&I[S.lang][k])||I.uz[k];
+const S={tab:"home",ad:"vid",lang:"uz",pts:1250,total:3400,today:40,friends:7,act:4,use:0,clicks:0,done:{},vis:{},orders:[],
+ tx:[{d:"Bugun 10:24",n:"Kunlik kirish",p:10,s:"ok"},{d:"Kecha 21:10",n:"Video reklama · 30 s",p:30,s:"ok"},{d:"Kecha 18:02",n:"Referral mukofoti",p:100,s:"ok"}],
+ nt:[{ic:"🎁",t:"Bonus olindi",x:"+30 ball · video reklama (DEMO)",r:0},{ic:"✅",t:"Topshiriq tasdiqlandi",x:"Sponsor kanal obunasi (DEMO)",r:0},{ic:"📢",t:"Yangi reklama mavjud",x:"3 ta yangi kampaniya",r:0},{ic:"⛔",t:"Topshiriq rad etildi",x:"Ilova o‘rnatilishi tasdiqlanmadi (DEMO)",r:1}]};
+try{S.lang=localStorage.getItem("sl")||"uz"}catch(e){}
+
+/* ===== 2. YORDAMCHI FUNKSIYALAR ===== */
+const $=s=>document.querySelector(s),f=n=>Number(n).toLocaleString("ru-RU").replace(/\u00a0/g," "),som=p=>f(p*CFG.som);
+const wait=ms=>new Promise(r=>setTimeout(r,ms)),unread=()=>S.nt.filter(n=>!n.r).length;
+const SB={ok:["Bajarildi","ok"],wt:["Kutilmoqda","wt"],er:["Rad etildi","er"]};
+function toast(m,e){const x=$("#toast");x.textContent=m;x.className="show"+(e?" er":"");clearTimeout(toast.h);toast.h=setTimeout(()=>x.className="",2800)}
+const ly=h=>$("#ly").innerHTML=h,cl=()=>ly("");
+function sub(title,h){ly(`<div class="sub"><div><button class="back" onclick="cl();render()">‹ Orqaga</button><h1 style="font-size:20px;margin:2px 0 14px">${title}</h1>${h}</div></div>`)}
+function modal(h){ly(`<div class="ov" onclick="if(event.target===this)cl()"><div class="bx">${h}</div></div>`)}
+function info(a,b){modal(`<h3>${a}</h3><p class="g" style="margin:8px 0 16px">${b}</p><button class="btn w" onclick="cl()">Yopish</button>`)}
+const avt=()=>U.photo_url?`<img src="${U.photo_url}" alt="">`:(U.first_name||"M")[0];
+const txl=l=>l.length?l.map(x=>`<div class="item" style="padding:9px 0"><div style="flex:1"><b>${x.n}</b><div class="g">${x.d}</div></div><div style="text-align:right"><b style="color:${x.p<0?"var(--er)":"var(--ok)"}">${x.p>0?"+":""}${f(x.p)}</b><div><span class="bdg ${SB[x.s][1]}">${SB[x.s][0]}</span></div></div></div>`).join(""):`<div class="empty">Hali amallar yo‘q</div>`;
+function credit(p,n){S.pts+=p;S.total+=p;S.today+=p;S.tx.unshift({d:"Hozir",n,p,s:"ok"});S.nt.unshift({ic:p?"🎁":"✅",t:p?"Bonus olindi":"Topshiriq tasdiqlandi",x:(p?"+"+p+" ball · ":"")+n+" (DEMO)",r:0})}
+function cnt(o){const el=$("#pts");if(!el)return;const t0=performance.now(),to=S.pts;(function s(n){const p=Math.min((n-t0)/700,1);el.textContent=f(Math.round(o+(to-o)*p));if(p<1)requestAnimationFrame(s)})(t0)}
+const openL=l=>tg&&tg.openTelegramLink&&l.includes("t.me")?tg.openTelegramLink(l):window.open(l,"_blank");
+
+/* ===== 3. API QATLAMI (DEMO) — haqiqiy backendda fetch("/api/...") bilan almashtiring ===== */
+const api={async verify(kind,id){await wait(kind==="view"?500:900);
+  if(kind==="app")return{ok:false,msg:"O‘rnatish hali install-attribution orqali tasdiqlanmadi"};
+  if((kind==="ch"||kind==="bot")&&!S.vis[id])return{ok:false,msg:"Avval o‘ting va obuna bo‘ling / /start bosing"};
+  return{ok:true}},
+ async order(){await wait(900);return{id:"P"+(1001+S.orders.length)}}};
+async function claim(id,n,p,kind){if(S.done[id])return toast("Bu topshiriq bajarilgan");
+ toast("Tekshirilmoqda…");const r=await api.verify(kind,id);if(!r.ok)return toast(r.msg||"Tasdiqlanmadi",1);
+ S.done[id]=1;const o=S.pts;credit(p,n);render();cnt(o);toast(p?"✓ +"+p+" ball (DEMO tasdiq)":"✓ Bajarildi")}
+function step(id,l,n,p,kind){if(!S.vis[id]){S.vis[id]=1;openL(l);render()}else claim(id,n,p,kind)}
+
+/* ===== 4. SAHIFALAR ===== */
+const hdr=()=>`<div class="top"><div class="logo">SPAMLESS</div><span class="sp"></span>${modeChip()}<button class="ib" aria-label="Bildirishnomalar" onclick="notifs()">🔔${unread()?`<i>${unread()}</i>`:""}</button><div class="av">${avt()}</div></div>`;
+function home(){const q=[["▶️","Reklama ko‘rish","go('ads')"],["🎁","Kunlik bonus","claim('daily','Kunlik kirish',10,'daily')"],["👥","Do‘st taklif","refpage()"],["💎","Premium olish","go('prem')"]];
+ return`<div class="g" style="margin-bottom:4px">Salom, <b style="color:#fff">${U.first_name||"Mehmon"}</b> 👋</div><div class="g" style="font-size:11px;margin-bottom:10px">${SRV.ok?"Faqat kirish serverga ulangan. Ball, reklama, bonus va Premium hali PROTOTIP (demo) ma‘lumotlar.":"Prototip rejimi: "+SRV.msg}</div>
+ <div class="card hero"><div style="opacity:.85;font-size:13px">${t("bal")}</div><div style="font-size:40px;font-weight:900;letter-spacing:-1px"><span id="pts">${f(S.pts)}</span> <span style="font-size:16px;font-weight:700">ball</span></div><div style="opacity:.9;margin:2px 0 14px">≈ ${som(S.pts)} so‘m Premium chegirma qiymati <span style="opacity:.7">(1000 ball = 500 so‘m)</span></div><button class="btn ghost w" onclick="hist()">${t("hist")}</button></div>
+ <div class="g3">${[["Jami yig‘ilgan",f(S.total)],["Bugun",f(S.today)],["Do‘stlar",S.friends]].map(([a,b])=>`<div class="card st"><b>${b}</b><span class="g" style="font-size:11px">${a}</span></div>`).join("")}</div>
+ <h2>Tezkor xizmatlar</h2><div class="g4">${q.map(([i,n,fn])=>`<div class="card q" onclick="${fn}"><i>${i}</i>${n}</div>`).join("")}</div>
+ <div class="card item" style="cursor:pointer" onclick="spam()"><div style="font-size:26px">🛡</div><div style="flex:1"><b>Telegram spam yordami</b><div class="g">Cheklov nima va qanday apellyatsiya qilinadi</div></div>›</div>
+ <h2>Oxirgi faoliyat</h2><div class="card">${txl(S.tx.slice(0,4))}</div>`}
+
+const vcard=s=>`<div class="card"><div class="thumb"><span class="chip">⏱ ${s} soniya</span>▶</div><div class="item"><div style="flex:1"><b>Video reklama</b><div class="g">Oxirigacha ko‘rish shart</div></div><b class="pt">+${s}</b></div><div class="row" style="margin-top:12px">${S.done["v"+s]?'<span class="bdg ok">Ko‘rilgan</span>':`<button class="btn" onclick="play(${s})">Ko‘rish</button>`}</div></div>`;
+const ccard=c=>`<div class="card"><div class="item"><div class="ib" style="font-size:24px">${c.ic}</div><div style="flex:1"><b>${c.n}</b><div class="g">${c.d}</div></div><b class="pt">+${c.r}</b></div><div class="row" style="margin-top:12px">${S.done[c.id]?'<span class="bdg ok">Bajarildi</span>':`<button class="btn ${S.vis[c.id]?"ghost":""}" onclick="step('${c.id}','${c.l}','${c.n}',${c.r},'${c.t}')">${S.vis[c.id]?c.ck:c.go}</button>`}</div>${c.t==="app"?'<div class="g" style="margin-top:8px;font-size:12px">Faqat ishonchli install-attribution orqali tasdiqlangan o‘rnatish uchun. Havola bosilishi o‘rnatish hisoblanmaydi.</div>':""}</div>`;
+function ads(){let h=`<h1 style="font-size:22px;margin-bottom:14px">${t("ads")}</h1><div class="seg">${[["vid","Video"],["ch","Kanal"],["bot","Bot"],["app","Ilova"]].map(([k,n])=>`<button class="${S.ad===k?"on":""}" onclick="S.ad='${k}';render()">${n}</button>`).join("")}</div>`;
+ h+=S.ad==="vid"?CFG.vids.map(vcard).join(""):CFG.camp.filter(c=>c.t===S.ad).map(ccard).join("");
+ if(S.ad==="app")h+=`<div class="card"><b>📈 Instagram va YouTube</b><div class="g" style="margin:6px 0 10px">Ishonchli tekshiruv ulanmaguncha mukofot berilmaydi, faqat havola bosilishi statistikasi ko‘rsatiladi.</div><div class="row"><button class="btn ghost" onclick="clk('https://instagram.com')">📷 Instagram</button><button class="btn ghost" onclick="clk('https://youtube.com')">▶ YouTube</button></div><div class="g" style="margin-top:8px">Bosilishlar: <b id="ck" style="color:#fff">${S.clicks}</b></div></div>`;
+ return h}
+function clk(l){S.clicks++;$("#ck").textContent=S.clicks;window.open(l,"_blank")}
+function play(s){const id="v"+s;if(S.done[id])return;let left=s;
+ ly(`<div class="fs"><div class="row" style="margin-bottom:12px"><span class="chip">DEMO reklama</span><b id="pl" style="text-align:right">${s}s</b><button class="ib" style="flex:none" aria-label="Yopish" onclick="endAd(1)">✕</button></div><div class="thumb" style="font-size:80px">🎬</div><div class="bar" style="margin-top:14px"><b id="pb"></b></div><p class="g" style="text-align:center;margin:10px 0">Oxirigacha ko‘ring. Ball faqat to‘liq ko‘rish tasdiqlangach beriladi.</p></div>`);
+ window.pt=setInterval(()=>{if(document.hidden)return;left--;$("#pl").textContent=left+"s";$("#pb").style.width=(s-left)/s*100+"%";if(left<=0){endAd();claim(id,"Video reklama · "+s+" s",s,"view")}},1000)}
+function endAd(c){clearInterval(window.pt);cl();if(c)toast("Reklama to‘liq ko‘rilmadi, ball berilmadi",1)}
+
+function bonus(){const T=[["daily","📅","Kunlik kirish","Har kuni bir marta",10,"Olish","claim('daily','Kunlik kirish',10,'daily')"],
+ ["sp","📢","Sponsor kanalga obuna","Kanalga obuna bo‘ling va tekshiring",50,S.vis.sp?"Tekshirish":"O‘tish","step('sp','https://t.me/telegram','Sponsor kanal obunasi',50,'ch')"],
+ ["ref","👥","Referral","Do‘st taklif qiling · mukofotni admin sozlaydi",CFG.refReward,"Ochish","refpage()",1],
+ ["vid","▶️","Video reklama","Davomiyligiga qarab 10–60 ball",null,"Ko‘rish","go('ads')",1]];
+ return`<h1 style="font-size:22px;margin-bottom:14px">${t("bonus")}</h1>`+T.map(([id,ic,n,d,r,b,fn,rep])=>`<div class="card"><div class="item"><div class="ib" style="font-size:22px">${ic}</div><div style="flex:1"><b>${n}</b><div class="g">${d}</div></div><b class="pt">${r===null?"10–60":"+"+r}</b></div><div class="row" style="margin-top:12px">${!rep&&S.done[id]?'<span class="bdg ok">Bajarildi</span>':`<span class="bdg">${rep?"Doimiy":"Yangi"}</span><button class="btn sm" onclick="${fn}">${b}</button>`}</div></div>`).join("")+`<button class="btn ghost w" onclick="hist()">Ballar tarixi</button>`}
+
+const link=()=>`https://t.me/${CFG.bot}?start=ref_${U.id||"demo"}`;
+function refpage(){sub("Referral",`<div class="card"><div class="g">Sizning havolangiz</div><div class="card" style="margin:10px 0;word-break:break-all;color:var(--l);font-size:13px">${link()}</div><div class="row"><button class="btn" onclick="cp()">Nusxalash</button><button class="btn ghost" onclick="shr()">Ulashish</button></div></div>
+ <div class="g3">${[["Taklif qilingan",S.friends],["Faol",S.act],["Olingan ball",S.act*CFG.refReward]].map(([a,b])=>`<div class="card st"><b>${b}</b><span class="g" style="font-size:11px">${a}</span></div>`).join("")}</div>
+ <div class="g">Mukofot faqat yangi foydalanuvchi ro‘yxatdan o‘tib, haqiqiy faoliyat bajargandan keyin beriladi. O‘zini taklif qilish va takroriy hisoblash mumkin emas. (DEMO ma‘lumotlar)</div>`)}
+function cp(){const l=link();(navigator.clipboard?navigator.clipboard.writeText(l):Promise.reject()).then(()=>toast("Havola nusxalandi")).catch(()=>toast("Nusxalab bo‘lmadi",1))}
+function shr(){openL("https://t.me/share/url?url="+encodeURIComponent(link())+"&text="+encodeURIComponent("SPAMLESS bilan ball yig‘ing!"))}
+
+function prem(){const mx=Math.min(S.pts,CFG.maxPts);S.use=Math.min(S.use,mx);
+ return`<div class="card" style="background:linear-gradient(135deg,#0b1020,#0a4fb8 60%,#087BFF);border:1px solid rgba(255,215,106,.5);box-shadow:0 0 34px rgba(255,215,106,.18)"><div style="font-size:34px">👑</div><h1 style="font-size:24px">SPAMLESS Premium</h1><div style="font-size:30px;font-weight:900;color:var(--gd)">${f(CFG.price)} so‘m <span style="font-size:14px;color:#fff">/ 30 kun</span></div><div style="margin-top:12px;line-height:1.9">✔ Premium belgisi<br>✔ Maxsus interfeys<br>✔ Qo‘shimcha imkoniyatlar<br>✔ Premium foydalanuvchilar uchun xizmatlar</div></div>
+ <div class="card"><b>Ball bilan to‘lash</b><div class="g">1000 ball = 500 so‘m. Ballar narxning 100% gacha qismini qoplashi mumkin. Ballarni naqd pulga chiqarib yoki boshqa foydalanuvchiga o‘tkazib bo‘lmaydi.</div>
+ <input type="range" id="pr" min="0" max="${mx}" step="10" value="${S.use}" oninput="calc(this.value)">
+ <div class="row"><input class="inp" id="pn" type="number" min="0" max="${mx}" value="${S.use}" oninput="calc(this.value)"><button class="btn ghost" onclick="calc(${mx})">Maksimal</button></div>
+ <div style="margin:14px 0">${[["Premium narxi","pp"],["Ishlatiladigan ball","pu"],["Chegirma qiymati","pd"],["To‘lanadigan qoldiq","pq"]].map(([a,i])=>`<div class="item" style="padding:5px 0"><span class="g" style="flex:1">${a}</span><b id="${i}"></b></div>`).join("")}</div>
+ <button class="btn w" onclick="buy()">Tasdiqlash</button></div>
+ ${starsCard()}`}
+const starsBall=()=>Math.round(CFG.starsSom/CFG.som); // 25 000 so‘m ÷ 0.5 = 50 000 ball
+function starsCard(){const sb=starsBall(),can=S.pts>=sb;
+ return`<div class="card"><div class="item"><div class="ib" style="font-size:22px">⭐</div><div style="flex:1"><b>Telegram Stars</b><div class="g">${CFG.stars} Stars = ${f(CFG.starsSom)} so‘m</div></div><b class="pt">${f(sb)} ball</b></div>
+ <div class="bar"><b style="width:${Math.min(S.pts/sb*100,100)}%"></b></div>
+ <p class="g" style="margin:10px 0">Ballar pul emas. So‘rov yuborilgach Stars darhol berilmaydi: so‘rov ko‘rib chiqiladi. Prototip: so‘rov hali serverga yuborilmaydi (DEMO).</p>
+ <button class="btn w" ${can?"":"disabled"} onclick="buyStars()">${can?CFG.stars+" Stars uchun so‘rov yuborish":"Ball yetarli emas: yana "+f(sb-S.pts)+" ball kerak"}</button></div>`}
+function buyStars(){const sb=starsBall();if(S.pts<sb)return toast("Ball yetarli emas",1);
+ modal(`<h3>Stars so‘rovini tasdiqlang</h3><p class="g" style="margin:8px 0 14px">${CFG.stars} Telegram Stars (${f(CFG.starsSom)} so‘m qiymatida) · <b style="color:#fff">${f(sb)} ball</b> rezerv qilinadi.<br>Stars darhol berilmaydi — so‘rov ko‘rib chiqilgach bajariladi. Rad etilsa, ballar qaytariladi.</p><div class="row"><button class="btn ghost" onclick="cl()">Bekor qilish</button><button class="btn" onclick="ordStars()">Tasdiqlash</button></div>`)}
+async function ordStars(){cl();const sb=starsBall();if(S.pts<sb)return toast("Ball yetarli emas",1);toast("So‘rov yuborilmoqda…");const r=await api.order(0,0);
+ S.pts-=sb;S.tx.unshift({d:"Hozir",n:"Telegram Stars so‘rovi (rezerv)",p:-sb,s:"wt"});S.orders.unshift({id:r.id,d:"Hozir",k:"stars",u:sb,q:0,s:"wt"});
+ S.nt.unshift({ic:"⭐",t:"Stars so‘rovi yuborildi",x:r.id+" · "+CFG.stars+" Stars · ko‘rib chiqilmoqda (DEMO)",r:0});render();toast("Stars so‘rovi yuborildi (DEMO). Stars darhol berilmaydi")}
+function calc(v){const mx=Math.min(S.pts,CFG.maxPts);v=Math.max(0,Math.min(mx,Math.floor(Number(v)||0)));S.use=v;const d=v*CFG.som,q=Math.max(CFG.price-d,0);
+ $("#pr").value=v;if(document.activeElement.id!=="pn")$("#pn").value=v;
+ $("#pp").textContent=f(CFG.price)+" so‘m";$("#pu").textContent=f(v)+" ball";$("#pd").textContent="−"+f(d)+" so‘m";$("#pq").textContent=f(q)+" so‘m"}
+function buy(){const d=S.use*CFG.som,q=Math.max(CFG.price-d,0);
+ modal(`<h3>Buyurtmani tasdiqlang</h3><p class="g" style="margin:8px 0 14px">Premium 30 kun · ${f(S.use)} ball (−${f(d)} so‘m) · to‘lanadigan: <b style="color:#fff">${f(q)} so‘m</b>.<br>Ballar buyurtma tasdiqlanguncha rezerv qilinadi.</p><div class="row"><button class="btn ghost" onclick="cl()">Bekor qilish</button><button class="btn" onclick="ord(${S.use},${q})">Tasdiqlash</button></div>`)}
+async function ord(u,q){cl();toast("Buyurtma yaratilmoqda…");const r=await api.order(u,q);
+ S.pts-=u;if(u)S.tx.unshift({d:"Hozir",n:"Premium uchun ball (rezerv)",p:-u,s:"wt"});
+ S.orders.unshift({id:r.id,d:"Hozir",u,q,s:"wt"});S.use=0;S.nt.unshift({ic:"💎",t:"Premium buyurtma yaratildi",x:r.id+" · to‘lov kutilmoqda (DEMO)",r:0});render();toast("Buyurtma yaratildi (DEMO). To‘lov backend orqali amalga oshiriladi")}
+
+function prof(){const M=[["📜","Ballar tarixi","hist()"],["💎","Buyurtmalar tarixi","ohist()"],["🔔","Bildirishnomalar","notifs()"],["🌐","Tilni o‘zgartirish","lang()"],["🛡","Telegram spam yordami","spam()"],
+ ["❓","Yordam markazi","info('Yordam markazi','Savollar uchun @'+CFG.sup+' ga yozing. Parol yoki SMS/OTP kodni hech kimga bermang.')"],
+ ["🔒","Xavfsizlik","info('Xavfsizlik','SPAMLESS hech qachon Telegram parolingizni yoki SMS/OTP kodingizni so‘ramaydi. Bunday so‘rov firibgarlikdir.')"],
+ ["📄","Foydalanish shartlari","info('Foydalanish shartlari','Matn admin tomonidan qo‘shiladi.')"],["🔐","Maxfiylik siyosati","info('Maxfiylik siyosati','Matn admin tomonidan qo‘shiladi.')"]];
+ return`<div class="card" style="text-align:center"><div class="av" style="width:84px;height:84px;margin:0 auto 10px;font-size:32px">${avt()}</div><h1 style="font-size:20px">${U.first_name||"Mehmon"}</h1><div class="g">${U.username?"@"+U.username:"username yo‘q"} · ID ${U.id||"—"}</div><div class="g">Ro‘yxatdan o‘tgan: 2026-10-01 (DEMO)</div>
+ <div class="row" style="margin-top:12px"><div><b style="font-size:20px">${f(S.pts)}</b><div class="g">ball</div></div><div><b style="font-size:14px;color:var(--gd)">${S.orders.some(o=>o.k!=="stars")?"To‘lov kutilmoqda":"Faol emas"}</b><div class="g">Premium</div></div></div></div>
+ <div class="card" style="padding:2px 16px">${M.map(([i,n,fn],k)=>`<div class="ml" style="${k?"":"border-top:0"}" onclick="${fn}"><span style="width:26px;text-align:center">${i}</span><span style="flex:1">${n}</span><span class="g">›</span></div>`).join("")}<div class="ml g" style="cursor:default"><span style="width:26px"></span><span style="flex:1">Versiya</span>v${CFG.ver}</div></div>`}
+
+/* ===== 5. ICHKI SAHIFALAR VA OYNALAR ===== */
+const hist=()=>sub("Ballar tarixi",`<div class="card">${txl(S.tx)}</div>`);
+const ohist=()=>sub("Buyurtmalar tarixi",`<div class="card">${S.orders.length?S.orders.map(o=>`<div class="item" style="padding:9px 0"><div style="flex:1"><b>${o.k==="stars"?"Stars so‘rovi":"Buyurtma"} ${o.id}</b><div class="g">${o.d} · ${f(o.u)} ball · ${o.k==="stars"?CFG.stars+" Stars":"to‘lov "+f(o.q)+" so‘m"}</div></div><span class="bdg wt">Kutilmoqda</span></div>`).join(""):'<div class="empty">Buyurtmalar yo‘q</div>'}</div>`);
+function notifs(){const h=S.nt.map(n=>`<div class="card item" style="${n.r?"":"border-color:var(--l)"}"><div style="font-size:24px">${n.ic}</div><div style="flex:1"><b>${n.t}</b><div class="g">${n.x}</div></div></div>`).join("");S.nt.forEach(n=>n.r=1);sub("Bildirishnomalar",h)}
+function lang(){modal(`<h3>Til</h3><div style="margin:12px 0">${[["uz","O‘zbek"],["ru","Русский"],["en","English"]].map(([k,n])=>`<button class="btn ${S.lang===k?"":"ghost"} w" style="margin-bottom:8px" onclick="setL('${k}')">${n}</button>`).join("")}</div><p class="g">Hozircha menyu va asosiy sarlavhalar tarjima qilingan.</p>`)}
+function setL(k){S.lang=k;try{localStorage.setItem("sl",k)}catch(e){}cl();render()}
+function spam(){sub("Telegram spam yordami",`<div class="card"><b>Spam cheklovi nima?</b><p class="g" style="margin-top:6px">Telegram hisobingizdan yangi odamlarga yozish yoki ularni guruhlarga qo‘shish imkoniyatini vaqtincha cheklashi mumkin.</p></div>
+ <div class="card"><b>Nima sabab bo‘lishi mumkin?</b><p class="g" style="margin-top:6px">• Begonalarga ketma-ket ko‘p xabar yuborish<br>• Foydalanuvchilarning shikoyati (report)<br>• Ommaviy taklif yoki guruhga qo‘shish<br>• Shubhali yoki avtomatik faollik</p></div>
+ <div class="card"><b>Xavfsiz foydalanish</b><p class="g" style="margin-top:6px">• Begonalarga ommaviy xabar yubormang<br>• Odamlarni ruxsatsiz guruhga qo‘shmang<br>• Akkauntingizni uchinchi tomon ilovalariga bermang<br>• Parol va SMS/OTP kodni hech kimga bermang</p></div>
+ <div class="card"><b>Apellyatsiya yo‘riqnomasi</b><p class="g" style="margin:6px 0 12px">1. Rasmiy @SpamBot ga o‘ting va /start bosing.<br>2. Hisobingiz holatini ko‘ring.<br>3. Cheklov xato bo‘lsa, bot ko‘rsatgan tugmalar orqali apellyatsiya yuboring va holatni halol yozing.<br>4. Javobni kuting, qayta-qayta yubormang.</p><button class="btn w" onclick="openL('https://t.me/SpamBot')">@SpamBot ga o‘tish</button></div>
+ <div class="g">SPAMLESS cheklovni o‘zi olib tashlamaydi va buni kafolatlamaydi — qaror Telegram qo‘lida. SPAMLESS sizdan hech qachon parol yoki SMS/OTP kod so‘ramaydi.</div>`)}
+
+/* ===== 5b. SERVERGA ULANISH (haqiqiy backend) =====
+   Faqat Telegram kirishi (auth) va profil ismi serverdan keladi. Qolgan hamma bo‘lim PROTOTIP bo‘lib qoladi
+   va backend endpointlari yozilgach birma-bir ulanadi (yuqoridagi `api` obyekti o‘rniga). */
+const SRV={ok:false,msg:"Server tekshirilmagan"};
+const modeChip=()=>SRV.ok?'<span class="chip" style="color:var(--ok)">SERVER: AUTH ✓</span>':'<span class="chip" style="color:var(--gd)">PROTOTIP</span>';
+async function bootServer(){
+ if(!window.SpamlessApi){SRV.msg="shared/config.js yuklanmadi";return}
+ if(!(tg&&tg.initData)){SRV.msg="Telegram ichida emas";return}
+ try{const r=await SpamlessApi.auth(tg.initData);U={...U,id:r.user.telegram_id,first_name:r.user.first_name||U.first_name,username:r.user.username};SRV.ok=true}
+ catch(e){SRV.msg=e.message||"xatolik"}}
+
+/* ===== 6. NAVIGATSIYA VA ISHGA TUSHIRISH ===== */
+const IC={home:'<path d="M3 11l9-8 9 8v9a1 1 0 01-1 1h-5v-6H9v6H4a1 1 0 01-1-1z"/>',ads:'<circle cx="12" cy="12" r="9"/><path d="M10 8.5l5 3.5-5 3.5z"/>',bonus:'<path d="M3 9h18v4H3zM5 13v8h14v-8M12 9v12M12 9c-3 0-4-4-1.5-4S12 9 12 9zM12 9c3 0 4-4 1.5-4S12 9 12 9z"/>',prem:'<path d="M3 8l4.5 4L12 5l4.5 7L21 8l-2 11H5z"/>',prof:'<circle cx="12" cy="8" r="4"/><path d="M4 21c.8-4.4 4-6.5 8-6.5s7.2 2.1 8 6.5"/>'};
+const PG={home,ads,bonus,prem,prof};
+function nav(){$("#nav").innerHTML=Object.keys(PG).map(k=>`<button class="${S.tab===k?"on":""}" onclick="go('${k}')"><svg viewBox="0 0 24 24">${IC[k]}</svg>${t(k)}</button>`).join("")}
+function render(){$("#view").innerHTML=hdr()+`<div class="view">${PG[S.tab]()}</div>`;nav();if(S.tab==="prem")calc(S.use)}
+function go(k){S.tab=k;cl();render();window.scrollTo(0,0)}
+$("#view").innerHTML='<div class="sk"></div><div class="sk" style="height:140px"></div><div class="sk"></div>';nav();
+bootServer().finally(()=>setTimeout(render,300));
+</script>
+</body>
+</html>
