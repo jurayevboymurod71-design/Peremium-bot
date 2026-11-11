@@ -2,7 +2,14 @@ import os
 from aiohttp import web
 from aiogram import Bot, Dispatcher
 from aiogram.filters import CommandStart
-from aiogram.types import Message, ReplyKeyboardMarkup, KeyboardButton
+from aiogram.types import (
+    Message,
+    ReplyKeyboardMarkup,
+    KeyboardButton,
+    InlineKeyboardMarkup,
+    InlineKeyboardButton,
+    WebAppInfo
+)
 from aiogram.webhook.aiohttp_server import (
     SimpleRequestHandler,
     setup_application
@@ -19,6 +26,10 @@ if not TOKEN or not WEBHOOK_URL or not WEBHOOK_SECRET:
 bot = Bot(token=TOKEN)
 dp = Dispatcher()
 
+USER_URL = "https://jurayevboymurod71-design.github.io/Peremium-bot/foydalanuvchi.html"
+ADVERTISER_URL = "https://jurayevboymurod71-design.github.io/Peremium-bot/reklamachi.html"
+ADMIN_URL = "https://jurayevboymurod71-design.github.io/Peremium-bot/admin.html"
+
 menu = ReplyKeyboardMarkup(
     keyboard=[
         [KeyboardButton(text="👑 Premium olish")],
@@ -32,30 +43,66 @@ menu = ReplyKeyboardMarkup(
 @dp.message(CommandStart())
 async def start(message: Message):
     await message.answer(
-        "🎁 BONUS PREMIUM ga xush kelibsiz!\n\n"
-        "Kerakli bo‘limni tanlang:",
+        "🎁 BONUS PREMIUM ga xush kelibsiz!\n\nKerakli bo‘limni tanlang:",
         reply_markup=menu
     )
 
 @dp.message(lambda m: m.text == "👑 Premium olish")
 async def premium(message: Message):
-    await message.answer("Premium bo‘limi tayyorlanmoqda.")
+    keyboard = InlineKeyboardMarkup(
+        inline_keyboard=[[
+            InlineKeyboardButton(
+                text="👑 Premium Mini App'ni ochish",
+                web_app=WebAppInfo(url=USER_URL)
+            )
+        ]]
+    )
+    await message.answer(
+        "Premium bo‘limiga xush kelibsiz!",
+        reply_markup=keyboard
+    )
 
 @dp.message(lambda m: m.text == "📢 Reklama joylash")
 async def reklama(message: Message):
-    await message.answer("Reklama bo‘limi tayyorlanmoqda.")
+    keyboard = InlineKeyboardMarkup(
+        inline_keyboard=[[
+            InlineKeyboardButton(
+                text="📢 Reklamachi Mini App'ni ochish",
+                web_app=WebAppInfo(url=ADVERTISER_URL)
+            )
+        ]]
+    )
+    await message.answer(
+        "Reklama joylash bo‘limi:",
+        reply_markup=keyboard
+    )
 
 @dp.message(lambda m: m.text == "🛡 Admin panel")
 async def admin(message: Message):
     if not ADMIN_ID or message.from_user.id != ADMIN_ID:
-        await message.answer("⛔ Ruxsat yo‘q.")
+        await message.answer("⛔ Bu bo‘lim faqat administrator uchun.")
         return
-    await message.answer("Admin panel tayyorlanmoqda.")
+
+    keyboard = InlineKeyboardMarkup(
+        inline_keyboard=[[
+            InlineKeyboardButton(
+                text="🛡 Admin Mini App'ni ochish",
+                web_app=WebAppInfo(url=ADMIN_URL)
+            )
+        ]]
+    )
+    await message.answer(
+        "Admin panelga xush kelibsiz!",
+        reply_markup=keyboard
+    )
 
 @dp.message(lambda m: m.text == "🚫 Spamdan chiqish")
 async def spam(message: Message):
     await message.answer(
-        "Spam cheklovi bo‘yicha muammoingizni yozing."
+        "Telegram spam cheklovi bo‘yicha yordam olish uchun "
+        "@SpamBot rasmiy botiga murojaat qiling.\n\n"
+        "U yerdagi ko‘rsatmalarni bajaring. "
+        "Hech kimga tasdiqlash kodlaringizni bermang."
     )
 
 async def on_startup(bot: Bot):
@@ -85,3 +132,4 @@ def main():
 
 if __name__ == "__main__":
     main()
+    
